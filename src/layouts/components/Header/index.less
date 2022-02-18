@@ -1,0 +1,23 @@
+.layout-header {
+  height: 60px;
+  background: @transparentBackground;
+  position: relative;
+  padding: 0 15%;
+  box-shadow: @shadow;
+  display: flex;
+  justify-content: space-between;
+
+  .header-right {
+    display: flex;
+    align-items: center;
+
+    .themeSwitching {
+      margin: 0 25px;
+    }
+
+    .ant-switch-checked, .ant-switch {
+      background: @subBackgroundColor;
+    }
+  }
+
+}

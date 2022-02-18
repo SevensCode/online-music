@@ -1,0 +1,233 @@
+.login-container {
+  background: url("../../../src/assets/images/login-bj-1.jpg");
+  width: 100vw;
+  height: 100vh;
+  color: @textColor;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .login-card {
+    background: @transparentBackground;
+    border-radius: @radius;
+    transition: .3s ease-in-out;
+    padding: 1%;
+    color: @textColor;
+    margin: 0 20px;
+    box-shadow: 5px 1px 20px rgba(91, 77, 217, .4);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    .login-header {
+      color: @textColor;
+      user-select: none;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      .login-title {
+        font-weight: bold;
+        font-size: 2rem;
+        background-image: -webkit-linear-gradient(90deg, rgba(91, 77, 217, 1) 0%, rgba(0, 212, 255, 1) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .login-line {
+        flex: 1;
+        height: 3px;
+        border-radius: 10px;
+        margin: 0 15px;
+
+        &:first-of-type {
+          background: linear-gradient(90deg, transparent, rgba(91, 77, 217, 1) 100%);
+        }
+
+        &:last-of-type {
+          background: linear-gradient(90deg, rgba(91, 77, 217, 1) 0%, transparent);
+        }
+      }
+    }
+
+
+    .login-main {
+      padding: 10px;
+      position: relative;
+      flex: 1;
+
+      .login-form {
+        padding: 25px;
+
+        .login-form-albel {
+          position: relative;
+          margin-bottom: 35px;
+
+          i {
+            position: absolute;
+            left: 15px;
+            color: @textColor;
+            top: 0;
+            line-height: 50px;
+          }
+
+          .login-form-input {
+            width: 100%;
+            height: 50px;
+            background: @transparentBackground;
+            outline: none;
+            font-size: 20px;
+            border: none;
+            border-radius: 6px;
+            padding: 0 40px;
+            color: @textColor;
+            transition: .3s ease-out;
+
+            &:focus {
+              box-shadow: 0 0 15px rgba(91, 77, 217, .5);
+            }
+          }
+        }
+
+
+        .login-form-retrievePassword {
+          float: right;
+          color: @subTextColor;
+          font-size: 16px;
+          cursor: pointer;
+          user-select: none;
+          margin: 18px 0;
+          transition: .3s;
+
+          &:hover {
+            color: @subTheme;
+          }
+        }
+
+        .login-form-submit {
+          background: @subTheme;
+          height: 50px;
+          font-size: 20px;
+          border-radius: 50px;
+          margin-top: 40px;
+          border: none;
+        }
+      }
+
+      .login-qrCode {
+        position: absolute;
+        right: -110px;
+        bottom: -110px;
+        background: @transparentBackground;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        box-shadow: @shadow;
+        z-index: 10;
+        transition: .3s;
+
+        &:hover:not(.visible) {
+          box-shadow: 0 0 15px rgba(91, 77, 217, .5);
+        }
+
+        .login-qrCode-icon {
+          font-size: 40px;
+          position: absolute;
+          left: 45px;
+          top: 35px;
+          color: @textColor;
+          cursor: pointer;
+        }
+
+        .login-qrCode-close {
+          position: absolute;
+          right: 15px;
+          top: 15px;
+          font-size: 20px;
+          cursor: pointer;
+        }
+
+        &.visible {
+          animation: qrCode-open .3s ease forwards;
+        }
+
+        &.hiddend {
+          animation: qrCode-hiddend .3s ease;
+        }
+      }
+
+      .login-form-orther {
+        position: absolute;
+        bottom: 0;
+        display: inline-flex;
+        gap: 15px;
+        transition: .3s;
+
+        i {
+          font-size: 26px;
+          cursor: pointer;
+          color: @textColor;
+
+          &:hover:not(.login-theme-icon) {
+            color: @subTheme;
+          }
+        }
+
+        .login-theme-icon {
+          color: #FFB948;
+        }
+      }
+    }
+  }
+}
+
+@keyframes qrCode-open {
+  100% {
+    width: 100%;
+    height: 100%;
+    border-radius: @radius;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@keyframes qrCode-hiddend {
+  0% {
+    width: 100%;
+    height: 100%;
+    border-radius: @radius;
+    right: 0;
+    bottom: 0;
+  }
+  100% {
+    right: -110px;
+    bottom: -110px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .login-card {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .login-card {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-card {
+    width: 100%;
+    height: 500px;
+  }
+}

@@ -1,0 +1,23 @@
+.header-menu {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 15px;
+
+  .header-menu-item {
+    font-size: 16px;
+    padding: 3px 15px;
+    border-radius: 5px;
+    color: @textColor;
+    transition: .3s ease;
+
+    &:hover:not(.header-menu-item-active) {
+      background: @transparent;
+    }
+  }
+}
+
+.header-menu-item-active {
+  background: @theme;
+  color: white !important;
+}
