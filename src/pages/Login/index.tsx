@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import './index.less'
 import { Button } from 'antd'
 import { RollbackOutlined } from '@ant-design/icons'
@@ -6,13 +6,17 @@ import store from 'store'
 import { STORE_THEME_KEY, STORE_THEME_LIGHT } from '@/constants'
 import { switchTheme } from '@/theme'
 import { history, Link } from 'umi'
+import request from '@/utils/request'
 
+type FormKey = 'phone' | 'password'
 const Login = () => {
     const qrCodeRef = useRef<HTMLDivElement>(null)
     // 主题类型
     const [themeType, setThemeType] = useState(store.get(STORE_THEME_KEY) === STORE_THEME_LIGHT)
     // 二维码是否可见
     const [qrCodeVisible, handleQrCodeVisible] = useState(false)
+    // form
+    const [form, updateForm] = useState({ phone: undefined, password: undefined })
     const hanldeQrCode = (isShow: boolean) => {
         if (isShow) {
             qrCodeRef.current?.classList.add('visible')
@@ -27,6 +31,17 @@ const Login = () => {
         switchTheme()
         setThemeType(store.get(STORE_THEME_KEY) === STORE_THEME_LIGHT)
     }
+    const bind = ({ target: { value } }: ChangeEvent<HTMLInputElement>, key: FormKey) => {
+        updateForm({
+            ...form,
+            [key]: value.trim()
+        })
+    }
+    useEffect(() => {
+        request.post('/test').then(r => {
+            console.log(r)
+        })
+    }, [])
     return (
         <div className={ 'login-container' }>
             <div className="login-card gaussianBlur">
@@ -39,11 +54,21 @@ const Login = () => {
                     <div className="login-form">
                         <div className="login-form-albel">
                             <i className={ 'iconfont icon-shoujihao' }/>
-                            <input placeholder={ '手机号' } className="login-form-input"/>
+                            <input
+                                onChange={ (value) => {
+                                    bind(value, 'phone')
+                                } }
+                                placeholder={ '手机号' }
+                                className="login-form-input"/>
                         </div>
                         <div className="login-form-albel">
                             <i className={ 'iconfont icon-ziyuanxhdpi' }/>
-                            <input placeholder={ '密码' } className="login-form-input"/>
+                            <input
+                                onChange={ (value) => {
+                                    bind(value, 'password')
+                                } }
+                                placeholder={ '密码' }
+                                className="login-form-input"/>
                         </div>
                         <Button className={ 'login-form-submit' } block type="primary">登录</Button>
                     </div>
