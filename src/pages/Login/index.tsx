@@ -7,7 +7,7 @@ import { STORE_THEME_KEY, STORE_THEME_LIGHT } from '@/constants';
 import { switchTheme } from '@/theme';
 import { history, Link, useSelector } from 'umi';
 import { REG_PHONE } from '@/constants/regular';
-import { phoneLogin } from '@/api/user';
+import { UserApi } from '@/api/user';
 import { UserModelSatae } from '@/models/user';
 
 const Login: FC = (props) => {
@@ -61,7 +61,7 @@ const Login: FC = (props) => {
         if (!password) return message.error('请输入密码！');
         if (!REG_PHONE.test(phone))
             return message.error('请输入合法的手机号！');
-        const data = await phoneLogin({ password, phone }).finally(() =>
+        const data = await UserApi.phoneLogin({ password, phone }).finally(() =>
             setLoading(false),
         );
         if (data.code !== 200) return message.error('手机号或密码错误！');

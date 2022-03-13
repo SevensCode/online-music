@@ -1,9 +1,11 @@
 import request from '@/utils/request';
 
-interface phoneLogin {
+interface requstParms {
     phone: string;
     password: string;
 }
 
-export const phoneLogin = (data: phoneLogin) =>
-    request.post('/login/cellphone', { data });
+export class UserApi {
+    static phoneLogin = (data: requstParms): Promise<{ name: string }> =>
+        request.post('/login/cellphone', { data });
+}
