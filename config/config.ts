@@ -1,9 +1,9 @@
-import { defineConfig } from 'umi'
-import routes from './routes'
+import { defineConfig } from 'umi';
+import routes from './routes';
 
 export default defineConfig({
     nodeModulesTransform: {
-        type: 'none'
+        type: 'none',
     },
     routes,
     publicPath: ' ./',
@@ -11,9 +11,18 @@ export default defineConfig({
     lessLoader: {
         // 配置全局变量文件
         modifyVars: {
-            hack: 'true; @import "~@/assets/styles/variable.less";'
-        }
-    }
-})
-
-
+            hack: 'true; @import "~@/assets/styles/variable.less";',
+        },
+    },
+    proxy: {
+        '/api': {
+            target: 'http://localhost:3000',
+            changeOrigin: true,
+            pathRewrite: { '^/api': '' },
+        },
+    },
+    dva: {
+        immer: true,
+        hmr: true,
+    },
+});
