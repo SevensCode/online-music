@@ -9,13 +9,14 @@ const isSystemErrorMessageSame = whetherAndLastTimeStringSame();
 const isBusinessErrorMessageSame = whetherAndLastTimeStringSame();
 const request = extend({
     prefix: '/api',
-    timeout: 3000,
+    timeout: 10000,
     credentials: 'same-origin',
     errorHandler(error) {
         !isSystemErrorMessageSame(error.message) &&
             message
                 .error(error.type === 'Timeout' ? '接口请求超时' : '系统错误')
                 .then(() => isSystemErrorMessageSame());
+        return { code: 500 };
     },
 });
 

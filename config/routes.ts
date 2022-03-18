@@ -1,36 +1,37 @@
 export default [
     {
-        path: '/login',
-        exact: true,
-        component: '@/pages/Login/index'
-    },
-    {
         path: '/',
-        component: '@/layouts/index',
+        component: '@/main',
         routes: [
             {
+                path: '/login',
+                exact: true,
+                component: '@/pages/Login/index',
+            },
+            {
                 path: '/',
-                exact: true,
-                redirect: '/find'
+                component: '@/layouts/index',
+                routes: [
+                    {
+                        path: '/',
+                        exact: true,
+                        component: '@/pages/Find/index',
+                    },
+                    {
+                        path: '/leaderboard',
+                        exact: true,
+                        component: '@/pages/Leaderboard/index',
+                    },
+                    {
+                        path: '/singer',
+                        exact: true,
+                        component: '@/pages/Singer/index',
+                    },
+                    {
+                        component: '@/pages/NotFound/index',
+                    },
+                ],
             },
-            {
-                path: '/find',
-                exact: true,
-                component: '@/pages/Find/index'
-            },
-            {
-                path: '/leaderboard',
-                exact: true,
-                component: '@/pages/Leaderboard/index'
-            },
-            {
-                path: '/singer',
-                exact: true,
-                component: '@/pages/Singer/index'
-            },
-            {
-                component: '@/pages/NotFound/index'
-            }
-        ]
-    }
+        ],
+    },
 ];

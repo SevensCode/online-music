@@ -21,8 +21,5 @@ export default defineConfig({
             pathRewrite: { '^/api': '' },
         },
     },
-    dva: {
-        immer: true,
-        hmr: true,
-    },
+    dva: false,
 });
