@@ -1,10 +1,12 @@
 .layout-header {
   height: 60px;
   background: @transparentBackground;
-  position: relative;
+  position: sticky;
+  top: 0;
   padding: 0 15%;
   box-shadow: @shadow;
   display: flex;
+  z-index: 10;
   justify-content: space-between;
 
   .header-right {
@@ -15,9 +17,9 @@
       margin: 0 25px;
     }
 
-    .ant-switch-checked, .ant-switch {
+    .ant-switch-checked,
+    .ant-switch {
       background: @subBackgroundColor;
     }
   }
-
 }

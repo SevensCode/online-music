@@ -10,6 +10,8 @@ import { UserRequst } from '@/api/user';
 import { history } from '@@/core/history';
 import { useSetRecoilState } from 'recoil';
 import { atom_user_info } from '@/recoil/user';
+import store from 'store';
+import { STORE_USER_INFO } from '@/constants';
 // 生成二维码key
 const generateQRCodeKey = async () => {
     const { code, data } = await UserRequst.generateQRCodeKey();
@@ -76,7 +78,8 @@ const QrCode = () => {
                     offTimer();
                     message.success('登录成功 😊');
                     setUserinfo(profile);
-                    history.push(redirect || '/');
+                    store.set(STORE_USER_INFO, profile);
+                    history.replace(redirect || '/');
                     break;
                 default:
                     message.error('系统错误');

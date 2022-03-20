@@ -4,7 +4,8 @@
 // 手机号登录
 export interface User_PhoneLogin_Params {
     phone: string;
-    password: string;
+    password?: string;
+    md5_password?: string;
 }
 
 // 生成二维码

@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
 import { history } from 'umi';
+import './index.less';
+import Banner from '@/pages/Find/components/Banner';
+import BannerItem from '@/pages/Find/components/Banner/item';
 
 const Find: FC = (props) => {
     const test = () => {
@@ -12,7 +15,10 @@ const Find: FC = (props) => {
     };
     return (
         <div>
-            <button onClick={test}>test</button>
+            <Banner>
+                <BannerItem>test1</BannerItem>
+                <BannerItem>test2</BannerItem>
+            </Banner>
         </div>
     );
 };

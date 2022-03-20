@@ -1,7 +1,14 @@
-@import "./assets/styles/animation";
+@import './assets/styles/animation';
 
-html, body {
-  font-family: Consolas, "Microsoft YaHei UI", Courier, monospace;
+html,
+body {
+  font-family: Consolas, 'CEYH-W04', Courier, monospace;
+}
+
+// 仓耳云黑 W04 字体
+@font-face {
+  font-family: 'CEYH-W04';
+  src: url('./assets/font/TsangerYunHei-W04.ttf');
 }
 
 * {
@@ -15,7 +22,9 @@ a {
   text-decoration: none;
 }
 
-ul, ol, li {
+ul,
+ol,
+li {
   list-style: none;
 }
 
@@ -56,4 +65,3 @@ ul, ol, li {
 .gaussianBlur {
   backdrop-filter: saturate(180%) blur(30px);
 }
-

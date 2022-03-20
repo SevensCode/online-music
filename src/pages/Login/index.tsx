@@ -2,7 +2,11 @@ import React, { ChangeEvent, FC, useCallback, useState } from 'react';
 import './index.less';
 import { Button, message } from 'antd';
 import store from 'store';
-import { STORE_THEME_KEY, STORE_THEME_LIGHT } from '@/constants';
+import {
+    STORE_THEME_KEY,
+    STORE_THEME_LIGHT,
+    STORE_USER_INFO,
+} from '@/constants';
 import { switchTheme } from '@/theme';
 import { history, Link } from 'umi';
 import { REG_PHONE } from '@/constants/regular';
@@ -12,6 +16,7 @@ import { atom_user_info } from '@/recoil/user';
 import { useSearchParam } from '@/hooks';
 import { User_PhoneLogin_Params } from '@/api/user/params';
 import QrCode from '@/pages/Login/QrCode';
+import md5 from 'js-md5';
 
 const Login: FC = () => {
     const setUserinfo = useSetRecoilState(atom_user_info);
@@ -23,7 +28,7 @@ const Login: FC = () => {
     // form
     const [form, updateForm] = useState<User_PhoneLogin_Params>({
         phone: '',
-        password: '',
+        md5_password: '',
     });
 
     const setTheme = useCallback(() => {
@@ -33,7 +38,7 @@ const Login: FC = () => {
     const bindForm = useCallback(
         (
             { target: { value } }: ChangeEvent<HTMLInputElement>,
-            key: 'phone' | 'password',
+            key: 'phone' | 'md5_password',
         ) => {
             updateForm({ ...form, [key]: value.trim() });
         },
@@ -41,21 +46,22 @@ const Login: FC = () => {
     );
 
     const login = useCallback(async () => {
-        const { password, phone } = form;
+        const { md5_password, phone } = form;
         if (!phone) return message.error('请输入手机号！');
-        if (!password) return message.error('请输入密码！');
+        if (!md5_password) return message.error('请输入密码！');
         if (!REG_PHONE.test(phone))
             return message.error('请输入合法的手机号！');
         setSubmitLoading(true);
         const { code, profile } = await UserRequst.phoneLogin({
-            password,
+            md5_password: md5(md5_password),
             phone,
         }).finally(() => setSubmitLoading(false));
         if (code === 502) return message.error('手机号或密码错误！');
         if (code !== 200) return message.error('服务端的错误！');
         message.success('登录成功 😊');
         setUserinfo(profile);
-        history.push(redirect || '/');
+        store.set(STORE_USER_INFO, profile);
+        history.replace(redirect || '/');
     }, [form]);
     return (
         <div className={'login-container'}>
@@ -80,7 +86,7 @@ const Login: FC = () => {
                             <i className={'iconfont icon-ziyuanxhdpi'} />
                             <input
                                 onChange={(value) =>
-                                    bindForm(value, 'password')
+                                    bindForm(value, 'md5_password')
                                 }
                                 placeholder={'密码'}
                                 type={'password'}
