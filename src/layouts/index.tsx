@@ -20,7 +20,7 @@ export default withRouter(({ children, location }) => {
                 <TransitionGroup component={null}>
                     <CSSTransition
                         key={location.pathname}
-                        timeout={300}
+                        timeout={1000}
                         classNames="page"
                     >
                         {children}
