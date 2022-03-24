@@ -28,7 +28,8 @@
     "react-transition-group": "^4.4.2",
     "recoil": "^0.6.1",
     "store": "^2.0.12",
-    "umi": "^3.5.20"
+    "umi": "^3.5.20",
+    "umi-plugin-keep-alive": "^0.0.1-beta.30"
   },
   "devDependencies": {
     "@types/js-md5": "^0.4.3",

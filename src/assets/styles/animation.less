@@ -2,7 +2,7 @@
 .page-enter {
   opacity: 0;
   width: 100%;
-  transform: scale(1.1);
+  //transform: scale(1.1);
   position: absolute;
   left: 0;
   top: 0;
@@ -11,7 +11,7 @@
 .page-enter-active {
   opacity: 1;
   transform: scale(1);
-  transition: all 1s;
+  transition: all 0.3s;
 }
 
 .page-exit {
@@ -22,7 +22,7 @@
 .page-exit-active {
   opacity: 0;
   transform: scale(0.8);
-  transition: all 1s;
+  transition: all 0.3s ease-out;
   position: absolute;
   left: 0;
   width: 100%;
@@ -39,7 +39,7 @@
   opacity: 1;
   transform: translateY(0) scale(1);
   transform-origin: top;
-  transition: all 1s;
+  transition: all 0.3s;
 }
 
 .zoomFade-exit {
@@ -50,7 +50,7 @@
 .zoomFade-exit-active {
   opacity: 0;
   transform: translateY(10px) scale(0.8);
-  transition: all 1s;
+  transition: all 0.3s;
   transform-origin: top;
 }
 
@@ -64,7 +64,7 @@
   opacity: 1;
   transform: translateX(0) scale(1);
   transform-origin: right;
-  transition: all 1s;
+  transition: all 0.3s;
 }
 
 .rightZoomFade-exit {
@@ -75,7 +75,7 @@
 .rightZoomFade-exit-active {
   opacity: 0;
   transform: translateX(10px) scale(0.8);
-  transition: all 1s;
+  transition: all 0.3s;
   transform-origin: right;
 }
 
@@ -88,7 +88,7 @@
 .bottomLineIn-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: all 1s;
+  transition: all 0.3s;
 }
 
 .bottomLineIn-exit {
@@ -99,5 +99,5 @@
 .bottomLineIn-exit-active {
   opacity: 0;
   transform: translateY(100%);
-  transition: all 1s;
+  transition: all 0.3s;
 }
