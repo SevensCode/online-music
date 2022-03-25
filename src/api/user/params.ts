@@ -13,3 +13,9 @@ export interface User_GenerateQRCode_Params {
     key: string;
     qrimg: boolean;
 }
+
+// 是否喜欢音乐
+export interface User_isLikeMuisc_Params {
+    id: number;
+    like: boolean;
+}

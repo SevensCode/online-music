@@ -2,7 +2,7 @@ import { Gender } from '@/types/common';
 
 export interface Userinfo {
     // 用户 id
-    userId: number | string;
+    userId: number;
     // 昵称
     nickname: string;
     // 头像

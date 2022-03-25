@@ -30,13 +30,16 @@ const Banner: FC<Props> = ({ autoplay = true, delay = 3000, children }) => {
     const offTimer = useCallback(() => {
         clearInterval(timer.current as NodeJS.Timeout);
     }, [timer]);
+    const next = useCallback(() => {
+        setActiveIndex((oldActiveIndex) => {
+            return oldActiveIndex === itemCount ? 0 : oldActiveIndex + 1;
+        });
+    }, [itemCount]);
     // 下一页
     const handleButNext = useCallback(() => {
         offTimer();
-        setActiveIndex((oldActiveIndex) =>
-            oldActiveIndex === itemCount ? 0 : oldActiveIndex + 1,
-        );
-    }, [itemCount]);
+        next();
+    }, []);
     // 上一页
     const handleButPrevious = useCallback(() => {
         setActiveIndex((oldActiveIndex) =>
@@ -54,26 +57,31 @@ const Banner: FC<Props> = ({ autoplay = true, delay = 3000, children }) => {
         },
         [activeIndex, itemCount],
     );
-    const onMouseMove = useCallback((triggerTarget: TriggerTarget, i) => {
-        switch (triggerTarget) {
-            case 'page':
-                setActiveIndex(i);
-                break;
-            case 'btn':
-                setArrowVisible(true);
-        }
-        offTimer();
-    }, []);
-    const onMouseLeave = useCallback((triggerTarget: TriggerTarget) => {
-        switch (triggerTarget) {
-            case 'page':
-                break;
-            case 'btn':
-                setArrowVisible(false);
-        }
-        timer.current = setInterval(handleButNext, delay);
-    }, []);
-
+    const onMouseMove = useCallback(
+        (triggerTarget: TriggerTarget, i) => {
+            switch (triggerTarget) {
+                case 'page':
+                    setActiveIndex(i);
+                    break;
+                case 'btn':
+                    setArrowVisible(true);
+            }
+            offTimer();
+        },
+        [itemCount],
+    );
+    const onMouseLeave = useCallback(
+        (triggerTarget: TriggerTarget) => {
+            switch (triggerTarget) {
+                case 'page':
+                    break;
+                case 'btn':
+                    setArrowVisible(false);
+            }
+            timer.current = setInterval(next, delay);
+        },
+        [itemCount],
+    );
     const page = useMemo(() => {
         const pages = [];
         for (let i = 0; i < itemCount + 1; i++) {
@@ -95,7 +103,7 @@ const Banner: FC<Props> = ({ autoplay = true, delay = 3000, children }) => {
     useEffect(() => {
         if (!autoplay) return;
         offTimer();
-        timer.current = setInterval(handleButNext, delay);
+        timer.current = setInterval(next, delay);
     }, [children]);
     useEffect(() => () => offTimer(), []);
     return (

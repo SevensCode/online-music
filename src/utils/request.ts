@@ -22,10 +22,12 @@ const request = extend({
 
 /** 请求拦截器 */
 request.interceptors.request.use((url, options) => {
-    // 加时间戳 防止 api 缓存
-    // 全部接口都用post请求方式
     NProgress.start();
-    url += '/' + new Date().getTime();
+    // 加时间戳 防止 api 缓存
+    const timestamp = new Date().getTime();
+    options.method === 'post'
+        ? (url += '/' + timestamp)
+        : (options.params = { ...options.params, timestamp });
     return { url, options };
 });
 /**

@@ -4,15 +4,24 @@ import Header from '@/layouts/components/Header';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './index.less';
 import { useSetRecoilState } from 'recoil';
-import { atom_user_info } from '@/recoil/user';
+import { atom_user_info, atom_user_likeMusicIds } from '@/recoil/user';
 import { STORE_USER_INFO } from '@/constants';
 import store from 'store';
+import { UserRequst } from '@/api/user';
 
 export default withRouter(({ children, location }) => {
     const setUserinfo = useSetRecoilState(atom_user_info);
+    const setLikeMusicIds = useSetRecoilState(atom_user_likeMusicIds);
     useEffect(() => {
-        setUserinfo(store.get(STORE_USER_INFO));
+        const userinfo = store.get(STORE_USER_INFO);
+        if (userinfo) {
+            setUserinfo(userinfo);
+            UserRequst.getUserLikeMuiscIds(userinfo.userId).then(({ ids }) => {
+                ids && setLikeMusicIds(ids);
+            });
+        }
     }, []);
+
     return (
         <div className={'layout'}>
             <Header />
@@ -20,7 +29,7 @@ export default withRouter(({ children, location }) => {
                 <TransitionGroup component={null}>
                     <CSSTransition
                         key={location.pathname}
-                        timeout={1000}
+                        timeout={300}
                         classNames="page"
                     >
                         {children}

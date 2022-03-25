@@ -4,4 +4,24 @@
   .find-banner-img {
     width: 100%;
   }
+
+  .find-recommendedPlaylist-container,
+  .find-exclusiveBroadcast-container,
+  .find-newMusicPush-container {
+    display: grid;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  .find-recommendedPlaylist-container {
+    grid-template-columns: repeat(5, 230px);
+  }
+
+  .find-exclusiveBroadcast-container {
+    grid-template-columns: repeat(3, 400px);
+  }
+
+  .find-newMusicPush-container {
+    grid-template-columns: repeat(3, 400px);
+  }
 }

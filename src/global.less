@@ -59,6 +59,7 @@ li {
   width: 100%;
   position: relative;
   padding: 15px;
+  overflow-x: hidden;
 }
 
 .flex-center {
@@ -70,4 +71,26 @@ li {
 // 高斯模糊
 .gaussianBlur {
   backdrop-filter: saturate(180%) blur(30px);
+}
+
+// 模块 title
+.module-title {
+  font-size: 18px;
+  color: @textColor;
+  margin: 1em 0;
+  font-weight: bold;
+}
+
+.text-2LinesHide {
+  display: -webkit-box; /*将对象转为弹性盒模型展示*/
+  -webkit-box-orient: vertical; /*设置弹性盒模型子元素的排列方式*/
+  -webkit-line-clamp: 2; /*限制文本行数*/
+  overflow: hidden; /*超出隐藏*/
+}
+
+.text-1LinesHide {
+  display: -webkit-box; /*将对象转为弹性盒模型展示*/
+  -webkit-box-orient: vertical; /*设置弹性盒模型子元素的排列方式*/
+  -webkit-line-clamp: 1; /*限制文本行数*/
+  overflow: hidden; /*超出隐藏*/
 }
