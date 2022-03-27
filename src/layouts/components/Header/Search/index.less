@@ -15,7 +15,7 @@
     letter-spacing: 1.5px;
     color: @textColor;
     border: none;
-    transition: .3s;
+    transition: 0.3s;
 
     &:hover {
       box-shadow: 0 0 5px @theme;
@@ -69,7 +69,7 @@
         display: flex;
         align-items: center;
         height: 34px;
-        transition: .3s;
+        transition: 0.3s;
 
         &:nth-of-type(1) .hotRecommended_index {
           color: @theme;
@@ -120,7 +120,7 @@
 
         span:last-child {
           cursor: pointer;
-          transition: .3s;
+          transition: 0.3s;
 
           &:hover {
             color: @theme;
@@ -136,6 +136,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 10px 20px;
+        padding-bottom: 10px;
 
         .searchHistory_item {
           background: @subBackgroundColor;
@@ -144,7 +145,7 @@
           padding: 3px 10px;
           cursor: pointer;
           color: @subTextColor;
-          transition: .3s;
+          transition: 0.3s;
 
           &:hover {
             background: @theme;
@@ -157,13 +158,13 @@
 
   .fadeIn {
     display: block;
-    animation: fadeIn .2s ease-in;
+    animation: fadeIn 0.2s ease-in;
     transform-origin: top;
   }
 
   @keyframes fadeIn {
     0% {
-      transform: scale(.5) translateY(-10px);
+      transform: scale(0.5) translateY(-10px);
       opacity: 0;
     }
     100% {

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'umi';
 import Header from '@/layouts/components/Header';
+import MusicPlayer from '@/layouts/components/MusicPlayer';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './index.less';
 import { useSetRecoilState } from 'recoil';
@@ -36,6 +37,7 @@ export default withRouter(({ children, location }) => {
                     </CSSTransition>
                 </TransitionGroup>
             </main>
+            <MusicPlayer></MusicPlayer>
         </div>
     );
 });

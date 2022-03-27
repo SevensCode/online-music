@@ -7,14 +7,16 @@
 
   .find-recommendedPlaylist-container,
   .find-exclusiveBroadcast-container,
-  .find-newMusicPush-container {
+  .find-newMusicPush-container,
+  .find-hotSingers-container {
     display: grid;
     justify-content: space-between;
+    justify-items: center;
     gap: 15px;
   }
 
   .find-recommendedPlaylist-container {
-    grid-template-columns: repeat(5, 230px);
+    grid-template-columns: repeat(6, 190px);
   }
 
   .find-exclusiveBroadcast-container {
@@ -23,5 +25,9 @@
 
   .find-newMusicPush-container {
     grid-template-columns: repeat(3, 400px);
+  }
+
+  .find-hotSingers-container {
+    grid-template-columns: repeat(6, 190px);
   }
 }

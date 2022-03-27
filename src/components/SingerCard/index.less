@@ -1,0 +1,29 @@
+.singerCard {
+  .singerCard-avatar-box {
+    padding-bottom: 100%;
+    position: relative;
+    border-radius: @radius;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .singerCard-avatar {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.3s;
+
+    &:hover {
+      transform: rotate(-5deg) scale(1.1);
+    }
+  }
+
+  .singerCard-name {
+    text-align: center;
+    font-size: 14px;
+    color: @textColor;
+    margin: 0.3em;
+  }
+}

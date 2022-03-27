@@ -39,7 +39,7 @@ const Banner: FC<Props> = ({ autoplay = true, delay = 3000, children }) => {
     const handleButNext = useCallback(() => {
         offTimer();
         next();
-    }, []);
+    }, [itemCount]);
     // 上一页
     const handleButPrevious = useCallback(() => {
         setActiveIndex((oldActiveIndex) =>

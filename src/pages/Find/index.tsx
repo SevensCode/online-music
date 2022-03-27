@@ -11,6 +11,8 @@ import { MvRequst } from '@/api/mv';
 import MvCard from '@/components/MvCard';
 import { MusicRequest } from '@/api/music';
 import MusicCell from '@/components/MusicCell';
+import { SingerRequst } from '@/api/singer';
+import SingerCard from '@/components/SingerCard';
 
 // 获取轮播图
 const getBanner = async () => {
@@ -31,8 +33,14 @@ const getExclusiveBroadcast = async () => {
 
 // 获取新音乐
 const getNewMusic = async () => {
-    const { result } = await MusicRequest.newMusicPush();
+    const { result } = await MusicRequest.newMusicPush(9);
     return result || [];
+};
+
+// 获取热门歌手
+const getHotSingers = async () => {
+    const { artists } = await SingerRequst.hotSingers({ limit: 30, page: 1 });
+    return artists || [];
 };
 const Find: FC = () => {
     // 轮播图列表
@@ -41,12 +49,16 @@ const Find: FC = () => {
     const [songList, setSongList] = useState<any[]>([]);
     // 独家放送列表
     const [exclusiveBroadcastList, setExclusiveBroadcast] = useState<any[]>([]);
+    // 新音乐列表
     const [newMusicList, setNewMusicList] = useState<any[]>([]);
+    // 热门歌手
+    const [hotSingerList, setHotSingers] = useState<any[]>([]);
     useEffect(() => {
         getBanner().then((value) => setBanner(value));
         getRecommendedPlaylist().then((value) => setSongList(value));
         getExclusiveBroadcast().then((value) => setExclusiveBroadcast(value));
         getNewMusic().then((value) => setNewMusicList(value));
+        getHotSingers().then((value) => setHotSingers(value));
     }, []);
     return (
         <div className="find app-container">
@@ -70,7 +82,7 @@ const Find: FC = () => {
                         key={id}
                         title={name}
                         src={picUrl + '?param=250y250'}
-                        width={'230px'}
+                        width={'190px'}
                         volume={numberUnit(playCount)}
                     />
                 ))}
@@ -98,6 +110,17 @@ const Find: FC = () => {
                         />
                     ),
                 )}
+            </div>
+            <h3 className={'module-title'}>热门歌手</h3>
+            <div className={'find-hotSingers-container'}>
+                {hotSingerList.map(({ id, name, picUrl }) => (
+                    <SingerCard
+                        name={name}
+                        src={picUrl + '?param=250y250'}
+                        width={'190px'}
+                        key={id}
+                    />
+                ))}
             </div>
         </div>
     );
