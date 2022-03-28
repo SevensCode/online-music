@@ -1,0 +1,38 @@
+.controller {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+
+  i {
+    color: @textColor;
+    cursor: pointer;
+    border-radius: 25%;
+    line-height: 50px;
+    transition: background-color 0.3s ease-in-out;
+    padding: 0 5px;
+    user-select: none;
+    text-align: center;
+
+    &:hover {
+      background: @transparent;
+    }
+  }
+
+  .playing,
+  .pause {
+    font-size: 24px;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+  }
+
+  .prve,
+  .next {
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+  }
+}

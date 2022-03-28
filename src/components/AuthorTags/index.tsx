@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import './index.less';
 
 interface Props {
-    authors: { name: string; id: number | string }[];
+    authors: { name: string; id: number }[];
 }
 
 const AuthorTags: FC<Props> = ({ authors }) => {

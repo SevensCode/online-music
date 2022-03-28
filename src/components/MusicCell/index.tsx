@@ -1,32 +1,29 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import ImageLazy from '@/components/ImageLazy';
 import './index.less';
 import AuthorTags from '@/components/AuthorTags';
 import Like from '@/components/Like';
+import { MusicDetails } from '@/recoil/types/audio';
 
-interface Props {
-    // 音乐id
-    id: number;
-    // 音乐名称
-    name: string;
-    // 音乐封面图
-    coverPicture: string;
-    // 作者
-    authors: { name: string; id: number | string }[];
-    // 专辑
-    album: {
-        name: string;
-        id: number | string;
-    };
+interface Props extends MusicDetails {
+    onClick?(event: MouseEvent<HTMLImageElement>): void;
 }
 
-const MusicCell: FC<Props> = ({ coverPicture, name, id, authors, album }) => {
+const MusicCell: FC<Props> = ({
+    coverPicture,
+    name,
+    id,
+    authors,
+    album,
+    onClick,
+}) => {
     return (
         <div className={'musicCell'}>
             <div className="musicCell-coverPicture-container">
                 <ImageLazy
                     src={coverPicture}
                     className="musicCell-coverPicture"
+                    onClick={onClick}
                 />
             </div>
             <div className={'musicCell-content'}>

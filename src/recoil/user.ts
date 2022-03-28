@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Userinfo } from '@/types/atom';
+import { Userinfo } from '@/recoil/types/user';
 
 // 用户info
 export const atom_user_info = atom<Nullable<Userinfo>>({

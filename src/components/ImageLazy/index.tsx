@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useRef } from 'react';
+import React, { FC, MouseEvent, useCallback, useRef } from 'react';
 import LazyLoad from 'react-lazyload';
 import img_loading from '@/assets/svg/img_loading.svg';
 import img_error from '@/assets/svg/img_error.svg';
@@ -9,6 +9,8 @@ interface Props {
     errorSrc?: string;
     className?: string;
     scrollContainer?: string;
+
+    onClick?(event: MouseEvent<HTMLImageElement>): void;
 }
 
 const ImageLazy: FC<Props> = ({
@@ -17,6 +19,7 @@ const ImageLazy: FC<Props> = ({
     errorSrc = img_error,
     className,
     scrollContainer = '.layout',
+    onClick,
 }) => {
     const imgRef = useRef<HTMLImageElement>(null);
 
@@ -43,6 +46,7 @@ const ImageLazy: FC<Props> = ({
                 className={className}
                 src={src}
                 alt=""
+                onClick={onClick}
             />
         </LazyLoad>
     );

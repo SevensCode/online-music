@@ -7,13 +7,13 @@ interface Props {
     id: number;
 }
 
-const MusicStatus: FC<Props> = ({ className }) => {
+const AudioStatus: FC<Props> = ({ className }) => {
     return (
-        <div className={['musicStatus', className].join(' ')}>
+        <div className={['audioStatus', className].join(' ')}>
             <i className={'iconfont icon-bofang1'}></i>
             <i className={'iconfont icon-zanting2'}></i>
         </div>
     );
 };
 
-export default MusicStatus;
+export default AudioStatus;
