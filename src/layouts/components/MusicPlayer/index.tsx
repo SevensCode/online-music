@@ -14,14 +14,16 @@ const MusicPlayer = () => {
     const musicDetails = useRecoilValue(atom_audio_musicDetails);
     return (
         <div className={'musicPlayer gaussianBlur'}>
-            <AudioProgressBar className={'musicPlayer-progressBar'} />
+            {musicDetails !== null && (
+                <AudioProgressBar className={'musicPlayer-progressBar'} />
+            )}
             <div className="musicPlayer-container">
                 <div className="musicPlayer-Info">
                     {musicDetails !== null && (
                         <>
                             <ImageLazy
                                 className={'musicPlayer-coverPicture'}
-                                src={musicDetails.musicUrl}
+                                src={musicDetails.coverPicture}
                             />
                             <div className="musicPlayer-content">
                                 <p className="musicPlayer-name text-1LinesHide">

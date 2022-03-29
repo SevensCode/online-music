@@ -1,18 +1,21 @@
 export interface MusicDetails {
     // 名称
-    name?: string;
+    name: string;
     // 封面图
-    coverPicture?: string;
+    coverPicture: string;
     // 作者
-    authors?: { name: string; id: number }[];
-    // 音乐地址
-    musicUrl?: string;
+    authors: { name: string; id: number }[];
     // 专辑
-    album?: {
+    album: {
         name: string;
         id: number;
     };
     // 时长
-    duration?: number;
-    id?: number;
+    duration: number;
+    id: number;
+}
+
+export interface PlaybackProgress {
+    minute: number;
+    second: number;
 }

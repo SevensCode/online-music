@@ -1,12 +1,20 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC } from 'react';
 import ImageLazy from '@/components/ImageLazy';
 import './index.less';
 import AuthorTags from '@/components/AuthorTags';
 import Like from '@/components/Like';
-import { MusicDetails } from '@/recoil/types/audio';
+import AudioStatus from '@/components/Audio/Status';
 
-interface Props extends MusicDetails {
-    onClick?(event: MouseEvent<HTMLImageElement>): void;
+interface Props {
+    coverPicture: string;
+    name: string;
+    id: number;
+    authors: { name: string; id: number }[];
+    album: { name: string; id: number };
+
+    onPlay?(): void;
+
+    onPaused?(): void;
 }
 
 const MusicCell: FC<Props> = ({
@@ -15,7 +23,8 @@ const MusicCell: FC<Props> = ({
     id,
     authors,
     album,
-    onClick,
+    onPlay,
+    onPaused,
 }) => {
     return (
         <div className={'musicCell'}>
@@ -23,7 +32,12 @@ const MusicCell: FC<Props> = ({
                 <ImageLazy
                     src={coverPicture}
                     className="musicCell-coverPicture"
-                    onClick={onClick}
+                />
+                <AudioStatus
+                    className={'musicCell-audioStatus'}
+                    id={id}
+                    onPlay={onPlay}
+                    onPaused={onPaused}
                 />
             </div>
             <div className={'musicCell-content'}>

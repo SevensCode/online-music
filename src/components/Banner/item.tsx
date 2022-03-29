@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { BannerStatus } from '@/pages/Find/components/Banner/index';
+import { BannerStatus } from '@/components/Banner/index';
 
 interface Props {
     status?: BannerStatus;
