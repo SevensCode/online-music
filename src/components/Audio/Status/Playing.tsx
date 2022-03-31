@@ -8,7 +8,7 @@ interface Props {
     onClick?: () => void;
 }
 
-const Playing: FC<Props> = ({ className, onClick }) => {
+const AudioStatusPlaying: FC<Props> = ({ className, onClick }) => {
     const audioStatus = useRecoilValue(atom_auido_status);
 
     const [isShow, change] = useState(false);
@@ -39,4 +39,4 @@ const Playing: FC<Props> = ({ className, onClick }) => {
     );
 };
 
-export default Playing;
+export default AudioStatusPlaying;

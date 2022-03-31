@@ -14,10 +14,8 @@ import store from 'store';
 
 // 获取热搜
 const getHotSearch = async () => {
-    const {
-        result: { hots },
-    } = await SearchRequst.hotSearch();
-    return hots || [];
+    const data = await SearchRequst.hotSearch();
+    return data?.result?.hots || [];
 };
 const Search: FC = () => {
     const [searchRef, isShow, setShow] =

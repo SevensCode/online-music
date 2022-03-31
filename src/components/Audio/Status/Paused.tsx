@@ -5,7 +5,7 @@ interface Props {
     className?: string;
 }
 
-const Paused: FC<Props> = ({ className }) => {
+const AudioStatusPaused: FC<Props> = ({ className }) => {
     return (
         <div className={['audioStatus', 'paused', className].join(' ')}>
             <i className="iconfont icon-zanting2" />
@@ -13,4 +13,4 @@ const Paused: FC<Props> = ({ className }) => {
     );
 };
 
-export default Paused;
+export default AudioStatusPaused;

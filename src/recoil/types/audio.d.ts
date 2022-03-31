@@ -14,8 +14,3 @@ export interface MusicDetails {
     duration: number;
     id: number;
 }
-
-export interface PlaybackProgress {
-    minute: number;
-    second: number;
-}

@@ -7,7 +7,7 @@ interface Props {
     onClick?: () => void;
 }
 
-const Loading: FC<Props> = ({ className, onClick }) => {
+const AudioStatusLoading: FC<Props> = ({ className, onClick }) => {
     return (
         <div
             onClick={onClick}
@@ -18,4 +18,4 @@ const Loading: FC<Props> = ({ className, onClick }) => {
     );
 };
 
-export default Loading;
+export default AudioStatusLoading;

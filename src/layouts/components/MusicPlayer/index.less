@@ -17,8 +17,19 @@
     height: 3px;
     transform: translateX(-50%);
 
+    &:hover {
+      .ant-slider-track {
+        background: @subTheme;
+      }
+    }
+
     .ant-slider-handle {
-      border-color: @subTheme;
+      border: 0;
+      width: 12px;
+      height: 12px;
+      box-shadow: 0 0 3px @subTheme;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
     .ant-slider-track {
@@ -31,12 +42,9 @@
       background: transparent;
     }
 
+    &.active .ant-slider-handle,
     &:hover .ant-slider-handle {
-      display: block;
-    }
-
-    .ant-slider-handle {
-      display: none;
+      opacity: 1;
     }
   }
 

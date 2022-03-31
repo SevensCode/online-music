@@ -7,15 +7,24 @@ import MusicVolume from '@/components/Audio/Volume';
 import { Tooltip } from 'antd';
 import AudioProgressBar from '@/components/Audio/ProgressBar';
 import { useRecoilValue } from 'recoil';
-import { atom_audio_musicDetails } from '@/recoil/audio';
+import {
+    atom_audio_isDragProgressBar,
+    atom_audio_musicDetails,
+} from '@/recoil/audio';
 import AuthorTags from '@/components/AuthorTags';
 
 const MusicPlayer = () => {
     const musicDetails = useRecoilValue(atom_audio_musicDetails);
+    const isDragProgressBar = useRecoilValue(atom_audio_isDragProgressBar);
     return (
         <div className={'musicPlayer gaussianBlur'}>
             {musicDetails !== null && (
-                <AudioProgressBar className={'musicPlayer-progressBar'} />
+                <AudioProgressBar
+                    className={[
+                        'musicPlayer-progressBar',
+                        isDragProgressBar ? 'active' : '',
+                    ].join(' ')}
+                />
             )}
             <div className="musicPlayer-container">
                 <div className="musicPlayer-Info">

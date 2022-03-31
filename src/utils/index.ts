@@ -61,3 +61,14 @@ export const zeroPadding = (number: number) => {
     else if (number < 10) return '0' + number;
     return number;
 };
+
+/**
+ * 秒转时间
+ * @param {number} second
+ * */
+export const secondTurnTime = (second: number) => {
+    return {
+        minute: Math.floor(second / 60),
+        second: parseInt(String(second % 60)),
+    };
+};
