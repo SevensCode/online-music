@@ -3,7 +3,7 @@ import AudioStatusPlay from './Play';
 import AudioStatusLoading from './Loading';
 import AudioStatusPlaying from './Playing';
 import { useRecoilValue } from 'recoil';
-import { atom_audio_musicDetails, atom_auido_status } from '@/recoil/audio';
+import { audio_musicDetails, auido_status } from '@/recoil/audio';
 
 interface Props {
     className?: string;
@@ -13,8 +13,8 @@ interface Props {
 }
 
 const AudioStatus: FC<Props> = ({ id, className, onPlay, onPaused }) => {
-    const audioStatus = useRecoilValue(atom_auido_status);
-    const musicDetails = useRecoilValue(atom_audio_musicDetails);
+    const audioStatus = useRecoilValue(auido_status);
+    const musicDetails = useRecoilValue(audio_musicDetails);
     if (musicDetails === null)
         return <AudioStatusPlay onClick={onPlay} className={className} />;
     if (audioStatus === 1 && id === musicDetails.id) {

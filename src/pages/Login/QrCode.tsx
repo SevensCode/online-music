@@ -9,7 +9,7 @@ import { useSearchParam, useStatus } from '@/hooks';
 import { UserRequst } from '@/api/user';
 import { history } from '@@/core/history';
 import { useSetRecoilState } from 'recoil';
-import { atom_user_info } from '@/recoil/user';
+import { user_info } from '@/recoil/user';
 import store from 'store';
 import { STORE_USER_INFO } from '@/constants';
 // 生成二维码key
@@ -19,7 +19,7 @@ const generateQRCodeKey = async () => {
     return data.unikey;
 };
 const QrCode = () => {
-    const setUserinfo = useSetRecoilState(atom_user_info);
+    const setUserinfo = useSetRecoilState(user_info);
     const redirect = useSearchParam('redirect');
     const qrCodeRef = useRef<HTMLDivElement>(null);
     const [qrCodeVisible, setQrCodeVisible] = useState(false);

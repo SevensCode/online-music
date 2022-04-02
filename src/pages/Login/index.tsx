@@ -12,14 +12,14 @@ import { history, Link } from 'umi';
 import { REG_PHONE } from '@/constants/regular';
 import { UserRequst } from '@/api/user';
 import { useSetRecoilState } from 'recoil';
-import { atom_user_info } from '@/recoil/user';
+import { user_info } from '@/recoil/user';
 import { useSearchParam } from '@/hooks';
 import { User_PhoneLogin_Params } from '@/api/user/params';
 import QrCode from '@/pages/Login/QrCode';
 import md5 from 'js-md5';
 
 const Login: FC = () => {
-    const setUserinfo = useSetRecoilState(atom_user_info);
+    const setUserinfo = useSetRecoilState(user_info);
     const redirect = useSearchParam('redirect');
     const [submitLoading, setSubmitLoading] = useState(false);
     const [themeType, setThemeType] = useState(

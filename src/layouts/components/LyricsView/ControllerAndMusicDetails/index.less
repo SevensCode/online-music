@@ -1,0 +1,87 @@
+.lyricsView-musicDetails {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 25px;
+  justify-content: center;
+
+  .lyricsView-coverPicture-container {
+    width: 55%;
+
+    .lyricsView-coverPicture-box {
+      padding-bottom: 100%;
+      position: relative;
+      border-radius: @radius;
+      overflow: hidden;
+      cursor: pointer;
+
+      .lyricsView-coverPicture {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+
+  .lyricsView-content {
+    width: 55%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .lyricsView-content-text {
+      flex: 1;
+      color: white;
+
+      h1 {
+        color: white;
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .lyricsView-content-author {
+        .authorTags-name,
+        .authorTags-slash {
+          color: #e3e3e3;
+        }
+      }
+    }
+
+    .lyricsView-content-like {
+      color: white;
+    }
+  }
+
+  .lyricsView-progressBar-box {
+    display: flex;
+    justify-content: space-between;
+    width: 55%;
+    align-items: center;
+    gap: 10px;
+
+    .lyricsView-time {
+      color: #e3e3e3;
+    }
+
+    .lyricsView-progressBar {
+      width: 100%;
+      flex: 1;
+
+      .ant-slider-handle {
+        border: 0;
+      }
+
+      .ant-slider-track {
+        background: @subTheme;
+      }
+
+      .ant-slider-rail {
+        color: #e3e3e3;
+      }
+    }
+  }
+}

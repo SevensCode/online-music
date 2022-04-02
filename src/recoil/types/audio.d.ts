@@ -14,3 +14,10 @@ export interface MusicDetails {
     duration: number;
     id: number;
 }
+
+export interface MusicTime {
+    minute: number | string;
+    second: number | string;
+}
+
+export type MusicLyrics = { time: number; lyrics: string; zhLyrics?: string }[];

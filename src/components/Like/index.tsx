@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { atom_user_info, atom_user_likeMusicIds } from '@/recoil/user';
+import { user_info, user_likeMusicIds } from '@/recoil/user';
 import { HeartFilled, HeartOutlined, SyncOutlined } from '@ant-design/icons';
 import { message } from 'antd';
 import { history } from 'umi';
@@ -9,14 +9,13 @@ import './index.less';
 
 interface Props {
     id: number;
-    size: string;
+    size?: string;
+    className?: string;
 }
 
-const Like: FC<Props> = ({ id, size }) => {
-    const [likeMusicIds, setLikeMusicIds] = useRecoilState(
-        atom_user_likeMusicIds,
-    );
-    const useinfo = useRecoilValue(atom_user_info);
+const Like: FC<Props> = ({ id, size = '16px', className }) => {
+    const [likeMusicIds, setLikeMusicIds] = useRecoilState(user_likeMusicIds);
+    const useinfo = useRecoilValue(user_info);
     const [isLoading, setLoading] = useState(false);
     const isLike = useMemo((): boolean => {
         return likeMusicIds.some((value) => value === id);
@@ -47,13 +46,13 @@ const Like: FC<Props> = ({ id, size }) => {
         <HeartFilled
             onClick={() => asyncSetLike(false)}
             style={{ fontSize: size }}
-            className="like"
+            className={['like-common-hover like', className].join(' ')}
         />
     ) : (
         <HeartOutlined
             onClick={() => asyncSetLike(true)}
             style={{ fontSize: size }}
-            className="notLike"
+            className={['like-common-hover notLike', className].join(' ')}
         />
     );
 };

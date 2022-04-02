@@ -3,11 +3,11 @@ import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './index.less';
 import { useRecoilValue } from 'recoil';
-import { atom_user_info } from '@/recoil/user';
+import { user_info } from '@/recoil/user';
 import { Link } from 'umi';
 
 const UserBasicInfo: FC = () => {
-    const userinfo = useRecoilValue(atom_user_info);
+    const userinfo = useRecoilValue(user_info);
 
     return (
         <div className={'userBasicInfo'}>

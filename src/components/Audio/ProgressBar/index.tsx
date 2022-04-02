@@ -3,29 +3,39 @@ import { Slider } from 'antd';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-    atom_audio_instance,
-    atom_audio_isDragProgressBar,
-    atom_audio_musicDetails,
-    atom_audio_progressBarValue,
+    audio_instance,
+    audio_isDragProgressBar,
+    audio_musicDetails,
+    audio_playProgressTime,
+    audio_progressBarValue,
 } from '@/recoil/audio';
-import { secondTurnTime, zeroPadding } from '@/utils';
+import { secondTurnTime } from '@/utils';
 
-const AudioProgressBar: FC<{ className?: string }> = ({ className }) => {
-    const audio = useRecoilValue(atom_audio_instance);
-    const musicDetails = useRecoilValue(atom_audio_musicDetails);
-    // 进度条是否被拖动
-    const setIsDragProgressBar = useSetRecoilState(
-        atom_audio_isDragProgressBar,
+interface Props {
+    tooltipVisible?: boolean;
+    className?: string;
+}
+
+const AudioProgressBar: FC<Props> = ({ className, tooltipVisible = true }) => {
+    const audio = useRecoilValue(audio_instance);
+    const musicDetails = useRecoilValue(audio_musicDetails);
+    // 播放时间
+    const [playProgressTime, stePlayProgressTime] = useRecoilState(
+        audio_playProgressTime,
     );
+    // 进度条是否被拖动
+    const setIsDragProgressBar = useSetRecoilState(audio_isDragProgressBar);
     const [progressBarValue, setProgressBarValue] = useRecoilState(
-        atom_audio_progressBarValue,
+        audio_progressBarValue,
     );
     const onChange = useCallback(
         (value) => {
             // 改拖拽为 true
             setIsDragProgressBar(true);
-            // // 更新进度条
+            // 更新进度条
             setProgressBarValue(value);
+            // 更新播放时间
+            stePlayProgressTime(secondTurnTime(value));
         },
         [setProgressBarValue],
     );
@@ -35,17 +45,19 @@ const AudioProgressBar: FC<{ className?: string }> = ({ className }) => {
         // 改拖拽为 false
         setIsDragProgressBar(false);
     }, []);
-    const tipFormatter = useCallback((value) => {
-        const { minute, second } = secondTurnTime(value);
-        return `${zeroPadding(minute)}:${zeroPadding(second)}`;
-    }, []);
+    const tipFormatter = useCallback(
+        (value) => {
+            return `${playProgressTime.minute}:${playProgressTime.second}`;
+        },
+        [playProgressTime],
+    );
     return (
         <Slider
             onChange={onChange}
             onAfterChange={onAfterChange}
             className={[className, 'progressBar'].join(' ')}
             step={1}
-            tipFormatter={tipFormatter}
+            tipFormatter={tooltipVisible ? tipFormatter : null}
             min={0}
             max={musicDetails ? Math.round(musicDetails.duration / 1000) : 0}
             value={progressBarValue}

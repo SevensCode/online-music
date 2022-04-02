@@ -1,21 +1,23 @@
 import React from 'react';
 import './index.less';
 import ImageLazy from '@/components/ImageLazy';
-import Controller from '@/components/Audio/Controller';
+import AudioController from '@/components/Audio/Controller';
 import AudioPlayType from '@/components/Audio/PlayType';
 import MusicVolume from '@/components/Audio/Volume';
 import { Tooltip } from 'antd';
 import AudioProgressBar from '@/components/Audio/ProgressBar';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-    atom_audio_isDragProgressBar,
-    atom_audio_musicDetails,
+    audio_isDragProgressBar,
+    audio_isLyricsView,
+    audio_musicDetails,
 } from '@/recoil/audio';
 import AuthorTags from '@/components/AuthorTags';
 
 const MusicPlayer = () => {
-    const musicDetails = useRecoilValue(atom_audio_musicDetails);
-    const isDragProgressBar = useRecoilValue(atom_audio_isDragProgressBar);
+    const musicDetails = useRecoilValue(audio_musicDetails);
+    const isDragProgressBar = useRecoilValue(audio_isDragProgressBar);
+    const setIsLyricsView = useSetRecoilState(audio_isLyricsView);
     return (
         <div className={'musicPlayer gaussianBlur'}>
             {musicDetails !== null && (
@@ -48,7 +50,7 @@ const MusicPlayer = () => {
                     )}
                 </div>
                 <div className="musicPlayer-controller">
-                    <Controller />
+                    <AudioController />
                 </div>
                 <div className="musicPlayer-otherAction">
                     {musicDetails !== null && (
@@ -67,6 +69,7 @@ const MusicPlayer = () => {
                             </Tooltip>
                             <Tooltip placement="top" title="展开">
                                 <i
+                                    onClick={() => setIsLyricsView(true)}
                                     className={[
                                         'musicPlayer-expansion iconfont icon-shangjiantou',
                                     ].join(' ')}

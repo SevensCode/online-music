@@ -4,15 +4,19 @@ import Header from '@/layouts/components/Header';
 import MusicPlayer from '@/layouts/components/MusicPlayer';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './index.less';
-import { useSetRecoilState } from 'recoil';
-import { atom_user_info, atom_user_likeMusicIds } from '@/recoil/user';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { user_info, user_likeMusicIds } from '@/recoil/user';
 import { STORE_USER_INFO } from '@/constants';
 import store from 'store';
 import { UserRequst } from '@/api/user';
+import LyricsView from '@/layouts/components/LyricsView';
+import { audio_isLyricsView, audio_musicDetails } from '@/recoil/audio';
 
 export default withRouter(({ children, location }) => {
-    const setUserinfo = useSetRecoilState(atom_user_info);
-    const setLikeMusicIds = useSetRecoilState(atom_user_likeMusicIds);
+    const setUserinfo = useSetRecoilState(user_info);
+    const musicDetails = useRecoilValue(audio_musicDetails);
+    const setLikeMusicIds = useSetRecoilState(user_likeMusicIds);
+    const isLyricsView = useRecoilValue(audio_isLyricsView);
     useEffect(() => {
         const userinfo = store.get(STORE_USER_INFO);
         if (userinfo) {
@@ -37,7 +41,15 @@ export default withRouter(({ children, location }) => {
                     </CSSTransition>
                 </TransitionGroup>
             </main>
-            <MusicPlayer></MusicPlayer>
+            <MusicPlayer />
+            <CSSTransition
+                unmountOnExit
+                in={isLyricsView}
+                classNames="bottomLineIn"
+                timeout={400}
+            >
+                <LyricsView />
+            </CSSTransition>
         </div>
     );
 });

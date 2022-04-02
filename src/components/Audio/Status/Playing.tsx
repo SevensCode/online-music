@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import './index.less';
 import { useRecoilValue } from 'recoil';
-import { atom_auido_status } from '@/recoil/audio';
+import { auido_status } from '@/recoil/audio';
 
 interface Props {
     className?: string;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const AudioStatusPlaying: FC<Props> = ({ className, onClick }) => {
-    const audioStatus = useRecoilValue(atom_auido_status);
+    const audioStatus = useRecoilValue(auido_status);
 
     const [isShow, change] = useState(false);
     const mouseOut = () => {

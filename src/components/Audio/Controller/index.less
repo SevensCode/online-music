@@ -5,7 +5,6 @@
   gap: 30px;
   width: 100%;
   position: relative;
-  height: 100%;
 
   &.disable:before {
     content: '';
@@ -34,17 +33,35 @@
 
   .playing,
   .pause {
-    font-size: 24px;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
+    &.small {
+      font-size: 24px;
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+    }
+
+    &.large {
+      font-size: 28px;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+    }
   }
 
   .prve,
   .next {
-    font-size: 20px;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    &.small {
+      font-size: 20px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    &.large {
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+    }
   }
 }
