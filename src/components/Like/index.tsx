@@ -27,10 +27,10 @@ const Like: FC<Props> = ({ id, size = '16px', className }) => {
                 return history.push('/login');
             }
             setLoading(true);
-            const { code } = await UserRequst.isLikeMuisc({ id, like });
+            const { code } = await UserRequst.isLikeMusic({ id, like });
             if (code !== 200)
                 return message.error('好像有亿点问题，操作失败！！！');
-            const { ids } = await UserRequst.getUserLikeMuiscIds(
+            const { ids } = await UserRequst.getUserLikeMusicIds(
                 useinfo.userId,
             );
             ids && setLikeMusicIds(ids);

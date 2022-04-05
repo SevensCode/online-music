@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 import {
     User_GenerateQRCode_Params,
-    User_isLikeMuisc_Params,
+    User_isLikeMusic_Params,
     User_PhoneLogin_Params,
 } from '@/api/user/params';
 
@@ -25,10 +25,10 @@ export class UserRequst {
     static getLoginStatus = () => request.get('/login/status');
 
     // 获取用户喜欢的音乐id
-    static getUserLikeMuiscIds = (uid: number) =>
+    static getUserLikeMusicIds = (uid: number) =>
         request.get('/likelist', { params: { uid } });
 
     // 是否喜欢音乐
-    static isLikeMuisc = (data: User_isLikeMuisc_Params) =>
+    static isLikeMusic = (data: User_isLikeMusic_Params) =>
         request.get('/like', { params: data });
 }

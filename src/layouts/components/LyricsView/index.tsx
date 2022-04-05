@@ -6,14 +6,14 @@ import ControllerAndMusicDetails from '@/layouts/components/LyricsView/Controlle
 import { CaretLeftOutlined } from '@ant-design/icons';
 
 const LyricsView: FC = () => {
-    const muiscDetails = useRecoilValue(audio_musicDetails);
+    const musicDetails = useRecoilValue(audio_musicDetails);
     const setIsLyricsView = useSetRecoilState(audio_isLyricsView);
     return (
         <div
             className={'lyricsView'}
             style={{
                 backgroundImage: `url(${
-                    muiscDetails?.coverPicture + '?param=1024y1024'
+                    musicDetails?.coverPicture + '?param=1024y1024'
                 })`,
             }}
         >

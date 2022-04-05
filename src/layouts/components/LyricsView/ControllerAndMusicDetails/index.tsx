@@ -13,7 +13,7 @@ import {
 import './index.less';
 
 const ControllerAndMusicDetails = () => {
-    const muiscDetails = useRecoilValue(audio_musicDetails);
+    const musicDetails = useRecoilValue(audio_musicDetails);
     // 播放时间
     const playProgressTime = useRecoilValue(audio_playProgressTime);
     const totalPlayTime = useRecoilValue(audio_totalPlayTime);
@@ -22,18 +22,18 @@ const ControllerAndMusicDetails = () => {
             <div className="lyricsView-coverPicture-container">
                 <div className="lyricsView-coverPicture-box">
                     <ImageLazy
-                        src={muiscDetails?.coverPicture + '?param=1024y1024'}
+                        src={musicDetails?.coverPicture + '?param=1024y1024'}
                         className="lyricsView-coverPicture"
                     ></ImageLazy>
                 </div>
             </div>
             <div className="lyricsView-content">
                 <div className="lyricsView-content-text">
-                    <h1>{muiscDetails?.name}</h1>
+                    <h1>{musicDetails?.name}</h1>
                     <p>
                         <AuthorTags
                             className={'lyricsView-content-author'}
-                            authors={muiscDetails?.authors || []}
+                            authors={musicDetails?.authors || []}
                         />
                     </p>
                 </div>

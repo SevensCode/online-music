@@ -21,7 +21,7 @@ export default withRouter(({ children, location }) => {
         const userinfo = store.get(STORE_USER_INFO);
         if (userinfo) {
             setUserinfo(userinfo);
-            UserRequst.getUserLikeMuiscIds(userinfo.userId).then(({ ids }) => {
+            UserRequst.getUserLikeMusicIds(userinfo.userId).then(({ ids }) => {
                 ids && setLikeMusicIds(ids);
             });
         }
