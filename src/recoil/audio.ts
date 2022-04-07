@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { MusicDetails, MusicLyrics, MusicTime } from '@/recoil/types/audio';
+import { MusicDetails, MusicLyricsArr, MusicTime } from '@/recoil/types/audio';
 
 // 播放类型
 export const audio_playType = atom<number>({
@@ -56,7 +56,7 @@ export const audio_isLyricsView = atom<boolean>({
 });
 
 // 歌词
-export const audio_lyrics = atom<MusicLyrics>({
+export const audio_lyrics = atom<MusicLyricsArr>({
     key: 'audio_lyrics',
     default: [],
 });

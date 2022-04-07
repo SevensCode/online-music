@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
+    "caniuse-lite": "^1.0.30001325",
     "js-md5": "^0.7.3",
     "nprogress": "^0.2.0",
     "react": "17.x",

@@ -6,7 +6,7 @@ import { useAudioPause, useAudioPlay } from '@/hooks/audio';
 import { MusicDetails } from '@/recoil/types/audio';
 // 获取新音乐
 const getNewMusic = async () => {
-    const { result } = await MusicRequest.newMusicPush(9);
+    const { result } = await MusicRequest.newMusicPush(50);
     return result || [];
 };
 const NewMusice = () => {

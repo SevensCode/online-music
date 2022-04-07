@@ -29,20 +29,13 @@
     .lyricsView-lyrics {
       height: 100%;
       overflow: auto;
-      padding: 25px;
-      position: relative;
 
-      p {
-        font-size: 22px;
-        text-align: left;
-        color: #f2f2f2;
-        line-height: 50px;
-        font-weight: lighter;
-        opacity: 0.8;
+      .lyricsView-lyrics-item {
         padding: 0 50px 0 10px;
-        border-radius: 5px;
         transition: 0.3s ease-in-out;
         position: relative;
+        opacity: 0.8;
+        border-radius: 5px;
 
         &:hover:not(.active) {
           background: rgba(0, 0, 0, 0.3);
@@ -61,11 +54,20 @@
           cursor: pointer;
           transition: 0.3s ease-in-out;
           opacity: 0;
+          color: white;
         }
 
-        &.active {
-          color: white;
-          opacity: 1;
+        p {
+          font-size: 22px;
+          text-align: left;
+          color: #f2f2f2;
+          line-height: 50px;
+          font-weight: lighter;
+
+          &.active {
+            color: white;
+            opacity: 1;
+          }
         }
       }
     }
