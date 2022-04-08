@@ -81,8 +81,8 @@ export const useAudioPlay = () => {
             audio.removeEventListener('ended', ended);
         };
     }, []);
-    return async (musicDetails?: MusicDetails) => {
-        if (musicDetails ?? musicDetails) await setMusicInfo(musicDetails);
+    return (musicDetails?: MusicDetails) => {
+        if (musicDetails ?? musicDetails) setMusicInfo(musicDetails);
         setAudioStatus(1);
         audio.play().then((r) => setAudioStatus(2));
     };
@@ -93,6 +93,6 @@ export const useAudioPause = () => {
     const setMusicStatus = useSetRecoilState(auido_status);
     return useCallback(() => {
         audio.pause();
-        setMusicStatus(3);
+        setMusicStatus(0);
     }, []);
 };

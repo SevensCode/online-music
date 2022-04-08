@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './index.less';
 import { KeepAlive } from 'umi';
-import NewMusice from '@/pages/Find/components/NewMusices';
+import NewMusics from '@/pages/Find/components/NewMusics';
 import FindBanner from '@/pages/Find/components/Banner';
 import RecommendedPlaylist from '@/pages/Find/components/RecommendedPlaylist';
 import ExclusiveBroadcast from '@/pages/Find/components/ExclusiveBroadcast';
@@ -17,7 +17,7 @@ const Find: FC = () => {
             <h3 className={'module-title'}>独家放送</h3>
             <ExclusiveBroadcast />
             <h3 className={'module-title'}>新音乐推送</h3>
-            <NewMusice />
+            <NewMusics />
             <h3 className={'module-title'}>热门歌手</h3>
             <HotSinger />
         </div>

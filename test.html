@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            height: 6000px;
+            position: relative;
+        }
+
+        p {
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+<button>test</button>
+<p id="test">2112</p>
+</body>
+<script src="scroll.js"></script>
+<script>
+    document.querySelector('button').addEventListener('click', () => {
+        scrollTo({
+            id: 'test'
+        })
+    })
+</script>
+</html>

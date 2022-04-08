@@ -9,7 +9,7 @@ import AudioProgressBar from '@/components/Audio/ProgressBar';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
     audio_isDragProgressBar,
-    audio_isLyricsView,
+    audio_isShowFullScreenPlayer,
     audio_musicDetails,
 } from '@/recoil/audio';
 import AuthorTags from '@/components/AuthorTags';
@@ -17,7 +17,7 @@ import AuthorTags from '@/components/AuthorTags';
 const MusicPlayer = () => {
     const musicDetails = useRecoilValue(audio_musicDetails);
     const isDragProgressBar = useRecoilValue(audio_isDragProgressBar);
-    const setIsLyricsView = useSetRecoilState(audio_isLyricsView);
+    const setIsLyricsView = useSetRecoilState(audio_isShowFullScreenPlayer);
     return (
         <div className={'musicPlayer gaussianBlur'}>
             {musicDetails !== null && (

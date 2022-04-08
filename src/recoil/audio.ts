@@ -22,7 +22,7 @@ export const audio_musicDetails = atom<Nullable<MusicDetails>>({
 // 音乐状态
 export const auido_status = atom<number>({
     key: 'auido_status',
-    default: 0, // 0未播 1加载中 2播放中 3 暂停中
+    default: 0, // 0未播 1加载中 2播放中
 });
 
 // 进度条是否被拖动
@@ -50,8 +50,8 @@ export const audio_playProgressTime = atom<MusicTime>({
 });
 
 // 歌词视图是否显示
-export const audio_isLyricsView = atom<boolean>({
-    key: 'audio_isLyricsView',
+export const audio_isShowFullScreenPlayer = atom<boolean>({
+    key: 'audio_isShowFullScreenPlayer',
     default: false,
 });
 

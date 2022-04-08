@@ -23,6 +23,7 @@ const AudioController: FC<Props> = ({ size = 'small', color }) => {
         [audioStatus],
     );
     const playOrPause = useCallback(() => {
+        console.log(audioStatus);
         audioStatus === 2 ? audioPause() : audioPlay();
     }, [audioStatus]);
     return (

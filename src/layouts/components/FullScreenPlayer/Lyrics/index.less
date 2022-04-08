@@ -1,0 +1,52 @@
+.lyrics {
+  height: 100%;
+  overflow: auto;
+
+  .lyrics-item {
+    padding: 0 50px 0 10px;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    opacity: 0.5;
+    border-radius: 5px;
+
+    &:hover:not(.active) {
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0.8;
+    }
+
+    &:hover:not(.active) .lyrics-playIcon {
+      opacity: 1;
+    }
+
+    .lyrics-playIcon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      font-size: 28px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0;
+      color: white;
+    }
+
+    &.active {
+      color: white;
+      opacity: 1;
+      font-weight: bold;
+
+      p {
+        font-size: 28px;
+      }
+    }
+
+    p {
+      font-size: 22px;
+      text-align: left;
+      color: #f2f2f2;
+      transition: 0.3s ease-in-out;
+      line-height: 50px;
+      font-weight: lighter;
+    }
+  }
+}

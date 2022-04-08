@@ -12,46 +12,46 @@ import {
 } from '@/recoil/audio';
 import './index.less';
 
-const ControllerAndMusicDetails = () => {
+const PlayerController = () => {
     const musicDetails = useRecoilValue(audio_musicDetails);
     // 播放时间
     const playProgressTime = useRecoilValue(audio_playProgressTime);
     const totalPlayTime = useRecoilValue(audio_totalPlayTime);
     return (
-        <div className={'lyricsView-musicDetails'}>
-            <div className="lyricsView-coverPicture-container">
-                <div className="lyricsView-coverPicture-box">
+        <div className={'playerController'}>
+            <div className="playerController-coverPicture-container">
+                <div className="playerController-coverPicture-box">
                     <ImageLazy
                         src={musicDetails?.coverPicture + '?param=1024y1024'}
-                        className="lyricsView-coverPicture"
+                        className="playerController-coverPicture"
                     ></ImageLazy>
                 </div>
             </div>
-            <div className="lyricsView-content">
-                <div className="lyricsView-content-text">
+            <div className="playerController-content">
+                <div className="playerController-content-text">
                     <h1>{musicDetails?.name}</h1>
                     <p>
                         <AuthorTags
-                            className={'lyricsView-content-author'}
+                            className={'playerController-content-author'}
                             authors={musicDetails?.authors || []}
                         />
                     </p>
                 </div>
                 <Like
-                    className={'lyricsView-content-like'}
+                    className={'playerController-content-like'}
                     id={1}
                     size={'28px'}
                 ></Like>
             </div>
-            <div className="lyricsView-progressBar-box">
-                <span className={'lyricsView-time'}>
+            <div className="playerController-progressBar-box">
+                <span className={'playerController-time'}>
                     {playProgressTime.minute}:{playProgressTime.second}
                 </span>
                 <AudioProgressBar
                     tooltipVisible={false}
-                    className={'lyricsView-progressBar'}
+                    className={'playerController-progressBar'}
                 />
-                <span className={'lyricsView-time'}>
+                <span className={'playerController-time'}>
                     {totalPlayTime.minute}:{totalPlayTime.second}
                 </span>
             </div>
@@ -60,4 +60,4 @@ const ControllerAndMusicDetails = () => {
     );
 };
 
-export default ControllerAndMusicDetails;
+export default PlayerController;

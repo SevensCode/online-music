@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { withRouter } from 'umi';
 import Header from '@/layouts/components/Header';
 import MusicPlayer from '@/layouts/components/MusicPlayer';
@@ -9,14 +9,14 @@ import { user_info, user_likeMusicIds } from '@/recoil/user';
 import { STORE_USER_INFO } from '@/constants';
 import store from 'store';
 import { UserRequst } from '@/api/user';
-import LyricsView from '@/layouts/components/LyricsView';
-import { audio_isLyricsView, audio_musicDetails } from '@/recoil/audio';
+import FullScreenPlayer from '@/layouts/components/FullScreenPlayer';
+import { audio_isShowFullScreenPlayer } from '@/recoil/audio';
+import { useScroll } from '@/hooks';
 
 export default withRouter(({ children, location }) => {
     const setUserinfo = useSetRecoilState(user_info);
-    const musicDetails = useRecoilValue(audio_musicDetails);
     const setLikeMusicIds = useSetRecoilState(user_likeMusicIds);
-    const isLyricsView = useRecoilValue(audio_isLyricsView);
+    const isShowFullScreenPlayer = useRecoilValue(audio_isShowFullScreenPlayer);
     useEffect(() => {
         const userinfo = store.get(STORE_USER_INFO);
         if (userinfo) {
@@ -26,9 +26,15 @@ export default withRouter(({ children, location }) => {
             });
         }
     }, []);
-
+    const layout = useRef<HTMLDivElement>(null);
+    const toScroll = useScroll();
+    useLayoutEffect(() => {
+        if (layout.current !== null) {
+            toScroll(layout.current, 900, 500);
+        }
+    }, []);
     return (
-        <div className={'layout'}>
+        <div className={'layout'} ref={layout}>
             <Header />
             <main>
                 <TransitionGroup component={null}>
@@ -44,11 +50,11 @@ export default withRouter(({ children, location }) => {
             <MusicPlayer />
             <CSSTransition
                 unmountOnExit
-                in={isLyricsView}
+                in={isShowFullScreenPlayer}
                 classNames="bottomLineIn"
-                timeout={400}
+                timeout={300}
             >
-                <LyricsView />
+                <FullScreenPlayer />
             </CSSTransition>
         </div>
     );

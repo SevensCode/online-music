@@ -73,3 +73,26 @@ export const useStatus = (): [Loading, () => void, () => void, () => void] => {
     }, [status]);
     return [status, loading, success, error];
 };
+
+// 滚动到指定位置
+export const useScroll = <E extends HTMLElement>(): ((
+    el: E,
+    to: number,
+    duration: number,
+) => void) => {
+    const cubic = (value: number) => Math.pow(value, 3);
+    const easeInOutCubic = (value: number) =>
+        value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2;
+    return useCallback((el: E, to: number, duration: number = 500) => {
+        const beginTime = Date.now();
+        const frame = () => {
+            const beginValue = el.scrollTop;
+            const progress = (Date.now() - beginTime) / duration;
+            if (beginValue <= to) {
+                el.scrollTop += easeInOutCubic(progress);
+                requestAnimationFrame(frame);
+            }
+        };
+        requestAnimationFrame(frame);
+    }, []);
+};
