@@ -84,14 +84,24 @@ export const useScroll = <E extends HTMLElement>(): ((
     const easeInOutCubic = (value: number) =>
         value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2;
     return useCallback((el: E, to: number, duration: number = 500) => {
-        const beginTime = Date.now();
-        const frame = () => {
-            const beginValue = el.scrollTop;
-            const progress = (Date.now() - beginTime) / duration;
-            if (beginValue <= to) {
-                el.scrollTop += easeInOutCubic(progress);
-                requestAnimationFrame(frame);
-            }
+        const scrollTop = el.scrollTop;
+        let start: number;
+        let offset: number;
+        const frame = (timestamp: number) => {
+            if (start === undefined) start = timestamp;
+            const elapsed = timestamp - start;
+            if (elapsed >= duration) return;
+            scrollTop > to
+                ? (offset = Math.floor(
+                      scrollTop -
+                          easeInOutCubic(elapsed / duration) * (scrollTop - to),
+                  ))
+                : (offset = Math.ceil(
+                      scrollTop +
+                          easeInOutCubic(elapsed / duration) * (to - scrollTop),
+                  ));
+            requestAnimationFrame(frame);
+            el.scrollTo(0, offset);
         };
         requestAnimationFrame(frame);
     }, []);

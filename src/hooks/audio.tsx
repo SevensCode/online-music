@@ -11,7 +11,7 @@ import {
 } from '@/recoil/audio';
 import { useCallback, useEffect, useRef } from 'react';
 import { MusicDetails, MusicLyrics } from '@/recoil/types/audio';
-import { millisecondTurnTime, parseLyric, secondTurnTime } from '@/utils';
+import { millisecondTurnTime, secondTurnTime } from '@/utils';
 import { MusicRequest } from '@/api/music';
 import { message } from 'antd';
 
@@ -63,11 +63,21 @@ export const useAudioPlay = () => {
             musicDetails.id,
         );
         if (code !== 200) return false;
-        const lyrics = parseLyric(lrc.lyric, tlyric.lyric);
-        const lyricArr = Object.keys(lyrics).map((key): MusicLyrics => {
-            const { lyric, zhLyric } = lyrics[key];
-            return { time: Number(key), lyric, zhLyric };
-        });
+        const lyrics = parseLyric(lrc.lyric, tlyric?.lyric);
+        let lyricArr;
+        // 不可滚动版歌词
+        if (lyrics instanceof Array) {
+            lyricArr = lyrics.map((lyric): MusicLyrics => {
+                return { time: null, lyric, zhLyric: undefined };
+            });
+        } else {
+            // 可滚动版歌词
+            lyricArr = Object.keys(lyrics).map((key): MusicLyrics => {
+                const { lyric, zhLyric } = lyrics[key];
+                return { time: Number(key), lyric, zhLyric };
+            });
+        }
+
         setLyrics(lyricArr);
     }, []);
 
@@ -95,4 +105,55 @@ export const useAudioPause = () => {
         audio.pause();
         setMusicStatus(0);
     }, []);
+};
+
+type lyricObj = { [time: string]: { zhLyric: string; lyric: string } };
+type lyricArr = string[];
+export const parseLyric = (
+    lyr: string,
+    zhLyr?: string,
+): lyricObj | lyricArr => {
+    const lyrics = lyr.split('\n');
+    const zhLyrics = zhLyr?.split('\n') || [];
+    let lyricObj: lyricObj = {};
+    // [00:00.000] 作曲 : 林俊杰
+    // 定义正则表达式匹配 00:00.000
+    const matchMinutesAndSeconds = /\d*:\d*\.\d*/g;
+    const hanldeLyricTime = (lyric: string): number | undefined => {
+        // 提取时间
+        const timeStrArr = lyric.match(matchMinutesAndSeconds);
+        if (timeStrArr === null) return;
+        // 提取分钟 和 秒数
+        const [minute, second] = timeStrArr[0].split(':');
+        // 合并时间, 将分钟和秒钟都合并为秒钟,如果是0 就返回1
+        return parseInt(minute) * 60 + parseInt(second) || 1;
+    };
+    lyrics.forEach((lyric) => {
+        const time = hanldeLyricTime(lyric);
+        if (!time) return;
+        // 5.处理歌词,保存数据
+        lyricObj[time] = {
+            zhLyric: '',
+            lyric: lyric
+                .replace(matchMinutesAndSeconds, '')
+                .replace(/\[]/g, '')
+                .trim(),
+        };
+    });
+    zhLyrics.forEach((lyric) => {
+        const time = hanldeLyricTime(lyric);
+        if (!time) return;
+        lyricObj[String(time)] = {
+            zhLyric: lyric
+                .replace(matchMinutesAndSeconds, '')
+                .replace(/\[]/g, '')
+                .trim(),
+            lyric: lyricObj[String(time)].lyric,
+        };
+    });
+    // 返回不可滚动的歌词
+    if (!Object.keys(lyricObj).length) {
+        return lyrics;
+    }
+    return lyricObj;
 };

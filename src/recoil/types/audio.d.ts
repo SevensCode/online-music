@@ -20,5 +20,9 @@ export interface MusicTime {
     second: number | string;
 }
 
-export type MusicLyrics = { time: number; lyric: string; zhLyric?: string };
+export type MusicLyrics = {
+    time: number | null;
+    lyric: string;
+    zhLyric?: string;
+};
 export type MusicLyricsArr = MusicLyrics[];

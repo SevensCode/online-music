@@ -7,9 +7,10 @@ import {
     audio_lyrics,
     audio_progressBarValue,
 } from '@/recoil/audio';
+import { useScroll } from '@/hooks';
 
 const Lyrics: FC = () => {
-    const lastIndex = useRef<number>(0);
+    const lastIndex = useRef<number | null>(null);
     const lyricsBox = useRef<HTMLDivElement>(null);
     const audio = useRecoilValue(audio_instance);
     const progressBarValue = useRecoilValue(audio_progressBarValue);
@@ -17,22 +18,35 @@ const Lyrics: FC = () => {
     const setPlaybackProgress = useCallback((time) => {
         audio.currentTime = time;
     }, []);
+    // 歌词高亮
     const activeIndex = useMemo(() => {
         const index = lyrics.findIndex(
-            (item, index) => item.time === progressBarValue,
+            ({ lyric, time }, index) =>
+                time === progressBarValue && lyric.length,
         );
         if (index !== -1 && index !== lastIndex.current)
             lastIndex.current = index;
         return lastIndex.current;
     }, [progressBarValue]);
+    const toScroll = useScroll();
+    // 歌词滚动
     useEffect(() => {
-        if (lyricsBox.current === null) return;
-        // lyricsBox.current.scrollTop = lyricsBox.current.children[lastIndex.current].offsetTop - 50
+        if (lyricsBox.current === null || lastIndex.current === null) return;
+        const { offsetHeight: boxHeight, children } = lyricsBox.current;
+        const { offsetTop, offsetHeight } = children[
+            lastIndex.current
+        ] as HTMLElement;
+        const offset = offsetTop - boxHeight / 2 + offsetHeight / 2;
+        toScroll(lyricsBox.current, offset, 300);
     }, [lastIndex.current]);
     return (
         <div className={'lyrics'} ref={lyricsBox}>
-            {lyrics.map((value, i) => {
-                return (
+            {/*如果 time 都是null 就表示当前歌词不支持滚动*/}
+            {lyrics.every(({ time }) => time === null) ? (
+                <p className={'lyrics-donTScroll'}>*该歌词不支持自动滚动* </p>
+            ) : undefined}
+            {lyrics.map(({ lyric, zhLyric, time }, i) => {
+                return lyric.length ? (
                     <div
                         key={i}
                         className={[
@@ -40,13 +54,17 @@ const Lyrics: FC = () => {
                             activeIndex === i ? 'active' : undefined,
                         ].join(' ')}
                     >
-                        <p>{value.lyric}</p>
-                        <p>{value.zhLyric}</p>
-                        <CaretLeftOutlined
-                            onClick={() => setPlaybackProgress(value.time)}
-                            className={'lyrics-playIcon'}
-                        />
+                        <p>{lyric}</p>
+                        <p>{zhLyric}</p>
+                        {time ? (
+                            <CaretLeftOutlined
+                                onClick={() => setPlaybackProgress(time)}
+                                className={'lyrics-playIcon'}
+                            />
+                        ) : undefined}
                     </div>
+                ) : (
+                    <div key={i} className={'lyrics-blankSpace'}></div>
                 );
             })}
         </div>
