@@ -11,9 +11,10 @@ import {
     audio_totalPlayTime,
 } from '@/recoil/audio';
 import './index.less';
+import { MusicDetails } from '@/recoil/types/audio';
 
 const PlayerController = () => {
-    const musicDetails = useRecoilValue(audio_musicDetails);
+    const musicDetails = useRecoilValue(audio_musicDetails) as MusicDetails;
     // 播放时间
     const playProgressTime = useRecoilValue(audio_playProgressTime);
     const totalPlayTime = useRecoilValue(audio_totalPlayTime);
@@ -22,24 +23,24 @@ const PlayerController = () => {
             <div className="playerController-coverPicture-container">
                 <div className="playerController-coverPicture-box">
                     <ImageLazy
-                        src={musicDetails?.coverPicture + '?param=1024y1024'}
+                        src={musicDetails.coverPicture + '?param=1024y1024'}
                         className="playerController-coverPicture"
                     ></ImageLazy>
                 </div>
             </div>
             <div className="playerController-content">
                 <div className="playerController-content-text">
-                    <h1>{musicDetails?.name}</h1>
+                    <h1>{musicDetails.name}</h1>
                     <p>
                         <AuthorTags
                             className={'playerController-content-author'}
-                            authors={musicDetails?.authors || []}
+                            authors={musicDetails.authors || []}
                         />
                     </p>
                 </div>
                 <Like
                     className={'playerController-content-like'}
-                    id={1}
+                    id={musicDetails.id}
                     size={'28px'}
                 ></Like>
             </div>

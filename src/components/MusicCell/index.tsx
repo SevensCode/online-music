@@ -49,7 +49,7 @@ const MusicCell: FC<Props> = ({
                     <AuthorTags authors={authors} />
                 </p>
             </div>
-            <Like id={id} size={'16px'} />
+            <Like id={id} size={'20px'} />
         </div>
     );
 };

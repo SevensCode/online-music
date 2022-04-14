@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { user_info, user_likeMusicIds } from '@/recoil/user';
-import { HeartFilled, HeartOutlined, SyncOutlined } from '@ant-design/icons';
+import { HeartFilled, HeartOutlined, LoadingOutlined } from '@ant-design/icons';
 import { message } from 'antd';
 import { history } from 'umi';
 import { UserRequst } from '@/api/user';
@@ -11,9 +11,17 @@ interface Props {
     id: number;
     size?: string;
     className?: string;
+    likeColor?: string;
+    notlikeColor?: string;
 }
 
-const Like: FC<Props> = ({ id, size = '16px', className }) => {
+const Like: FC<Props> = ({
+    id,
+    size = '16px',
+    className,
+    likeColor = '#EC4141',
+    notlikeColor = '#b7b7b7',
+}) => {
     const [likeMusicIds, setLikeMusicIds] = useRecoilState(user_likeMusicIds);
     const useinfo = useRecoilValue(user_info);
     const [isLoading, setLoading] = useState(false);
@@ -41,18 +49,25 @@ const Like: FC<Props> = ({ id, size = '16px', className }) => {
         },
         [useinfo],
     );
-    if (isLoading) return <SyncOutlined spin />;
+    if (isLoading)
+        return (
+            <LoadingOutlined
+                className={className}
+                style={{ fontSize: size, color: '#EC4141' }}
+                spin
+            />
+        );
     return isLike ? (
         <HeartFilled
             onClick={() => asyncSetLike(false)}
-            style={{ fontSize: size }}
-            className={['like-common-hover like', className].join(' ')}
+            style={{ fontSize: size, color: likeColor }}
+            className={['like-common-hover', className].join(' ')}
         />
     ) : (
         <HeartOutlined
             onClick={() => asyncSetLike(true)}
-            style={{ fontSize: size }}
-            className={['like-common-hover notLike', className].join(' ')}
+            style={{ fontSize: size, color: notlikeColor }}
+            className={['like-common-hover', className].join(' ')}
         />
     );
 };

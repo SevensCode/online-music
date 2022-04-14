@@ -7,6 +7,7 @@ import {
 } from '@/recoil/audio';
 import PlayerController from '@/layouts/components/FullScreenPlayer/PlayerController';
 import Lyrics from '@/layouts/components/FullScreenPlayer/Lyrics';
+import Comment from '@/layouts/components/FullScreenPlayer/Comment';
 
 const FullScreenPlayer: FC = () => {
     const musicDetails = useRecoilValue(audio_musicDetails);
@@ -21,8 +22,13 @@ const FullScreenPlayer: FC = () => {
             }}
         >
             <div className="lyricsView-maskLayer gaussianBlur">
-                <PlayerController />
-                <Lyrics />
+                <div className={'lyricsView-player'}>
+                    <PlayerController />
+                    <Lyrics />
+                </div>
+                <div className={'lyricsView-Comment-container'}>
+                    <Comment />
+                </div>
                 <i
                     onClick={() => setIsLyricsView(false)}
                     className="iconfont icon-rollback lyricsView-back"

@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, {
+    FC,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import './index.less';
 import { CaretLeftOutlined } from '@ant-design/icons';
 import { useRecoilValue } from 'recoil';
@@ -12,6 +19,7 @@ import { useScroll } from '@/hooks';
 const Lyrics: FC = () => {
     const lastIndex = useRef<number | null>(null);
     const lyricsBox = useRef<HTMLDivElement>(null);
+    const [isScroll, setIsScroll] = useState(true);
     const audio = useRecoilValue(audio_instance);
     const progressBarValue = useRecoilValue(audio_progressBarValue);
     const lyrics = useRecoilValue(audio_lyrics);
@@ -31,7 +39,12 @@ const Lyrics: FC = () => {
     const toScroll = useScroll();
     // 歌词滚动
     useEffect(() => {
-        if (lyricsBox.current === null || lastIndex.current === null) return;
+        if (
+            lyricsBox.current === null ||
+            lastIndex.current === null ||
+            !isScroll
+        )
+            return;
         const { offsetHeight: boxHeight, children } = lyricsBox.current;
         const { offsetTop, offsetHeight } = children[
             lastIndex.current
@@ -39,8 +52,19 @@ const Lyrics: FC = () => {
         const offset = offsetTop - boxHeight / 2 + offsetHeight / 2;
         toScroll(lyricsBox.current, offset, 300);
     }, [lastIndex.current]);
+    const onMouseMove = useCallback(() => {
+        setIsScroll(false);
+    }, []);
+    const onMouseLeave = useCallback(() => {
+        setIsScroll(true);
+    }, []);
     return (
-        <div className={'lyrics'} ref={lyricsBox}>
+        <div
+            className={'lyrics'}
+            ref={lyricsBox}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+        >
             {/*如果 time 都是null 就表示当前歌词不支持滚动*/}
             {lyrics.every(({ time }) => time === null) ? (
                 <p className={'lyrics-donTScroll'}>*该歌词不支持自动滚动* </p>
