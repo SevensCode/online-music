@@ -11,6 +11,7 @@ import store from 'store';
 import { UserRequst } from '@/api/user';
 import FullScreenPlayer from '@/layouts/components/FullScreenPlayer';
 import { audio_isShowFullScreenPlayer } from '@/recoil/audio';
+import CommentInputBox from '@/components/Comment/CommentInputBox';
 
 export default withRouter(({ children, location }) => {
     const setUserinfo = useSetRecoilState(user_info);
@@ -29,6 +30,7 @@ export default withRouter(({ children, location }) => {
         <div className={'layout'}>
             <Header />
             <main>
+                <CommentInputBox />
                 <TransitionGroup component={null}>
                     <CSSTransition
                         key={location.pathname}
