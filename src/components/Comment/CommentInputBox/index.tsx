@@ -1,69 +1,51 @@
-import React, { FC, useCallback, useState, KeyboardEvent, useRef } from 'react';
-import { Button } from 'antd';
+import React, { FC, useCallback, useState } from 'react';
+import { Button, Input } from 'antd';
 import './index.less';
+
+const { TextArea } = Input;
 
 interface Props {
     className?: string;
-    maxLength?: string;
+    maxLength?: number;
+
+    onChange?(value: string): void;
+
+    onSubmit?(value: string): void;
 }
 
-const CommentInputBox: FC<Props> = ({ className, maxLength = 10 }) => {
-    const textArea = useRef<HTMLDivElement>(null);
-    const [placeholderVisible, setPlaceholderVisible] = useState(true);
+const CommentInputBox: FC<Props> = ({
+    className,
+    maxLength = 140,
+    onChange,
+    onSubmit,
+}) => {
     const [value, setValue] = useState('');
-    const onFocus = useCallback(() => {
-        setPlaceholderVisible(false);
+    const onTextAreaChange = useCallback((e) => {
+        setValue(e.target.value);
+        onChange && onChange(e.target.value);
     }, []);
-    const onBlur = useCallback(() => {
-        setPlaceholderVisible(!value.length);
+    const onTextAreaSubmit = useCallback(() => {
+        onSubmit && onSubmit(value);
     }, [value]);
-    const onChange = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
-        console.log((e.target as HTMLElement).innerText.length);
-        setValue((e.target as HTMLElement).innerText);
-    }, []);
-    const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
-        const { innerText } = e.target as HTMLDivElement;
-        console.log(
-            (e.target as HTMLDivElement).ownerDocument.defaultView
-                ?.getSelection()
-                .getRangeAt(0),
-        );
-        let allowKey = [
-            'ArrowUp',
-            'ArrowDown',
-            'ArrowLeft',
-            'ArrowRight',
-            'Enter',
-            'Backspace',
-        ]; // 上下左右 回车 删除
-        if (innerText.length === maxLength && !allowKey.includes(e.code)) {
-            e.preventDefault();
-        }
-    }, []);
     return (
         <div className={['commentInputBox', className].join(' ')}>
             <div className="commentInputBox-textArea-box">
-                <div
-                    ref={textArea}
-                    suppressContentEditableWarning={true}
-                    contentEditable
-                    onBlur={onBlur}
-                    onFocus={onFocus}
-                    onInput={onChange}
-                    onKeyDown={onKeyDown}
+                <TextArea
+                    onChange={onTextAreaChange}
+                    autoSize
+                    maxLength={maxLength}
+                    placeholder={'说说你的看法吧！'}
                     className={'commentInputBox-textArea'}
-                >
-                    {placeholderVisible && (
-                        <div className="commentInputBox-textArea-placeholder">
-                            说说你的看法吧！
-                        </div>
-                    )}
-                </div>
+                ></TextArea>
                 <p className={'commentInputBox-count'}>
-                    剩余<span>100</span>字
+                    剩余<span>{maxLength - value.length}</span>字
                 </p>
             </div>
-            <Button shape={'round'} className={'commentInputBox-button-submit'}>
+            <Button
+                shape={'round'}
+                className={'commentInputBox-button-submit'}
+                onClick={onTextAreaSubmit}
+            >
                 评论
             </Button>
         </div>

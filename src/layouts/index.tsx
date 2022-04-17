@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'umi';
 import Header from '@/layouts/components/Header';
 import MusicPlayer from '@/layouts/components/MusicPlayer';
@@ -26,11 +26,16 @@ export default withRouter(({ children, location }) => {
             });
         }
     }, []);
+    const [value, setValue] = useState('');
+    const onChange = (v: string) => {
+        setValue(v);
+    };
     return (
         <div className={'layout'}>
             <Header />
             <main>
-                <CommentInputBox />
+                <CommentInputBox onChange={onChange} />
+                <p style={{ whiteSpace: 'pre-wrap' }}>{value}</p>
                 <TransitionGroup component={null}>
                     <CSSTransition
                         key={location.pathname}
