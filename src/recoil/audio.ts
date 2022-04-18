@@ -1,10 +1,11 @@
 import { atom } from 'recoil';
-import { MusicDetails, MusicLyricsArr, MusicTime } from '@/recoil/types/audio';
-
+import { MusicTime } from '@/recoil/types/music';
+import { STORE_AUDIO_VOLUME, STORE_PLAY_TYPE } from '@/constants';
+import store from 'store';
 // 播放类型
 export const audio_playType = atom<number>({
     key: 'audio_playType',
-    default: 0,
+    default: store.get(STORE_PLAY_TYPE) || 0,
 });
 
 // 音频实例
@@ -13,13 +14,7 @@ export const audio_instance = atom({
     default: new Audio(),
 });
 
-// 音乐详情
-export const audio_musicDetails = atom<Nullable<MusicDetails>>({
-    key: 'audio_musicDetails',
-    default: null,
-});
-
-// 音乐状态
+// 播放器状态
 export const auido_status = atom<number>({
     key: 'auido_status',
     default: 0, // 0未播 1加载中 2播放中
@@ -49,14 +44,8 @@ export const audio_playProgressTime = atom<MusicTime>({
     default: { minute: 0, second: 0 },
 });
 
-// 歌词视图是否显示
-export const audio_isShowFullScreenPlayer = atom<boolean>({
-    key: 'audio_isShowFullScreenPlayer',
-    default: false,
-});
-
-// 歌词
-export const audio_lyrics = atom<MusicLyricsArr>({
-    key: 'audio_lyrics',
-    default: [],
+// 音量
+export const audio_volume = atom<number>({
+    key: 'audio_volume',
+    default: store.get(STORE_AUDIO_VOLUME) ?? 50,
 });

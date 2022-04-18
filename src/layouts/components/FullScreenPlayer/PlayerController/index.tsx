@@ -5,16 +5,13 @@ import Like from '@/components/Like';
 import AudioProgressBar from '@/components/Audio/ProgressBar';
 import AudioController from '@/components/Audio/Controller';
 import { useRecoilValue } from 'recoil';
-import {
-    audio_musicDetails,
-    audio_playProgressTime,
-    audio_totalPlayTime,
-} from '@/recoil/audio';
+import { audio_playProgressTime, audio_totalPlayTime } from '@/recoil/audio';
 import './index.less';
-import { MusicDetails } from '@/recoil/types/audio';
+import { MusicDetail } from '@/recoil/types/music';
+import { music_detail } from '@/recoil/muisc';
 
 const PlayerController = () => {
-    const musicDetails = useRecoilValue(audio_musicDetails) as MusicDetails;
+    const musicDetail = useRecoilValue(music_detail) as MusicDetail;
     // 播放时间
     const playProgressTime = useRecoilValue(audio_playProgressTime);
     const totalPlayTime = useRecoilValue(audio_totalPlayTime);
@@ -23,24 +20,24 @@ const PlayerController = () => {
             <div className="playerController-coverPicture-container">
                 <div className="playerController-coverPicture-box">
                     <ImageLazy
-                        src={musicDetails.coverPicture + '?param=1024y1024'}
+                        src={musicDetail.coverPicture + '?param=1024y1024'}
                         className="playerController-coverPicture"
                     ></ImageLazy>
                 </div>
             </div>
             <div className="playerController-content">
                 <div className="playerController-content-text">
-                    <h1>{musicDetails.name}</h1>
+                    <h1>{musicDetail.name}</h1>
                     <p>
                         <AuthorTags
                             className={'playerController-content-author'}
-                            authors={musicDetails.authors || []}
+                            authors={musicDetail.authors || []}
                         />
                     </p>
                 </div>
                 <Like
                     className={'playerController-content-like'}
-                    id={musicDetails.id}
+                    id={musicDetail.id}
                     size={'28px'}
                 ></Like>
             </div>

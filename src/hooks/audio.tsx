@@ -2,24 +2,23 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
     audio_instance,
     audio_isDragProgressBar,
-    audio_lyrics,
-    audio_musicDetails,
     audio_playProgressTime,
     audio_progressBarValue,
     audio_totalPlayTime,
     auido_status,
 } from '@/recoil/audio';
 import { useCallback, useEffect, useRef } from 'react';
-import { MusicDetails, MusicLyrics } from '@/recoil/types/audio';
+import { MusicDetail, MusicLyrics } from '@/recoil/types/music';
 import { millisecondTurnTime, secondTurnTime } from '@/utils';
 import { MusicRequest } from '@/api/music';
 import { message } from 'antd';
+import { music_detail, music_lyrics } from '@/recoil/muisc';
 
 // 音频播放器
 export const useAudioPlay = () => {
     const audio = useRecoilValue(audio_instance);
     // 音乐详情
-    const setMusicDetails = useSetRecoilState(audio_musicDetails);
+    const setMusicDetail = useSetRecoilState(music_detail);
     // 播放器状态
     const setAudioStatus = useSetRecoilState(auido_status);
     // 进度条的值
@@ -31,8 +30,8 @@ export const useAudioPlay = () => {
     // 进度条是否被拖动
     const isDragProgressBar = useRecoilValue(audio_isDragProgressBar);
     const isDragProgressBarRef = useRef<boolean>(isDragProgressBar);
-    // 获取歌词
-    const setLyrics = useSetRecoilState(audio_lyrics);
+    // 设置歌词
+    const setLyrics = useSetRecoilState(music_lyrics);
     useEffect(() => {
         isDragProgressBarRef.current = isDragProgressBar;
     }, [isDragProgressBar]);
@@ -55,12 +54,12 @@ export const useAudioPlay = () => {
     }, []);
 
     // 设置音乐信息
-    const setMusicInfo = useCallback(async (musicDetails) => {
-        setMusicDetails(musicDetails);
-        setTotalPlayTime(millisecondTurnTime(musicDetails.duration));
-        audio.src = `https://music.163.com/song/media/outer/url?id=${musicDetails.id}.mp3`;
+    const setMusicInfo = useCallback(async (musicDetail) => {
+        setMusicDetail(musicDetail);
+        setTotalPlayTime(millisecondTurnTime(musicDetail.duration));
+        audio.src = `https://music.163.com/song/media/outer/url?id=${musicDetail.id}.mp3`;
         const { code, lrc, tlyric } = await MusicRequest.getLyrics(
-            musicDetails.id,
+            musicDetail.id,
         );
         if (code !== 200) return false;
         const lyrics = parseLyric(lrc.lyric, tlyric?.lyric);
@@ -91,8 +90,8 @@ export const useAudioPlay = () => {
             audio.removeEventListener('ended', ended);
         };
     }, []);
-    return (musicDetails?: MusicDetails) => {
-        if (musicDetails ?? musicDetails) setMusicInfo(musicDetails);
+    return (musicDetail?: MusicDetail) => {
+        if (musicDetail ?? musicDetail) setMusicInfo(musicDetail);
         setAudioStatus(1);
         audio.play().then((r) => setAudioStatus(2));
     };

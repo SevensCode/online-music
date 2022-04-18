@@ -1,34 +1,26 @@
 import React, { FC } from 'react';
 import './index.less';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-    audio_isShowFullScreenPlayer,
-    audio_musicDetails,
-} from '@/recoil/audio';
 import PlayerController from '@/layouts/components/FullScreenPlayer/PlayerController';
 import Lyrics from '@/layouts/components/FullScreenPlayer/Lyrics';
-import Comment from '@/layouts/components/FullScreenPlayer/Comment';
+import { music_detail } from '@/recoil/muisc';
+import { setting_isShowFullScreenPlayer } from '@/recoil/setting';
 
 const FullScreenPlayer: FC = () => {
-    const musicDetails = useRecoilValue(audio_musicDetails);
-    const setIsLyricsView = useSetRecoilState(audio_isShowFullScreenPlayer);
+    const musicDetail = useRecoilValue(music_detail);
+    const setIsLyricsView = useSetRecoilState(setting_isShowFullScreenPlayer);
     return (
         <div
             className={'lyricsView'}
             style={{
                 backgroundImage: `url(${
-                    musicDetails?.coverPicture + '?param=1024y1024'
+                    musicDetail?.coverPicture + '?param=1024y1024'
                 })`,
             }}
         >
             <div className="lyricsView-maskLayer gaussianBlur">
-                <div className={'lyricsView-player'}>
-                    <PlayerController />
-                    <Lyrics />
-                </div>
-                <div className={'lyricsView-Comment-container'}>
-                    <Comment />
-                </div>
+                <PlayerController />
+                <Lyrics />
                 <i
                     onClick={() => setIsLyricsView(false)}
                     className="iconfont icon-rollback lyricsView-back"

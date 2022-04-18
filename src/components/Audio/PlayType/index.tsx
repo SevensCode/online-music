@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import { AUDIO_PLAY_TYPE } from '@/constants';
+import { AUDIO_PLAY_TYPE, STORE_PLAY_TYPE } from '@/constants';
 import { Tooltip } from 'antd';
 import { useRecoilState } from 'recoil';
 import { audio_playType } from '@/recoil/audio';
@@ -8,9 +8,12 @@ import './index.less';
 const AudioPlayType: FC<{ className?: string }> = ({ className }) => {
     const [playType, setPlayType] = useRecoilState(audio_playType);
     const handlePlayTyoe = useCallback(() => {
+        let type;
         playType !== AUDIO_PLAY_TYPE.length - 1
-            ? setPlayType(playType + 1)
-            : setPlayType(0);
+            ? (type = playType + 1)
+            : (type = 0);
+        setPlayType(type);
+        store.set(STORE_PLAY_TYPE, type);
     }, [playType]);
     return (
         <Tooltip placement="top" title={AUDIO_PLAY_TYPE[playType].name}>

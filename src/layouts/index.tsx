@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'umi';
 import Header from '@/layouts/components/Header';
 import MusicPlayer from '@/layouts/components/MusicPlayer';
@@ -10,13 +10,14 @@ import { STORE_USER_INFO } from '@/constants';
 import store from 'store';
 import { UserRequst } from '@/api/user';
 import FullScreenPlayer from '@/layouts/components/FullScreenPlayer';
-import { audio_isShowFullScreenPlayer } from '@/recoil/audio';
-import CommentInputBox from '@/components/Comment/CommentInputBox';
+import { setting_isShowFullScreenPlayer } from '@/recoil/setting';
 
 export default withRouter(({ children, location }) => {
     const setUserinfo = useSetRecoilState(user_info);
     const setLikeMusicIds = useSetRecoilState(user_likeMusicIds);
-    const isShowFullScreenPlayer = useRecoilValue(audio_isShowFullScreenPlayer);
+    const isShowFullScreenPlayer = useRecoilValue(
+        setting_isShowFullScreenPlayer,
+    );
     useEffect(() => {
         const userinfo = store.get(STORE_USER_INFO);
         if (userinfo) {
@@ -26,16 +27,10 @@ export default withRouter(({ children, location }) => {
             });
         }
     }, []);
-    const [value, setValue] = useState('');
-    const onChange = (v: string) => {
-        setValue(v);
-    };
     return (
         <div className={'layout'}>
             <Header />
             <main>
-                <CommentInputBox onChange={onChange} />
-                <p style={{ whiteSpace: 'pre-wrap' }}>{value}</p>
                 <TransitionGroup component={null}>
                     <CSSTransition
                         key={location.pathname}

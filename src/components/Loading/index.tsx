@@ -13,7 +13,7 @@ const Loading: FC<Props> = ({
 }) => {
     return (
         <p className={['loging', className].join(' ')}>
-            <LoadingOutlined style={{ fontSize: '30' }} spin />{' '}
+            <LoadingOutlined style={{ fontSize: '30px' }} spin />{' '}
             <span>{content}</span>
         </p>
     );

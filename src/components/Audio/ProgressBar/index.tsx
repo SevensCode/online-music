@@ -5,11 +5,11 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
     audio_instance,
     audio_isDragProgressBar,
-    audio_musicDetails,
     audio_playProgressTime,
     audio_progressBarValue,
 } from '@/recoil/audio';
 import { secondTurnTime } from '@/utils';
+import { music_detail } from '@/recoil/muisc';
 
 interface Props {
     tooltipVisible?: boolean;
@@ -18,7 +18,7 @@ interface Props {
 
 const AudioProgressBar: FC<Props> = ({ className, tooltipVisible = true }) => {
     const audio = useRecoilValue(audio_instance);
-    const musicDetails = useRecoilValue(audio_musicDetails);
+    const musicDetail = useRecoilValue(music_detail);
     // 播放时间
     const [playProgressTime, stePlayProgressTime] = useRecoilState(
         audio_playProgressTime,
@@ -59,7 +59,7 @@ const AudioProgressBar: FC<Props> = ({ className, tooltipVisible = true }) => {
             step={1}
             tipFormatter={tooltipVisible ? tipFormatter : null}
             min={0}
-            max={musicDetails ? Math.round(musicDetails.duration / 1000) : 0}
+            max={musicDetail ? Math.round(musicDetail.duration / 1000) : 0}
             value={progressBarValue}
         />
     );

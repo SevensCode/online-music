@@ -1,5 +1,5 @@
 // 是否和上次字符串一样
-import { MusicDetails } from '@/recoil/types/audio';
+import { MusicDetail } from '@/recoil/types/music';
 
 export const whetherAndLastTimeStringSame = (): ((str?: string) => boolean) => {
     let lastStr: string | undefined;
@@ -29,7 +29,7 @@ export const numberUnit = (number: number): string | number => {
 /**
  * 音乐详情格式化
  * */
-export const formatMusicDetails = (musicDeatils: any): MusicDetails => {
+export const formatMusicDetail = (musicDeatils: any): MusicDetail => {
     const {
         id,
         name,

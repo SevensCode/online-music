@@ -9,8 +9,8 @@ const Comment: FC = () => {
             <h1 className={'comment-title'}>
                 评论<span>（已有12321条评论）</span>
             </h1>
-            <Loading />
-            <CommentInputBox />
+            <Loading className={'comment-loading'} />
+            <CommentInputBox className={'comment-input'} />
         </div>
     );
 };

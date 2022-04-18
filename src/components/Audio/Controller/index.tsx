@@ -2,8 +2,9 @@ import React, { FC, useCallback, useMemo } from 'react';
 import { Tooltip } from 'antd';
 import './index.less';
 import { useRecoilValue } from 'recoil';
-import { audio_musicDetails, auido_status } from '@/recoil/audio';
+import { auido_status } from '@/recoil/audio';
 import { useAudioPause, useAudioPlay } from '@/hooks/audio';
+import { music_detail } from '@/recoil/muisc';
 
 interface Props {
     size?: 'small' | 'large';
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const AudioController: FC<Props> = ({ size = 'small', color }) => {
-    const musicDetails = useRecoilValue(audio_musicDetails);
+    const musicDetail = useRecoilValue(music_detail);
     const audioStatus = useRecoilValue(auido_status);
     const audioPause = useAudioPause();
     const audioPlay = useAudioPlay();
@@ -23,14 +24,13 @@ const AudioController: FC<Props> = ({ size = 'small', color }) => {
         [audioStatus],
     );
     const playOrPause = useCallback(() => {
-        console.log(audioStatus);
         audioStatus === 2 ? audioPause() : audioPlay();
     }, [audioStatus]);
     return (
         <div
             className={[
                 'controller',
-                musicDetails === null ? 'disable' : undefined,
+                musicDetail === null ? 'disable' : undefined,
             ].join(' ')}
         >
             <Tooltip placement="top" title="上一首">

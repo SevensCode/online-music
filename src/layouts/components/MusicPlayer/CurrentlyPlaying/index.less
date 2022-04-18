@@ -1,0 +1,87 @@
+.currentlyPlaying {
+  position: absolute;
+  width: 600px;
+  height: calc(100vh - 150px);
+  right: 18px;
+  bottom: 80px;
+  border-radius: @radius;
+  padding: 0 18px 18px 18px;
+  background: @subBackgroundColor;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .currentlyPlaying-other {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid @divder;
+
+    .currentlyPlaying-total,
+    .currentlyPlaying-clearTheList {
+      color: @subTextColor;
+      cursor: pointer;
+
+      i {
+        margin-right: 5px;
+      }
+    }
+
+    .currentlyPlaying-clearTheList:hover {
+      color: @subTheme;
+    }
+  }
+
+  .currentlyPlaying-ul {
+    width: 100%;
+    margin-top: 10px;
+    flex: 1;
+    overflow: auto;
+
+    .currentlyPlaying-li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px 10px 30px;
+      border-radius: @radius;
+      transition: 0.1s linear;
+      color: @subTextColor;
+      position: relative;
+
+      .currentlyPlaying-type {
+        position: absolute;
+        left: 5px;
+
+        i {
+          font-size: 10px;
+        }
+      }
+
+      &.active {
+        color: @subTheme;
+      }
+
+      &:hover {
+        background: @transparentBackground;
+      }
+
+      .currentlyPlaying-name,
+      .currentlyPlaying-author,
+      .currentlyPlaying-duration {
+      }
+
+      .currentlyPlaying-name {
+        flex: 0.4;
+      }
+
+      .currentlyPlaying-author {
+        flex: 0.4;
+      }
+
+      .currentlyPlaying-duration {
+        flex: 0.1;
+      }
+    }
+  }
+}

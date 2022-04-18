@@ -7,20 +7,19 @@ import MusicVolume from '@/components/Audio/Volume';
 import { Tooltip } from 'antd';
 import AudioProgressBar from '@/components/Audio/ProgressBar';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-    audio_isDragProgressBar,
-    audio_isShowFullScreenPlayer,
-    audio_musicDetails,
-} from '@/recoil/audio';
+import { audio_isDragProgressBar } from '@/recoil/audio';
 import AuthorTags from '@/components/AuthorTags';
+import { music_detail } from '@/recoil/muisc';
+import { setting_isShowFullScreenPlayer } from '@/recoil/setting';
+import CurrentlyPlaying from '@/layouts/components/MusicPlayer/CurrentlyPlaying';
 
 const MusicPlayer = () => {
-    const musicDetails = useRecoilValue(audio_musicDetails);
+    const musicDetail = useRecoilValue(music_detail);
     const isDragProgressBar = useRecoilValue(audio_isDragProgressBar);
-    const setIsLyricsView = useSetRecoilState(audio_isShowFullScreenPlayer);
+    const setIsLyricsView = useSetRecoilState(setting_isShowFullScreenPlayer);
     return (
         <div className={'musicPlayer gaussianBlur'}>
-            {musicDetails !== null && (
+            {musicDetail !== null && (
                 <AudioProgressBar
                     className={[
                         'musicPlayer-progressBar',
@@ -30,20 +29,18 @@ const MusicPlayer = () => {
             )}
             <div className="musicPlayer-container">
                 <div className="musicPlayer-Info">
-                    {musicDetails !== null && (
+                    {musicDetail !== null && (
                         <>
                             <ImageLazy
                                 className={'musicPlayer-coverPicture'}
-                                src={musicDetails.coverPicture}
+                                src={musicDetail.coverPicture}
                             />
                             <div className="musicPlayer-content">
                                 <p className="musicPlayer-name text-1LinesHide">
-                                    {musicDetails.name}
+                                    {musicDetail.name}
                                 </p>
                                 <p className="musicPlayer-author text-1LinesHide">
-                                    <AuthorTags
-                                        authors={musicDetails.authors}
-                                    />
+                                    <AuthorTags authors={musicDetail.authors} />
                                 </p>
                             </div>
                         </>
@@ -53,12 +50,12 @@ const MusicPlayer = () => {
                     <AudioController />
                 </div>
                 <div className="musicPlayer-otherAction">
-                    {musicDetails !== null && (
+                    {musicDetail !== null && (
                         <>
                             <AudioPlayType />
                             <MusicVolume />
                             <Tooltip placement="top" title="下载">
-                                <i className="musicPlayer-download iconfont icon-xiazai" />
+                                <i className="musicPlayer-icon-download iconfont icon-xiazai" />
                             </Tooltip>
                             <Tooltip placement="top" title="播放列表">
                                 <i
@@ -79,6 +76,7 @@ const MusicPlayer = () => {
                     )}
                 </div>
             </div>
+            <CurrentlyPlaying />
         </div>
     );
 };

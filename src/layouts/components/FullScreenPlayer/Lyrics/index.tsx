@@ -9,12 +9,9 @@ import React, {
 import './index.less';
 import { CaretLeftOutlined } from '@ant-design/icons';
 import { useRecoilValue } from 'recoil';
-import {
-    audio_instance,
-    audio_lyrics,
-    audio_progressBarValue,
-} from '@/recoil/audio';
+import { audio_instance, audio_progressBarValue } from '@/recoil/audio';
 import { useScroll } from '@/hooks';
+import { music_lyrics } from '@/recoil/muisc';
 
 const Lyrics: FC = () => {
     const lastIndex = useRef<number | null>(null);
@@ -22,7 +19,7 @@ const Lyrics: FC = () => {
     const [isScroll, setIsScroll] = useState(true);
     const audio = useRecoilValue(audio_instance);
     const progressBarValue = useRecoilValue(audio_progressBarValue);
-    const lyrics = useRecoilValue(audio_lyrics);
+    const lyrics = useRecoilValue(music_lyrics);
     const setPlaybackProgress = useCallback((time) => {
         audio.currentTime = time;
     }, []);

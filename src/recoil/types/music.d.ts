@@ -1,4 +1,4 @@
-export interface MusicDetails {
+export interface MusicDetail {
     // 名称
     name: string;
     // 封面图
