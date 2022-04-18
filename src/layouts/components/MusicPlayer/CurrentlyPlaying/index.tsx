@@ -12,7 +12,9 @@ const CurrentlyPlaying: FC = () => {
         <div className={'currentlyPlaying'}>
             <h3 className={'module-title'}>当前播放</h3>
             <div className="currentlyPlaying-other">
-                <span className="currentlyPlaying-total">总561651首</span>
+                <span className="currentlyPlaying-total">
+                    总{songList?.list.length}首
+                </span>
                 <span className="currentlyPlaying-clearTheList">
                     <i className={'iconfont icon-top'}></i>
                     清空列表
