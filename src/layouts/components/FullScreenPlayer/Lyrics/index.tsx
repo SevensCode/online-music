@@ -49,7 +49,7 @@ const Lyrics: FC = () => {
         const offset = offsetTop - boxHeight / 2 + offsetHeight / 2;
         toScroll(lyricsBox.current, offset, 300);
     }, [lastIndex.current]);
-    const onMouseMove = useCallback(() => {
+    const onMouseOver = useCallback(() => {
         setIsScroll(false);
     }, []);
     const onMouseLeave = useCallback(() => {
@@ -59,8 +59,8 @@ const Lyrics: FC = () => {
         <div
             className={'lyrics'}
             ref={lyricsBox}
-            onMouseMove={onMouseMove}
-            onMouseLeave={onMouseLeave}
+            onMouseOver={onMouseOver}
+            onMouseOut={onMouseLeave}
         >
             {/*如果 time 都是null 就表示当前歌词不支持滚动*/}
             {lyrics.every(({ time }) => time === null) ? (

@@ -90,11 +90,20 @@ export const useAudioPlay = () => {
             audio.removeEventListener('ended', ended);
         };
     }, []);
-    return (musicDetail?: MusicDetail) => {
+    const audioPlay = (musicDetail?: MusicDetail) => {
         if (musicDetail ?? musicDetail) setMusicInfo(musicDetail);
         setAudioStatus(1);
         audio.play().then((r) => setAudioStatus(2));
     };
+    // const audioPause = useCallback(() => {
+    //     audio.pause()
+    //     setAudioStatus(0)
+    // }, [])
+    return useCallback((musicDetail?: MusicDetail) => {
+        if (musicDetail ?? musicDetail) setMusicInfo(musicDetail);
+        setAudioStatus(1);
+        audio.play().then((r) => setAudioStatus(2));
+    }, []);
 };
 
 export const useAudioPause = () => {

@@ -6,15 +6,12 @@ interface Props {
     onClick?: () => void;
 }
 
-const AudioStatusPlay: FC<Props> = ({ className, onClick }) => {
+const PlayIcon: FC<Props> = ({ onClick, className }) => {
     return (
-        <div
-            onClick={onClick}
-            className={['audioStatus', 'play', className].join(' ')}
-        >
+        <div onClick={onClick} className={['playIcon', className].join(' ')}>
             <i className="iconfont icon-bofang1" />
         </div>
     );
 };
 
-export default AudioStatusPlay;
+export default PlayIcon;

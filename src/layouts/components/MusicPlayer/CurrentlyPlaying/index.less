@@ -21,7 +21,6 @@
     .currentlyPlaying-total,
     .currentlyPlaying-clearTheList {
       color: @subTextColor;
-      cursor: pointer;
 
       i {
         margin-right: 5px;
@@ -29,7 +28,8 @@
     }
 
     .currentlyPlaying-clearTheList:hover {
-      color: @subTheme;
+      color: @theme;
+      cursor: pointer;
     }
   }
 
@@ -52,14 +52,13 @@
       .currentlyPlaying-type {
         position: absolute;
         left: 5px;
-
-        i {
-          font-size: 10px;
-        }
+        font-size: 10px;
+        color: @theme;
+        cursor: pointer;
       }
 
       &.active {
-        color: @subTheme;
+        color: @theme;
       }
 
       &:hover {

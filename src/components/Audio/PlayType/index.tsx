@@ -4,9 +4,11 @@ import { Tooltip } from 'antd';
 import { useRecoilState } from 'recoil';
 import { audio_playType } from '@/recoil/audio';
 import './index.less';
+import { music_songList } from '@/recoil/muisc';
 
 const AudioPlayType: FC<{ className?: string }> = ({ className }) => {
     const [playType, setPlayType] = useRecoilState(audio_playType);
+    const [songList, setSongList] = useRecoilState(music_songList);
     const handlePlayTyoe = useCallback(() => {
         let type;
         playType !== AUDIO_PLAY_TYPE.length - 1

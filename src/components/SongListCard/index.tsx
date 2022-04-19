@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './index.less';
 import ImageLazy from '@/components/ImageLazy';
-import AudioStatusPlay from '@/components/Audio/Status/Play';
+import PlayIcon from '@/components/Icon/Play';
 
 interface Props {
     width?: string;
@@ -20,7 +20,7 @@ const SongListCard: FC<Props> = ({ width = '250px', src, title, volume }) => {
                     <i className="iconfont icon-24gl-play" />
                     {volume}
                 </p>
-                <AudioStatusPlay className={'songListCard-playIcon'} />
+                <PlayIcon className={'songListCard-playIcon'} />
                 <ImageLazy src={src} className={'songListCard-img'} />
             </section>
             <p className={'songListCard-title text-2LinesHide'}>{title}</p>

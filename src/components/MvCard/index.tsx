@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './index.less';
 import ImageLazy from '@/components/ImageLazy';
-import AudioStatusPlay from '@/components/Audio/Status/Play';
+import PlayIcon from '@/components/Icon/Play';
 
 interface Props {
     width?: string;
@@ -14,7 +14,7 @@ const MvCard: FC<Props> = ({ width = '400px', src, title }) => {
     return (
         <div className={'mvCard'} style={{ width }}>
             <section className={'mvCard-img-container'}>
-                <AudioStatusPlay className={'mvCard-playIcon'} />
+                <PlayIcon className={'mvCard-playIcon'} />
                 <ImageLazy src={src} className={'mvCard-img'} />
             </section>
             <p className={'mvCard-title text-2LinesHide'}>{title}</p>

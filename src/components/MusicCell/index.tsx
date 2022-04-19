@@ -3,7 +3,7 @@ import ImageLazy from '@/components/ImageLazy';
 import './index.less';
 import AuthorTags from '@/components/AuthorTags';
 import Like from '@/components/Like';
-import AudioStatus from '@/components/Audio/Status';
+import PlayIcon from '@/components/Icon/Play';
 
 interface Props {
     coverPicture: string;
@@ -11,10 +11,9 @@ interface Props {
     id: number;
     authors: { name: string; id: number }[];
     album: { name: string; id: number };
+    isActive?: boolean;
 
     onPlay?(): void;
-
-    onPaused?(): void;
 }
 
 const MusicCell: FC<Props> = ({
@@ -24,34 +23,22 @@ const MusicCell: FC<Props> = ({
     authors,
     album,
     onPlay,
-    onPaused,
-}) => {
-    return (
-        <div className={'musicCell'}>
-            <div className="musicCell-coverPicture-container">
-                <ImageLazy
-                    src={coverPicture}
-                    className="musicCell-coverPicture"
-                />
-                <AudioStatus
-                    className={'musicCell-audioStatus'}
-                    id={id}
-                    onPlay={onPlay}
-                    onPaused={onPaused}
-                />
-            </div>
-            <div className={'musicCell-content'}>
-                <p className="musicCell-name text-1LinesHide">{name}</p>
-                <p className="musicCell-album text-1LinesHide">
-                    《{album.name}》
-                </p>
-                <p className="musicCell-author text-1LinesHide">
-                    <AuthorTags authors={authors} />
-                </p>
-            </div>
-            <Like id={id} size={'20px'} />
+    isActive,
+}) => (
+    <div className={['musicCell', isActive ? 'active' : ''].join(' ')}>
+        <div className="musicCell-coverPicture-container">
+            <ImageLazy src={coverPicture} className="musicCell-coverPicture" />
+            <PlayIcon onClick={onPlay} className={'musicCell-audioStatus'} />
         </div>
-    );
-};
+        <div className={'musicCell-content'}>
+            <p className="musicCell-name text-1LinesHide">{name}</p>
+            <p className="musicCell-album text-1LinesHide">《{album.name}》</p>
+            <p className="musicCell-author text-1LinesHide">
+                <AuthorTags authors={authors} />
+            </p>
+        </div>
+        <Like id={id} size={'20px'} />
+    </div>
+);
 
 export default MusicCell;

@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import MusicCell from '@/components/MusicCell';
 import { MusicRequest } from '@/api/music';
 import { formatMusicDetail } from '@/utils';
-import { useAudioPause, useAudioPlay } from '@/hooks/audio';
+import { useAudioPlay } from '@/hooks/audio';
 import { MusicDetail } from '@/recoil/types/music';
-import { useSetRecoilState } from 'recoil';
-import { music_songList } from '@/recoil/muisc';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { music_detail, music_songList } from '@/recoil/muisc';
 // 获取新音乐
 const getNewMusic = async () => {
     const { result } = await MusicRequest.newMusicPush(18);
@@ -13,8 +13,8 @@ const getNewMusic = async () => {
 };
 const NewMusics = () => {
     const audioPlay = useAudioPlay();
-    const audioPause = useAudioPause();
     const setSongList = useSetRecoilState(music_songList);
+    const musicDetail = useRecoilValue(music_detail);
     const [isSetPlayList, hanldeIsSetPlayList] = useState(false);
     // 新音乐列表
     const [newMusicList, setNewMusicList] = useState<MusicDetail[]>([]);
@@ -27,22 +27,31 @@ const NewMusics = () => {
         (musicDetail: MusicDetail) => {
             if (!isSetPlayList) {
                 hanldeIsSetPlayList(true);
-                console.log(newMusicList);
-                setSongList({ id: 0, list: newMusicList });
+                setSongList({
+                    id: 0,
+                    list: newMusicList,
+                    originList: newMusicList,
+                });
             }
             audioPlay(musicDetail);
         },
         [isSetPlayList, newMusicList],
     );
-    const onPause = useCallback(() => {
-        audioPause();
-    }, []);
+    const isActive = useCallback(
+        (id) => {
+            if (musicDetail === null) return false;
+            console.log(musicDetail.id === id);
+            return musicDetail.id === id;
+        },
+        [musicDetail],
+    );
     return (
         <div className="find-newMusicPush-container">
             {newMusicList.map((detail) => {
                 const { id, coverPicture, name, album, authors } = detail;
                 return (
                     <MusicCell
+                        isActive={isActive(id)}
                         name={name}
                         id={id}
                         authors={authors}
@@ -53,7 +62,6 @@ const NewMusics = () => {
                             id: album.id,
                         }}
                         onPlay={() => onPlay(detail)}
-                        onPaused={onPause}
                     />
                 );
             })}
