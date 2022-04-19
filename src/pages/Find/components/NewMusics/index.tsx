@@ -1,54 +1,53 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import MusicCell from '@/components/MusicCell';
-import { MusicRequest } from '@/api/music';
-import { formatMusicDetail } from '@/utils';
-import { useAudioPlay } from '@/hooks/audio';
-import { MusicDetail } from '@/recoil/types/music';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { music_detail, music_songList } from '@/recoil/muisc';
+import React, { useCallback, useEffect, useState } from 'react'
+import MusicCell from '@/components/MusicCell'
+import { MusicRequest } from '@/api/music'
+import { formatMusicDetail } from '@/utils'
+import { useAudioPlay } from '@/hooks/audio'
+import { MusicDetail } from '@/recoil/types/music'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { music_detail, music_songList } from '@/recoil/muisc'
 // 获取新音乐
 const getNewMusic = async () => {
-    const { result } = await MusicRequest.newMusicPush(18);
-    return result || [];
-};
+    const { result } = await MusicRequest.newMusicPush(18)
+    return result || []
+}
 const NewMusics = () => {
-    const audioPlay = useAudioPlay();
-    const setSongList = useSetRecoilState(music_songList);
-    const musicDetail = useRecoilValue(music_detail);
-    const [isSetPlayList, hanldeIsSetPlayList] = useState(false);
+    const audioPlay = useAudioPlay()
+    const setSongList = useSetRecoilState(music_songList)
+    const musicDetail = useRecoilValue(music_detail)
+    const [isSetPlayList, hanldeIsSetPlayList] = useState(false)
     // 新音乐列表
-    const [newMusicList, setNewMusicList] = useState<MusicDetail[]>([]);
+    const [newMusicList, setNewMusicList] = useState<MusicDetail[]>([])
     useEffect(() => {
         getNewMusic().then((value) =>
-            setNewMusicList(value.map((item: any) => formatMusicDetail(item))),
-        );
-    }, []);
+            setNewMusicList(value.map((item: any) => formatMusicDetail(item)))
+        )
+    }, [])
     const onPlay = useCallback(
         (musicDetail: MusicDetail) => {
             if (!isSetPlayList) {
-                hanldeIsSetPlayList(true);
+                hanldeIsSetPlayList(true)
                 setSongList({
                     id: 0,
                     list: newMusicList,
-                    originList: newMusicList,
-                });
+                    originList: newMusicList
+                })
             }
-            audioPlay(musicDetail);
+            audioPlay(musicDetail)
         },
-        [isSetPlayList, newMusicList],
-    );
+        [isSetPlayList, newMusicList]
+    )
     const isActive = useCallback(
         (id) => {
-            if (musicDetail === null) return false;
-            console.log(musicDetail.id === id);
-            return musicDetail.id === id;
+            if (musicDetail === null) return false
+            return musicDetail.id === id
         },
-        [musicDetail],
-    );
+        [musicDetail]
+    )
     return (
-        <div className="find-newMusicPush-container">
+        <div className='find-newMusicPush-container'>
             {newMusicList.map((detail) => {
-                const { id, coverPicture, name, album, authors } = detail;
+                const { id, coverPicture, name, album, authors } = detail
                 return (
                     <MusicCell
                         isActive={isActive(id)}
@@ -59,14 +58,14 @@ const NewMusics = () => {
                         key={id}
                         album={{
                             name: album.name,
-                            id: album.id,
+                            id: album.id
                         }}
                         onPlay={() => onPlay(detail)}
                     />
-                );
+                )
             })}
         </div>
-    );
-};
+    )
+}
 
-export default NewMusics;
+export default NewMusics
