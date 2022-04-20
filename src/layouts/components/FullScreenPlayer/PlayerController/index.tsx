@@ -5,10 +5,7 @@ import Like from '@/components/Like'
 import AudioProgressBar from '@/components/Audio/ProgressBar'
 import AudioController from '@/components/Audio/Controller'
 import { useRecoilValue } from 'recoil'
-import {
-    audio_playProgressTime,
-    audio_totalPlayTime
-} from '@/recoil/audio/atom'
+import { audio_playProgressTime, audio_totalPlayTime } from '@/recoil/atom'
 import './index.less'
 import { MusicDetail } from '@/recoil/types/music'
 import { music_detail } from '@/recoil/muisc'

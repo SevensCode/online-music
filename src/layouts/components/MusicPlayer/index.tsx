@@ -14,7 +14,7 @@ import {
     audio_playType,
     audio_progressBarValue,
     auido_status
-} from '@/recoil/audio/atom'
+} from '@/recoil/atom'
 import AuthorTags from '@/components/AuthorTags'
 import { music_detail } from '@/recoil/muisc'
 import { setting_fullScreenPlayerVisible } from '@/recoil/setting'

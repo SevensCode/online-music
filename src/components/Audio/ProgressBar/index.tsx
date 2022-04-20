@@ -7,7 +7,7 @@ import {
     audio_isDragProgressBar,
     audio_playProgressTime,
     audio_progressBarValue
-} from '@/recoil/audio/atom'
+} from '@/recoil/atom'
 import { secondTurnTime } from '@/utils'
 import { music_detail } from '@/recoil/muisc'
 

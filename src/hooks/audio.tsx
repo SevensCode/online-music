@@ -4,12 +4,13 @@ import {
     audio_playType,
     audio_totalPlayTime,
     auido_status
-} from '@/recoil/audio/atom'
+} from '@/recoil/atom'
 import { useCallback } from 'react'
 import { MusicDetail, MusicLyricsArr } from '@/recoil/types/music'
 import { millisecondTurnTime, randomInteger } from '@/utils'
 import { MusicRequest } from '@/api/music'
 import { music_detail, music_lyrics, music_songList } from '@/recoil/muisc'
+import { useRefState } from '@/hooks/index'
 import { SongList } from '@/recoil/types/songList'
 
 // 音频播放器
@@ -17,6 +18,7 @@ export const useAudio = () => {
     const audio = useRecoilValue(audio_instance)
     // 音乐详情
     const [musicDetail, setMusicDetail] = useRecoilState(music_detail)
+    const musicDetailRef = useRefState<Nullable<MusicDetail>>(musicDetail)
     // 播放器状态
     const setAudioStatus = useSetRecoilState(auido_status)
     // 音乐总时间
@@ -27,6 +29,8 @@ export const useAudio = () => {
     const playType = useRecoilValue(audio_playType)
     // 歌单
     const songList = useRecoilValue(music_songList)
+    const songListRef = useRefState<Nullable<SongList>>(songList)
+
     // 设置音乐信息
     const setMusicInfo = useCallback(async (musicDetail) => {
         setMusicDetail(musicDetail)
@@ -49,42 +53,37 @@ export const useAudio = () => {
         audio.pause()
         setAudioStatus(0)
     }
+
     // 下一首
-    const audioNext = useCallback(() => {
-        if (songList === null || musicDetail === null) return
-        handleSwitchingMusic('next', songList, musicDetail)
-    }, [songList, musicDetail])
+    const audioNext = () => {
+        handleSwitchingMusic('next')
+    }
     // 上一首
     const audioPrev = useCallback(() => {
-        if (songList === null || musicDetail === null) return
-        handleSwitchingMusic('prev', songList, musicDetail)
+        handleSwitchingMusic('prev')
     }, [songList, musicDetail])
     // 处理切换音乐
-    const handleSwitchingMusic = useCallback(
-        (
-            type: 'next' | 'prev',
-            songList: SongList,
-            musicDetail: MusicDetail
-        ) => {
-            const { list } = songList
-            if (!list.length || list.length === 1) return
-            let index = list.findIndex((item) => item.id === musicDetail.id)
-            if (index === -1) return
-            switch (playType) {
-                case 3:
-                    index = randomInteger([0, list.length], [index])
-                    break
-                default:
-                    if (type === 'next') {
-                        index === list.length - 1 ? (index = 0) : index++
-                    } else if (type === 'prev') {
-                        index === 0 ? (index = list.length - 1) : index--
-                    }
-            }
-            audioPlay(list[index])
-        },
-        [playType, songList, musicDetail]
-    )
+    const handleSwitchingMusic = (type: 'next' | 'prev') => {
+        if (songListRef.current === null || musicDetailRef.current === null)
+            return
+        const { list } = songListRef.current
+        const musicDetail = musicDetailRef.current
+        if (!list.length || list.length === 1) return
+        let index = list.findIndex((item) => item.id === musicDetail.id)
+        if (index === -1) return
+        switch (playType) {
+            case 3:
+                index = randomInteger([0, list.length], [index])
+                break
+            default:
+                if (type === 'next') {
+                    index === list.length - 1 ? (index = 0) : index++
+                } else if (type === 'prev') {
+                    index === 0 ? (index = list.length - 1) : index--
+                }
+        }
+        audioPlay(list[index])
+    }
     return { audioPlay, audioPause, audioNext, audioPrev }
 }
 
