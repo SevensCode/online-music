@@ -1,30 +1,30 @@
 // 是否和上次字符串一样
-import { MusicDetail } from '@/recoil/types/music';
+import { MusicDetail } from '@/recoil/types/music'
 
 export const whetherAndLastTimeStringSame = (): ((str?: string) => boolean) => {
-    let lastStr: string | undefined;
+    let lastStr: string | undefined
     return (newStr): boolean => {
         if (lastStr !== newStr) {
-            lastStr = newStr;
-            return false;
+            lastStr = newStr
+            return false
         } else {
-            return true;
+            return true
         }
-    };
-};
+    }
+}
 
 /**
  * 数字转换
  * @param {number} number
  * */
 export const numberUnit = (number: number): string | number => {
-    const numberStr = number.toString();
-    const length = numberStr.length;
+    const numberStr = number.toString()
+    const length = numberStr.length
     if (length > 4 && length <= 8)
-        return numberStr.substring(0, length - 4) + '万';
-    else if (length > 8) return numberStr.substring(0, length - 8) + '亿';
-    return number;
-};
+        return numberStr.substring(0, length - 4) + '万'
+    else if (length > 8) return numberStr.substring(0, length - 8) + '亿'
+    return number
+}
 
 /**
  * 音乐详情格式化
@@ -34,33 +34,33 @@ export const formatMusicDetail = (musicDeatils: any): MusicDetail => {
         id,
         name,
         picUrl,
-        song: { album, artists, duration },
-    } = musicDeatils;
+        song: { album, artists, duration }
+    } = musicDeatils
     return {
         id,
         name,
         coverPicture: picUrl,
         duration,
         album,
-        authors: artists,
-    };
-};
+        authors: artists
+    }
+}
 
 /**
  * 毫秒转换秒
  * @param {number} millisecond 毫秒
  * */
-export const millisecondToSeconds = (millisecond: number) => {};
+export const millisecondToSeconds = (millisecond: number) => {}
 
 /**
  * 补零
  * @param {number} number
  * */
 export const zeroPadding = (number: number) => {
-    if (number === 0) return '00';
-    else if (number < 10) return '0' + number;
-    return number;
-};
+    if (number === 0) return '00'
+    else if (number < 10) return '0' + number
+    return number
+}
 
 /**
  * 秒转时间
@@ -69,16 +69,29 @@ export const zeroPadding = (number: number) => {
 export const secondTurnTime = (second: number) => {
     return {
         minute: zeroPadding(Math.floor(second / 60)),
-        second: zeroPadding(parseInt(String(second % 60))),
-    };
-};
+        second: zeroPadding(parseInt(String(second % 60)))
+    }
+}
 
 /**
  * 毫秒转时间
  * @param {number} millisecond
  * */
 export const millisecondTurnTime = (millisecond: number) => {
-    const minute = Math.floor(millisecond / 1000 / 60);
-    const second = Math.floor(millisecond / 1000) % 60;
-    return { minute: zeroPadding(minute), second: zeroPadding(second) };
-};
+    const minute = Math.floor(millisecond / 1000 / 60)
+    const second = Math.floor(millisecond / 1000) % 60
+    return { minute: zeroPadding(minute), second: zeroPadding(second) }
+}
+
+/**
+ * 随机数
+ * @param {array} range 最小值
+ * @param {number|array} exclude
+ * */
+export const randomInteger = (
+    range: [number, number] = [0, 100],
+    exclude: number[] = []
+): number => {
+    const random = Math.round(Math.random() * (range[1] - range[0]) + range[0])
+    return exclude.includes(random) ? randomInteger(range, exclude) : random
+}

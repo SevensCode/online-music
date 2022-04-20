@@ -18,6 +18,7 @@ export default withRouter(({ children, location }) => {
     const isShowFullScreenPlayer = useRecoilValue(
         setting_fullScreenPlayerVisible
     )
+
     useEffect(() => {
         const userinfo = store.get(STORE_USER_INFO)
         if (userinfo) {
@@ -27,6 +28,7 @@ export default withRouter(({ children, location }) => {
             })
         }
     }, [])
+
     return (
         <div className={'layout'}>
             <Header />

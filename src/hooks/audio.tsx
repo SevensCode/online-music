@@ -1,58 +1,32 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import {
     audio_instance,
-    audio_isDragProgressBar,
-    audio_playProgressTime,
-    audio_progressBarValue,
+    audio_playType,
     audio_totalPlayTime,
     auido_status
-} from '@/recoil/audio'
-import { useCallback, useEffect, useRef } from 'react'
+} from '@/recoil/audio/atom'
+import { useCallback } from 'react'
 import { MusicDetail, MusicLyricsArr } from '@/recoil/types/music'
-import { millisecondTurnTime, secondTurnTime } from '@/utils'
+import { millisecondTurnTime, randomInteger } from '@/utils'
 import { MusicRequest } from '@/api/music'
-import { message } from 'antd'
-import { music_detail, music_lyrics } from '@/recoil/muisc'
+import { music_detail, music_lyrics, music_songList } from '@/recoil/muisc'
+import { SongList } from '@/recoil/types/songList'
 
 // 音频播放器
-export const useAudioPlay = () => {
+export const useAudio = () => {
     const audio = useRecoilValue(audio_instance)
     // 音乐详情
-    const setMusicDetail = useSetRecoilState(music_detail)
+    const [musicDetail, setMusicDetail] = useRecoilState(music_detail)
     // 播放器状态
     const setAudioStatus = useSetRecoilState(auido_status)
-    // 进度条的值
-    const setProgressBarValue = useSetRecoilState(audio_progressBarValue)
     // 音乐总时间
     const setTotalPlayTime = useSetRecoilState(audio_totalPlayTime)
-    // 播放进度时间
-    const stePlayProgressTime = useSetRecoilState(audio_playProgressTime)
-    // 进度条是否被拖动
-    const isDragProgressBar = useRecoilValue(audio_isDragProgressBar)
-    const isDragProgressBarRef = useRef<boolean>(isDragProgressBar)
     // 设置歌词
     const setLyrics = useSetRecoilState(music_lyrics)
-    useEffect(() => {
-        isDragProgressBarRef.current = isDragProgressBar
-    }, [isDragProgressBar])
-    // 播放中
-    const timeupdate = useCallback(() => {
-        if (isDragProgressBarRef.current) return false
-        const currentTime = Math.floor(audio.currentTime)
-        // 更新进度条
-        setProgressBarValue(currentTime)
-        // 更新播放时间
-        stePlayProgressTime(secondTurnTime(currentTime))
-    }, [isDragProgressBarRef])
-    // 播放完成
-    const ended = useCallback(() => {
-        setAudioStatus(0)
-    }, [])
-    // 加载错误
-    const error = useCallback(() => {
-        message.error('音乐播放失败！')
-    }, [])
-
+    // 播放类型
+    const playType = useRecoilValue(audio_playType)
+    // 歌单
+    const songList = useRecoilValue(music_songList)
     // 设置音乐信息
     const setMusicInfo = useCallback(async (musicDetail) => {
         setMusicDetail(musicDetail)
@@ -64,40 +38,54 @@ export const useAudioPlay = () => {
         if (code !== 200) return false
         setLyrics(parseLyric(lrc.lyric, tlyric?.lyric))
     }, [])
-
-    useEffect(() => {
-        audio.addEventListener('error', error)
-        audio.addEventListener('timeupdate', timeupdate)
-        audio.addEventListener('ended', ended)
-        return () => {
-            audio.removeEventListener('error', error)
-            audio.removeEventListener('timeupdate', timeupdate)
-            audio.removeEventListener('ended', ended)
-        }
-    }, [])
+    // 播放
     const audioPlay = (musicDetail?: MusicDetail) => {
         if (musicDetail ?? musicDetail) setMusicInfo(musicDetail)
         setAudioStatus(1)
         audio.play().then((r) => setAudioStatus(2))
     }
-    // const audioPause = useCallback(() => {
-    //     audio.pause()
-    //     setAudioStatus(0)
-    // }, [])
-    return useCallback((musicDetail?: MusicDetail) => {
-        if (musicDetail ?? musicDetail) setMusicInfo(musicDetail)
-        setAudioStatus(1)
-        audio.play().then((r) => setAudioStatus(2))
-    }, [])
-}
-
-export const useAudioPause = () => {
-    const audio = useRecoilValue(audio_instance)
-    const setMusicStatus = useSetRecoilState(auido_status)
-    return useCallback(() => {
+    // 暂停
+    const audioPause = () => {
         audio.pause()
-        setMusicStatus(0)
-    }, [])
+        setAudioStatus(0)
+    }
+    // 下一首
+    const audioNext = useCallback(() => {
+        if (songList === null || musicDetail === null) return
+        handleSwitchingMusic('next', songList, musicDetail)
+    }, [songList, musicDetail])
+    // 上一首
+    const audioPrev = useCallback(() => {
+        if (songList === null || musicDetail === null) return
+        handleSwitchingMusic('prev', songList, musicDetail)
+    }, [songList, musicDetail])
+    // 处理切换音乐
+    const handleSwitchingMusic = useCallback(
+        (
+            type: 'next' | 'prev',
+            songList: SongList,
+            musicDetail: MusicDetail
+        ) => {
+            const { list } = songList
+            if (!list.length || list.length === 1) return
+            let index = list.findIndex((item) => item.id === musicDetail.id)
+            if (index === -1) return
+            switch (playType) {
+                case 3:
+                    index = randomInteger([0, list.length], [index])
+                    break
+                default:
+                    if (type === 'next') {
+                        index === list.length - 1 ? (index = 0) : index++
+                    } else if (type === 'prev') {
+                        index === 0 ? (index = list.length - 1) : index--
+                    }
+            }
+            audioPlay(list[index])
+        },
+        [playType, songList, musicDetail]
+    )
+    return { audioPlay, audioPause, audioNext, audioPrev }
 }
 
 export const parseLyric = (lyr: string, zhLyr?: string): MusicLyricsArr => {

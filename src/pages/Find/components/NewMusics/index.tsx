@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import MusicCell from '@/components/MusicCell'
 import { MusicRequest } from '@/api/music'
 import { formatMusicDetail } from '@/utils'
-import { useAudioPlay } from '@/hooks/audio'
+import { useAudio } from '@/hooks/audio'
 import { MusicDetail } from '@/recoil/types/music'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { music_detail, music_songList } from '@/recoil/muisc'
@@ -12,7 +12,7 @@ const getNewMusic = async () => {
     return result || []
 }
 const NewMusics = () => {
-    const audioPlay = useAudioPlay()
+    const { audioPlay } = useAudio()
     const setSongList = useSetRecoilState(music_songList)
     const musicDetail = useRecoilValue(music_detail)
     const [isSetPlayList, hanldeIsSetPlayList] = useState(false)

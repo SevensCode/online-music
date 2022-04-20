@@ -8,6 +8,8 @@
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
+                font-family: '宋体';
+                font-size: 12px;
             }
 
             body {
@@ -19,6 +21,16 @@
             h1, h2 {
                 text-align: center;
                 margin: 15px 0;
+                font-family: '黑体';
+                color: #161616;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 18px;
             }
 
             hr {
@@ -29,7 +41,8 @@
 
             .explanation {
                 text-indent: 2em;
-                font-size: 22px;
+                font-size: 14px;
+                color: #3b3838;
                 line-height: 1.5em;
             }
 
@@ -44,32 +57,36 @@
             .title {
                 margin-bottom: 10px;
                 display: flex;
+                font-size: 12px;
                 align-items: center;
             }
 
             table {
-                border: .5px solid #373737;
+                border: .5px solid #7e7e7e;
                 border-collapse: collapse;
                 width: 100%;
+                font-size: 12px;
             }
 
             th, td {
-                border: .5px solid #373737;
+                border: .5px solid #7e7e7e;
                 padding: 5px;
                 text-align: center;
+                color: #000000;
             }
 
-            table {
-            }
 
             th {
                 background: #578df3;
                 color: white;
+                font-weight: lighter;
             }
 
             .footer {
                 display: flex;
+                font-size: 10.5px;
                 justify-content: space-between;
+                color: #000000;
             }
         </style>
     </head>
@@ -155,7 +172,7 @@
                         <td>2022年1月份</td>
                     </tr>
                 </table>
-                <p style="margin: 10px 0">分数计算公式：(最大名次-当前名次)÷(最大名次-1)×项目最高分</p>
+                <p style="margin: 10px 0;font-size: 11pt">分数计算公式：(最大名次-当前名次)÷(最大名次-1)×项目最高分</p>
             </li>
             <li>
                 <p class="title">
@@ -203,7 +220,7 @@
                     </svg>
                     <span>企业星级计算方式：</span>
                 </p>
-                <ul style="padding-left: 20px">
+                <ul style="padding-left: 20px; color: #3b3838">
                     <li>5星：总得分≥90分</li>
                     <li>4星：总得分≥80分且总得分＜90</li>
                     <li>3星：总得分≥70分且总得分＜80</li>
