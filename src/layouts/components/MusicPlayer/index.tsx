@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './index.less'
 import ImageLazy from '@/components/ImageLazy'
 import AudioController from '@/components/Audio/Controller'
@@ -14,19 +14,28 @@ import {
     audio_playType,
     audio_progressBarValue,
     auido_status
-} from '@/recoil/atom'
+} from '@/recoil/audio'
 import AuthorTags from '@/components/AuthorTags'
-import { music_detail } from '@/recoil/muisc'
+import {
+    music_detail,
+    music_getMusicIndex,
+    music_songList
+} from '@/recoil/muisc'
 import { setting_fullScreenPlayerVisible } from '@/recoil/setting'
 import CurrentlyPlaying from '@/layouts/components/MusicPlayer/CurrentlyPlaying'
 import { CSSTransition } from 'react-transition-group'
-import { secondTurnTime } from '@/utils'
+import { randomInteger, secondTurnTime } from '@/utils'
 import { useAudio } from '@/hooks/audio'
+import { useRefState } from '@/hooks'
 
 const MusicPlayer = () => {
-    const { audioNext } = useAudio()
+    const { audioNext, audioPlay } = useAudio()
+    // 音乐详情
     const musicDetail = useRecoilValue(music_detail)
+    const musicDetailRef = useRefState(musicDetail)
+    // 歌词是否显示
     const setIsLyricsView = useSetRecoilState(setting_fullScreenPlayerVisible)
+    // 播放列表
     const [playListVisible, setPlayListVisible] = useState(false)
     const audio = useRecoilValue(audio_instance)
     // 播放器状态
@@ -37,9 +46,16 @@ const MusicPlayer = () => {
     const stePlayProgressTime = useSetRecoilState(audio_playProgressTime)
     // 播放类型
     const playType = useRecoilValue(audio_playType)
+    const playTypeRef = useRefState<number>(playType)
     // 进度条是否被拖动
     const isDragProgressBar = useRecoilValue(audio_isDragProgressBar)
-    const isDragProgressBarRef = useRef<boolean>(isDragProgressBar)
+    const isDragProgressBarRef = useRefState<boolean>(isDragProgressBar)
+    // 音乐索引
+    const musicIndex = useRecoilValue(music_getMusicIndex)
+    const musicIndexRef = useRefState<Nullable<number>>(musicIndex)
+    // 歌单
+    const songList = useRecoilValue(music_songList)
+    const songListRef = useRefState(songList)
     // 播放中
     const timeupdate = useCallback(() => {
         if (isDragProgressBarRef.current) return false
@@ -51,7 +67,36 @@ const MusicPlayer = () => {
     }, [isDragProgressBarRef])
     // 播放完成
     const ended = useCallback(() => {
-        audioNext()
+        setAudioStatus(0)
+        if (songListRef.current === null || musicDetailRef.current === null)
+            return
+        if (musicIndexRef.current === null) return
+        const {
+            list,
+            list: { length }
+        } = songListRef.current
+        let index = musicIndexRef.current
+        console.log(playTypeRef.current)
+        switch (playTypeRef.current) {
+            // 顺序播放
+            case 0:
+                index !== length - 1 && audioPlay(list[++index])
+                break
+            // 单曲循环
+            case 2:
+                audioPlay(list[index])
+                break
+            // 随机播放
+            case 3:
+                audioPlay(list[randomInteger([0, list.length], [index])])
+                break
+            case 4:
+                break
+            // 列表循环 | 心动模式
+            default:
+                index = index === length - 1 ? 0 : ++index
+                audioPlay(list[index])
+        }
     }, [])
     // 加载错误
     const error = useCallback(() => {
@@ -67,9 +112,6 @@ const MusicPlayer = () => {
             audio.removeEventListener('ended', ended)
         }
     }, [])
-    useEffect(() => {
-        isDragProgressBarRef.current = isDragProgressBar
-    }, [isDragProgressBar])
     return (
         <div className={'musicPlayer gaussianBlur'}>
             {musicDetail !== null && (

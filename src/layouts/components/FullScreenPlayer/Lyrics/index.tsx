@@ -9,7 +9,7 @@ import React, {
 import './index.less'
 import { CaretLeftOutlined } from '@ant-design/icons'
 import { useRecoilValue } from 'recoil'
-import { audio_instance, audio_progressBarValue } from '@/recoil/atom'
+import { audio_instance, audio_progressBarValue } from '@/recoil/audio'
 import { useScroll } from '@/hooks'
 import { music_lyrics } from '@/recoil/muisc'
 

@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react'
 import { AUDIO_PLAY_TYPE, STORE_PLAY_TYPE } from '@/constants'
 import { Tooltip } from 'antd'
 import { useRecoilState } from 'recoil'
-import { audio_playType } from '@/recoil/atom'
+import { audio_playType } from '@/recoil/audio'
 import './index.less'
 import store from 'store'
 

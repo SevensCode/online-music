@@ -3,7 +3,7 @@ import { Slider, Tooltip } from 'antd'
 import './index.less'
 import { STORE_AUDIO_VOLUME } from '@/constants'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { audio_instance, audio_volume } from '@/recoil/atom'
+import { audio_instance, audio_volume } from '@/recoil/audio'
 import store from 'store'
 
 const AudioVolume = () => {

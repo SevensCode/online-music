@@ -2,7 +2,7 @@ import React, { FC, useCallback, useMemo } from 'react'
 import { Tooltip } from 'antd'
 import './index.less'
 import { useRecoilValue } from 'recoil'
-import { auido_status } from '@/recoil/atom'
+import { auido_status } from '@/recoil/audio'
 import { useAudio } from '@/hooks/audio'
 import { music_detail } from '@/recoil/muisc'
 
