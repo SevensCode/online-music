@@ -5,13 +5,13 @@ import { useRecoilValue } from 'recoil'
 import { auido_status } from '@/recoil/audio'
 import { useAudio } from '@/hooks/audio'
 import { music_detail } from '@/recoil/muisc'
+import IconButton from '@/components/Icon/Button'
 
 interface Props {
-    size?: 'small' | 'large'
-    color?: string | undefined
+    className?: string
 }
 
-const AudioController: FC<Props> = ({ size = 'small', color }) => {
+const AudioController: FC<Props> = ({ className }) => {
     const musicDetail = useRecoilValue(music_detail)
     const audioStatus = useRecoilValue(auido_status)
     const { audioPlay, audioPause, audioNext, audioPrev } = useAudio()
@@ -30,37 +30,30 @@ const AudioController: FC<Props> = ({ size = 'small', color }) => {
     }, [])
     return (
         <div
-            className={[
-                'controller',
-                musicDetail === null ? 'disable' : undefined
-            ].join(' ')}
+            className={['controller', musicDetail ?? 'disable', className].join(
+                ' '
+            )}
         >
             <Tooltip placement='top' title='上一首'>
-                <i
+                <IconButton
+                    size={'middle'}
+                    icon={'icon-shangyishou'}
                     onClick={audioPrev}
-                    className={['iconfont icon-shangyishou prve', size].join(
-                        ' '
-                    )}
-                    style={{ color }}
-                />
+                ></IconButton>
             </Tooltip>
             <Tooltip placement='top' title={status.name}>
-                <i
+                <IconButton
+                    size={'large'}
+                    icon={status.icon}
                     onClick={playOrPause}
-                    style={{ color }}
-                    className={[
-                        'iconfont playing playing',
-                        size,
-                        status.icon
-                    ].join(' ')}
-                />
+                ></IconButton>
             </Tooltip>
             <Tooltip placement='top' title='下一首'>
-                <i
-                    onClick={test}
-                    className={['iconfont icon-xiayishou next', size].join(' ')}
-                    style={{ color }}
-                />
+                <IconButton
+                    size={'middle'}
+                    icon={'icon-xiayishou'}
+                    onClick={audioNext}
+                ></IconButton>
             </Tooltip>
         </div>
     )

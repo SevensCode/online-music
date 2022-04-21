@@ -94,3 +94,17 @@ li {
   -webkit-line-clamp: 1; /*限制文本行数*/
   overflow: hidden; /*超出隐藏*/
 }
+
+.button-text {
+  &.ant-btn-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    color: @textColor;
+
+    &:hover {
+      background: @transparent;
+    }
+  }
+}

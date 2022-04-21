@@ -27,6 +27,7 @@ import { CSSTransition } from 'react-transition-group'
 import { randomInteger, secondTurnTime } from '@/utils'
 import { useAudio } from '@/hooks/audio'
 import { useRefState } from '@/hooks'
+import IconButton from '@/components/Icon/Button'
 
 const MusicPlayer = () => {
     const { audioNext, audioPlay } = useAudio()
@@ -76,11 +77,14 @@ const MusicPlayer = () => {
             list: { length }
         } = songListRef.current
         let index = musicIndexRef.current
-        console.log(playTypeRef.current)
         switch (playTypeRef.current) {
             // 顺序播放
             case 0:
                 index !== length - 1 && audioPlay(list[++index])
+                break
+            // 列表循环
+            case 1:
+                audioNext()
                 break
             // 单曲循环
             case 2:
@@ -90,12 +94,6 @@ const MusicPlayer = () => {
             case 3:
                 audioPlay(list[randomInteger([0, list.length], [index])])
                 break
-            case 4:
-                break
-            // 列表循环 | 心动模式
-            default:
-                index = index === length - 1 ? 0 : ++index
-                audioPlay(list[index])
         }
     }, [])
     // 加载错误
@@ -149,26 +147,20 @@ const MusicPlayer = () => {
                         <>
                             <AudioPlayType />
                             <MusicVolume />
-                            <Tooltip placement='top' title='下载'>
-                                <i className='musicPlayer-icon-download iconfont icon-xiazai' />
-                            </Tooltip>
+
                             <Tooltip placement='top' title='播放列表'>
-                                <i
+                                <IconButton
                                     onClick={() =>
                                         setPlayListVisible(!playListVisible)
                                     }
-                                    className={[
-                                        'musicPlayer-icon-playList iconfont icon-bofangliebiao'
-                                    ].join(' ')}
-                                />
+                                    icon={'icon-bofangliebiao'}
+                                ></IconButton>
                             </Tooltip>
                             <Tooltip placement='top' title='歌词'>
-                                <i
+                                <IconButton
                                     onClick={() => setIsLyricsView(true)}
-                                    className={[
-                                        'musicPlayer-icon-expansion iconfont icon-lrc'
-                                    ].join(' ')}
-                                />
+                                    icon={'icon-lrc'}
+                                ></IconButton>
                             </Tooltip>
                         </>
                     )}

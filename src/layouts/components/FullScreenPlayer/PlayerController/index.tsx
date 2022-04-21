@@ -53,7 +53,7 @@ const PlayerController = () => {
                     {totalPlayTime.minute}:{totalPlayTime.second}
                 </span>
             </div>
-            <AudioController size={'large'} color={'white'} />
+            <AudioController className={'playerController-controller'} />
         </div>
     )
 }

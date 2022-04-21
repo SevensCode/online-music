@@ -47,7 +47,7 @@ export default withRouter(({ children, location }) => {
             <CSSTransition
                 unmountOnExit
                 in={isShowFullScreenPlayer}
-                classNames='bottomLineIn'
+                classNames='rightZoomFade'
                 timeout={300}
             >
                 <FullScreenPlayer />

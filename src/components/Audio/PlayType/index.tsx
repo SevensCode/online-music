@@ -3,10 +3,16 @@ import { AUDIO_PLAY_TYPE, STORE_PLAY_TYPE } from '@/constants'
 import { Tooltip } from 'antd'
 import { useRecoilState } from 'recoil'
 import { audio_playType } from '@/recoil/audio'
-import './index.less'
 import store from 'store'
+import IconButton from '@/components/Icon/Button'
 
-const AudioPlayType: FC<{ className?: string }> = ({ className }) => {
+interface Interface {
+    className?: string
+
+    onChange?(type: number): void
+}
+
+const AudioPlayType: FC<Interface> = ({ className, onChange }) => {
     const [playType, setPlayType] = useRecoilState(audio_playType)
     const handlePlayTyoe = useCallback(() => {
         let type
@@ -15,18 +21,14 @@ const AudioPlayType: FC<{ className?: string }> = ({ className }) => {
             : (type = 0)
         setPlayType(type)
         store.set(STORE_PLAY_TYPE, type)
+        onChange && onChange(type)
     }, [playType])
     return (
         <Tooltip placement='top' title={AUDIO_PLAY_TYPE[playType].name}>
-            <i
+            <IconButton
+                icon={AUDIO_PLAY_TYPE[playType].icon}
                 onClick={handlePlayTyoe}
-                className={[
-                    'audio-playType',
-                    'iconfont',
-                    AUDIO_PLAY_TYPE[playType].icon,
-                    className
-                ].join(' ')}
-            />
+            ></IconButton>
         </Tooltip>
     )
 }

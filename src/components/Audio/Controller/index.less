@@ -2,66 +2,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 15px;
   width: 100%;
   position: relative;
 
   &.disable:before {
     content: '';
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
     cursor: not-allowed;
-  }
-
-  i {
-    color: @textColor;
-    cursor: pointer;
-    border-radius: 25%;
-    line-height: 50px;
-    transition: background-color 0.3s ease-in-out;
-    padding: 0 5px;
-    user-select: none;
-    text-align: center;
-
-    &:hover {
-      background: @transparent;
-    }
-  }
-
-  .playing,
-  .pause {
-    &.small {
-      font-size: 24px;
-      width: 35px;
-      height: 35px;
-      line-height: 35px;
-    }
-
-    &.large {
-      font-size: 28px;
-      width: 50px;
-      height: 50px;
-      line-height: 50px;
-    }
-  }
-
-  .prve,
-  .next {
-    &.small {
-      font-size: 20px;
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-    }
-
-    &.large {
-      font-size: 24px;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-    }
+    z-index: 1;
   }
 }

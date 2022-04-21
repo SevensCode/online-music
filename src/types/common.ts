@@ -1,11 +1,13 @@
 export interface Loading {
-    loading?: boolean;
-    success?: boolean;
-    error?: boolean;
+    loading?: boolean
+    success?: boolean
+    error?: boolean
 }
 
 export enum Gender {
     man = 1,
     girl,
-    unknown,
+    unknown
 }
+
+export type Size = 'middle' | 'large' | 'small'

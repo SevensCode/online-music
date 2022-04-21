@@ -5,6 +5,7 @@ import { STORE_AUDIO_VOLUME } from '@/constants'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { audio_instance, audio_volume } from '@/recoil/audio'
 import store from 'store'
+import IconButton from '@/components/Icon/Button'
 
 const AudioVolume = () => {
     const [volume, setVolume] = useRecoilState(audio_volume)
@@ -46,12 +47,11 @@ const AudioVolume = () => {
     return (
         <div className={'audioVolume'}>
             <Tooltip placement='top' title='音量'>
-                <i
+                <IconButton
                     onClick={onClick}
-                    className={['volume', 'iconfont', volumeStatusMemo].join(
-                        ' '
-                    )}
-                />
+                    size={'middle'}
+                    icon={volumeStatusMemo}
+                ></IconButton>
             </Tooltip>
             <Slider
                 value={volume}

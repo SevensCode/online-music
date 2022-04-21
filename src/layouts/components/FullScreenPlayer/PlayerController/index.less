@@ -94,4 +94,36 @@
       }
     }
   }
+
+  .playerController-controller {
+    .iconButton {
+      &.ant-btn-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        color: white;
+        height: 40px;
+
+        &:hover:not(.disable) {
+          background: rgba(255, 255, 255, 0.2);
+        }
+      }
+
+      &.ant-btn-lg {
+        height: 50px;
+      }
+
+      .iconButton-icon,
+      .iconButton-text {
+        &.large {
+          font-size: 32px;
+        }
+
+        &.middle {
+          font-size: 24px;
+        }
+      }
+    }
+  }
 }
