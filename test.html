@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+            div {
+                width: 500px;
+                height: 500px;
+                background: red;
+                position: relative;
+            }
+
+            section {
+                width: 200px;
+                height: 200px;
+                background: #578df3;
+                filter: blur(30px);
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 1;
+            }
+
+            p {
+                position: absolute;
+                z-index: 5;
+                background: #578df3;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <p>231</p>
+            <section></section>
+        </div>
+    </body>
+</html>

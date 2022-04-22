@@ -1,5 +1,6 @@
 import { Gender } from '@/types/common'
 
+// 用户信息
 export interface Userinfo {
     // 用户 id
     userId: number
@@ -20,5 +21,5 @@ export interface Userinfo {
     // 生日
     birthday: number
     // 等级
-    eventCount: number
+    eventCount?: number
 }

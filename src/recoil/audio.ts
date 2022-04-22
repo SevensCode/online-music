@@ -1,5 +1,5 @@
 import { atom } from 'recoil'
-import { MusicTime } from '@/recoil/types/music'
+import { MusicTime } from '@/types/music'
 import { STORE_AUDIO_VOLUME, STORE_PLAY_TYPE } from '@/constants'
 import store from 'store'
 

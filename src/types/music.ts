@@ -1,3 +1,4 @@
+// 音乐详情
 export interface MusicDetail {
     // 名称
     name: string
@@ -15,11 +16,13 @@ export interface MusicDetail {
     id: number
 }
 
+// 音乐播放时间
 export interface MusicTime {
     minute: number | string
     second: number | string
 }
 
+// 音乐歌词
 export type MusicLyrics = {
     time: number | null
     lyric: string

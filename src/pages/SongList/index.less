@@ -1,0 +1,69 @@
+.songList {
+  .songList-boutiqueSongListEntrance {
+    width: 100%;
+    height: 300px;
+    cursor: pointer;
+    border-radius: @radius;
+    position: relative;
+    overflow: hidden;
+
+    .songList-boutiqueSongListEntrance-maskLayer {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center center;
+      top: 0;
+      z-index: 1;
+      filter: saturate(200%) blur(70px);
+    }
+
+    .songList-boutiqueSongListEntrance-main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 30px;
+      gap: 30px;
+      overflow: hidden;
+      border-radius: @radius;
+      background: rgba(0, 0, 0, 0.4);
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 2;
+
+      .songList-CoverImage {
+        width: 250px;
+        border-radius: @radius;
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .songList-text {
+        height: 100%;
+        padding: 20px 0;
+        flex: 1;
+
+        .songList-text-button {
+          padding: 6px 20px;
+          border-radius: 40px;
+          display: inline-block;
+          border: 1px solid #e7aa5a;
+          color: #e7aa5a;
+          font-size: 16px;
+          margin: 25px 0;
+        }
+
+        .songList-text-name {
+          color: white;
+          font-size: 20px;
+          font-weight: bold;
+          letter-spacing: 0.1em;
+        }
+      }
+    }
+  }
+}

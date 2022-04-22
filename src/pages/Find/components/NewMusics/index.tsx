@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import MusicCell from '@/components/MusicCell'
-import { MusicRequest } from '@/api/music'
+import { MusicRequest } from '@/server/api/music'
 import { formatMusicDetail } from '@/utils'
 import { useAudio } from '@/hooks/audio'
-import { MusicDetail } from '@/recoil/types/music'
+import { MusicDetail } from '@/types/music'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { music_detail, music_songList } from '@/recoil/muisc'
 // 获取新音乐

@@ -6,9 +6,9 @@ import {
     auido_status
 } from '@/recoil/audio'
 import { useCallback, useEffect } from 'react'
-import { MusicDetail, MusicLyricsArr } from '@/recoil/types/music'
+import { MusicDetail, MusicLyricsArr } from '@/types/music'
 import { millisecondTurnTime, randomInteger } from '@/utils'
-import { MusicRequest } from '@/api/music'
+import { MusicRequest } from '@/server/api/music'
 import {
     music_detail,
     music_getMusicIndex,
@@ -16,7 +16,7 @@ import {
     music_songList
 } from '@/recoil/muisc'
 import { useRefState } from '@/hooks/index'
-import { SongList } from '@/recoil/types/songList'
+import { SongList } from '@/types/songList'
 
 // 音频播放器
 export const useAudio = () => {

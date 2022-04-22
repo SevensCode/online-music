@@ -1,51 +1,45 @@
-import React, {
-    ChangeEvent,
-    FC,
-    useCallback,
-    useEffect,
-    useState,
-} from 'react';
-import { useClickOnBlankHiddenElement } from '@/hooks';
-import { CSSTransition } from 'react-transition-group';
-import './index.less';
-import { SearchRequst } from '@/api/search';
-import { STORE_SEARCH_HISTORY } from '@/constants';
-import store from 'store';
+import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
+import { useClickOnBlankHiddenElement } from '@/hooks'
+import { CSSTransition } from 'react-transition-group'
+import './index.less'
+import { SearchRequst } from '@/server/api/search'
+import { STORE_SEARCH_HISTORY } from '@/constants'
+import store from 'store'
 
 // 获取热搜
 const getHotSearch = async () => {
-    const data = await SearchRequst.hotSearch();
-    return data?.result?.hots || [];
-};
+    const data = await SearchRequst.hotSearch()
+    return data?.result?.hots || []
+}
 const Search: FC = () => {
     const [searchRef, isShow, setShow] =
-        useClickOnBlankHiddenElement<HTMLDivElement>();
-    const [hotSearchList, setHotSearchList] = useState<any[]>([]);
-    const [searchText, setSearchText] = useState<string>('');
+        useClickOnBlankHiddenElement<HTMLDivElement>()
+    const [hotSearchList, setHotSearchList] = useState<any[]>([])
+    const [searchText, setSearchText] = useState<string>('')
     // 搜索历史
     const [searchHistory, setSearchHistory] = useState<string[]>(
-        store.get(STORE_SEARCH_HISTORY) || [],
-    );
+        store.get(STORE_SEARCH_HISTORY) || []
+    )
     const onSearch = useCallback(() => {
         if (!searchHistory.some((value) => value === searchText)) {
             setSearchHistory((oldHotSearchList) => {
-                const searchList = [...oldHotSearchList, searchText];
-                store.set(STORE_SEARCH_HISTORY, searchList);
-                return searchList;
-            });
+                const searchList = [...oldHotSearchList, searchText]
+                store.set(STORE_SEARCH_HISTORY, searchList)
+                return searchList
+            })
         }
-    }, [searchText, searchHistory]);
+    }, [searchText, searchHistory])
     const clearSearchHistory = useCallback(() => {
-        store.set(STORE_SEARCH_HISTORY, []);
-        setSearchHistory([]);
-    }, []);
+        store.set(STORE_SEARCH_HISTORY, [])
+        setSearchHistory([])
+    }, [])
     useEffect(() => {
-        getHotSearch().then((value) => setHotSearchList(value));
-    }, []);
+        getHotSearch().then((value) => setHotSearchList(value))
+    }, [])
     return (
         <div ref={searchRef} className={'header-search'}>
             <input
-                type="text"
+                type='text'
                 onKeyDown={(e) => e.code === 'Enter' && onSearch()}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setSearchText(e.target.value)
@@ -60,11 +54,11 @@ const Search: FC = () => {
             <CSSTransition
                 unmountOnExit
                 in={isShow}
-                classNames="zoomFade"
+                classNames='zoomFade'
                 timeout={300}
             >
-                <div className="pullDownList">
-                    <ul className="hotRecommended">
+                <div className='pullDownList'>
+                    <ul className='hotRecommended'>
                         <h3 className={'hotRecommended_title'}>
                             <i
                                 className={
@@ -84,7 +78,7 @@ const Search: FC = () => {
                             </li>
                         ))}
                     </ul>
-                    <div className="searchHistory">
+                    <div className='searchHistory'>
                         <h3 className={'searchHistory_title'}>
                             <span>搜索历史</span>
                             <span onClick={clearSearchHistory}>
@@ -110,7 +104,7 @@ const Search: FC = () => {
                 </div>
             </CSSTransition>
         </div>
-    );
-};
+    )
+}
 
-export default Search;
+export default Search

@@ -1,5 +1,6 @@
 // 是否和上次字符串一样
-import { MusicDetail } from '@/recoil/types/music'
+import { MusicDetail } from '@/types/music'
+import { SongListBasicInfo } from '@/types/songList'
 
 export const whetherAndLastTimeStringSame = (): ((str?: string) => boolean) => {
     let lastStr: string | undefined
@@ -45,7 +46,35 @@ export const formatMusicDetail = (musicDeatils: any): MusicDetail => {
         authors: artists
     }
 }
-
+/**
+ * 歌单基本信息格式化
+ * */
+export const formatSongListBasicInfo = (
+    songListBasicInfo: any
+): SongListBasicInfo => {
+    const {
+        id,
+        name,
+        coverImgUrl,
+        description,
+        commentCount,
+        playCount,
+        updateTime,
+        tags,
+        creator
+    } = songListBasicInfo
+    return {
+        commentCount,
+        coverPicture: coverImgUrl,
+        introduce: description,
+        name,
+        playCount,
+        tags,
+        updateTime,
+        id,
+        createUser: creator
+    }
+}
 /**
  * 毫秒转换秒
  * @param {number} millisecond 毫秒

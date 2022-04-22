@@ -7,7 +7,7 @@ import AudioController from '@/components/Audio/Controller'
 import { useRecoilValue } from 'recoil'
 import { audio_playProgressTime, audio_totalPlayTime } from '@/recoil/audio'
 import './index.less'
-import { MusicDetail } from '@/recoil/types/music'
+import { MusicDetail } from '@/types/music'
 import { music_detail } from '@/recoil/muisc'
 
 const PlayerController = () => {

@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { user_info, user_likeMusicIds } from '@/recoil/user'
 import { STORE_USER_INFO } from '@/constants'
 import store from 'store'
-import { UserRequst } from '@/api/user'
+import { UserRequst } from '@/server/api/user'
 import FullScreenPlayer from '@/layouts/components/FullScreenPlayer'
 import { setting_fullScreenPlayerVisible } from '@/recoil/setting'
 
@@ -18,7 +18,6 @@ export default withRouter(({ children, location }) => {
     const isShowFullScreenPlayer = useRecoilValue(
         setting_fullScreenPlayerVisible
     )
-
     useEffect(() => {
         const userinfo = store.get(STORE_USER_INFO)
         if (userinfo) {

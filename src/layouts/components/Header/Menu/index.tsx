@@ -1,21 +1,25 @@
-import React, { FC } from 'react';
-import { NavLink } from 'umi';
-import './index.less';
+import React, { FC } from 'react'
+import { NavLink } from 'umi'
+import './index.less'
 
 const menuRouters = [
     {
         path: '/',
-        title: '发现',
+        title: '发现'
     },
     {
         path: '/leaderboard',
-        title: '排行榜',
+        title: '排行榜'
+    },
+    {
+        path: '/songList',
+        title: '歌单'
     },
     {
         path: '/singer',
-        title: '歌手',
-    },
-];
+        title: '歌手'
+    }
+]
 const Menu: FC = () => {
     return (
         <div className={'header-menu'}>
@@ -31,7 +35,7 @@ const Menu: FC = () => {
                 </NavLink>
             ))}
         </div>
-    );
-};
+    )
+}
 
-export default Menu;
+export default Menu

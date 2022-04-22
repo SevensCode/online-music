@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil'
-import { MusicDetail, MusicLyricsArr } from '@/recoil/types/music'
-import { SongList } from '@/recoil/types/songList'
+import { MusicDetail, MusicLyricsArr } from '@/types/music'
+import { SongList } from '@/types/songList'
 
 // 音乐详情
 export const music_detail = atom<Nullable<MusicDetail>>({
