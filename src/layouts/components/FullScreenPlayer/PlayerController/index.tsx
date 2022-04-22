@@ -38,7 +38,7 @@ const PlayerController = () => {
                 <Like
                     className={'playerController-content-like'}
                     id={musicDetail.id}
-                    size={'28px'}
+                    size={'large'}
                 ></Like>
             </div>
             <div className='playerController-progressBar-box'>

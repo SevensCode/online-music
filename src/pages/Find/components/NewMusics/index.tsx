@@ -4,16 +4,17 @@ import { MusicRequest } from '@/api/music'
 import { formatMusicDetail } from '@/utils'
 import { useAudio } from '@/hooks/audio'
 import { MusicDetail } from '@/recoil/types/music'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { music_detail, music_songList } from '@/recoil/muisc'
 // 获取新音乐
 const getNewMusic = async () => {
     const { result } = await MusicRequest.newMusicPush(18)
     return result || []
 }
+
 const NewMusics = () => {
     const { audioPlay } = useAudio()
-    const setSongList = useSetRecoilState(music_songList)
+    const [songList, setSongList] = useRecoilState(music_songList)
     const musicDetail = useRecoilValue(music_detail)
     const [isSetPlayList, hanldeIsSetPlayList] = useState(false)
     // 新音乐列表
@@ -25,17 +26,13 @@ const NewMusics = () => {
     }, [])
     const onPlay = useCallback(
         (musicDetail: MusicDetail) => {
-            if (!isSetPlayList) {
+            if (!isSetPlayList || songList === null) {
                 hanldeIsSetPlayList(true)
-                setSongList({
-                    id: 0,
-                    list: newMusicList,
-                    originList: newMusicList
-                })
+                setSongList({ id: 0, list: newMusicList })
             }
             audioPlay(musicDetail)
         },
-        [isSetPlayList, newMusicList]
+        [isSetPlayList, newMusicList, songList]
     )
     const isActive = useCallback(
         (id) => {

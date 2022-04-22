@@ -1,31 +1,31 @@
-import React, { FC } from 'react';
+import React, { FC } from 'react'
 
 interface Props {
-    pause?: boolean;
-    className?: string;
+    type?: 'play' | 'pause'
+    className?: string
 
-    onPlay?(): void;
+    onPlay?(): void
 
-    onPause?(): void;
+    onPause?(): void
 }
 
 const PlayOrPauseIcon: FC<Props> = ({
-    pause = false,
+    type = 'play',
     onPlay,
     onPause,
-    className,
+    className
 }) => {
-    const icon = pause ? 'icon-zanting2' : 'icon-bofang1';
+    const icon = type ? 'icon-bofang1' : 'icon-zanting2'
     const onClick = () => {
-        if (onPause) !pause && onPause();
-        if (onPlay) pause && onPlay();
-    };
+        if (onPause && type === 'pause') onPause()
+        if (onPlay && type === 'play') onPlay()
+    }
     return (
         <i
             onClick={onClick}
             className={['iconfont', icon, className].join(' ')}
         ></i>
-    );
-};
+    )
+}
 
-export default PlayOrPauseIcon;
+export default PlayOrPauseIcon

@@ -23,16 +23,20 @@ const IconButton: FC<Props> = ({
             type={'text'}
             onClick={onClick}
             size={size}
-            className={['iconButton', className].join(' ')}
+            className={['iconButton', size, className].join(' ')}
         >
-            <i
-                className={['iconButton-icon', 'iconfont', icon, size].join(
-                    ' '
-                )}
-            ></i>
-            <span className={['iconButton-text', size].join(' ')}>
-                {children}
-            </span>
+            {icon && (
+                <i
+                    className={['iconButton-icon', 'iconfont', icon, size].join(
+                        ' '
+                    )}
+                ></i>
+            )}
+            {children && (
+                <span className={['iconButton-text', size].join(' ')}>
+                    {children}
+                </span>
+            )}
         </Button>
     )
 }
