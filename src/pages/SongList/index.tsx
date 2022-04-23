@@ -49,6 +49,12 @@ const SongList: FC = () => {
                     </div>
                 </div>
             </div>
+            <div className='songList-category'>
+                <button className={'songList-category-button'}>
+                    <i className={'iconfont icon-ico-'}></i>
+                    全部歌单
+                </button>
+            </div>
         </div>
     )
 }
