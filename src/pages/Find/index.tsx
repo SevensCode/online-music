@@ -23,8 +23,8 @@ const Find: FC = () => {
         </div>
     )
 }
-// @ts-ignore
 export default () => (
+    // @ts-ignore
     <KeepAlive name={'find'} when={true}>
         <Find />
     </KeepAlive>

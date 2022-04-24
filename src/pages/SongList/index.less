@@ -1,90 +1,74 @@
 .songList {
-  .songList-boutiqueSongListEntrance {
-    width: 100%;
-    height: 200px;
-    cursor: pointer;
-    border-radius: @radius;
+  .songList-category {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
-    overflow: hidden;
-    margin-bottom: 15px;
+    z-index: 50;
 
-    .songList-boutiqueSongListEntrance-maskLayer {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center center;
-      top: 0;
-      z-index: 1;
-      filter: saturate(200%) blur(70px);
+    .songList-category-tags {
+      display: inline-flex;
+      gap: 10px;
+      padding-right: 8px;
+
+      .active {
+        &.iconButton {
+          background: rgba(@theme, 0.1);
+          color: @theme;
+        }
+      }
     }
 
-    .songList-boutiqueSongListEntrance-main {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      padding: 30px;
-      gap: 30px;
-      overflow: hidden;
-      border-radius: @radius;
-      background: rgba(0, 0, 0, 0.4);
+    .songList-allCategory {
       position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 2;
+      width: 100%;
+      height: 300px;
+      overflow: auto;
+      padding: 10px 15px;
+      background: @backgroundColor;
+      border-radius: @radius;
+      top: 40px;
+      box-shadow: @shadow;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      justify-content: space-evenly;
 
-      .songList-CoverImage {
-        width: 150px;
-        border-radius: @radius;
-        height: 150px;
-        object-fit: cover;
-      }
+      .songList-allCategory-item {
+        display: flex;
 
-      .songList-text {
-        height: 100%;
-        padding: 20px 0;
-        flex: 1;
-
-        .songList-text-button {
-          padding: 4px 15px;
-          border-radius: 40px;
-          display: inline-block;
-          border: 1px solid #e7aa5a;
-          color: #e7aa5a;
-          font-size: 15px;
-          margin-bottom: 25px;
+        .songList-allCategory-title {
+          color: @textColor;
+          font-weight: bold;
+          font-size: 16px;
+          text-align: right;
         }
 
-        .songList-text-name {
-          color: white;
-          font-size: 20px;
-          font-weight: bold;
-          letter-spacing: 0.1em;
+        .songList-allCategory-list {
+          flex: 1;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px 10px;
+
+          .active {
+            &.iconButton {
+              background: rgba(@theme, 0.1);
+              color: @theme;
+            }
+          }
         }
       }
     }
   }
 
-  .songList-category {
-    display: flex;
+  .songList-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 190px);
     justify-content: space-between;
-    align-items: center;
-
-    .songList-category-button {
-      border: none;
-      outline: none;
-      padding: 4px 10px;
-      border-radius: @radius;
-      cursor: pointer;
-      background: @theme;
-      color: white;
-
-      i {
-        margin-right: 5px;
-      }
-    }
+    justify-items: center;
+    gap: 15px;
+    margin: 30px 0;
   }
 }

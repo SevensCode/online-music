@@ -2,65 +2,184 @@ import React, { FC, useEffect, useState } from 'react'
 import { KeepAlive } from '@@/core/umiExports'
 import './index.less'
 import { SongListRequst } from '@/server/api/songList'
+import IconButton from '@/components/Icon/Button'
+import { CSSTransition } from 'react-transition-group'
+import { SongList_GetSongList_Params } from '@/server/api/songList/params'
 import { SongListBasicInfo } from '@/types/songList'
 import { formatSongListBasicInfo } from '@/utils'
+import SongListCard from '@/components/SongListCard'
+import { Pagination } from 'antd'
+import { useScroll } from '@/hooks'
+// 获取热门歌单分类
+const getPopularPlaylistCategories = async () => {
+    const { tags } = await SongListRequst.getPopularPlaylistCategory()
+    return tags || []
+}
 
-const getBoutiquePlaylist = async (
-    limit: number
-): Promise<SongListBasicInfo[]> => {
-    const { playlists } = await SongListRequst.getBoutiquePlaylist({ limit })
-    const list = playlists || []
-    return list.map((item: any) => formatSongListBasicInfo(item))
+// 获取歌单分类
+const getPlaylistCategory = async () => {
+    const { categories, sub, all, code } =
+        await SongListRequst.getPlaylistCategory()
+    if (code !== 200) return undefined
+    return { categories, sub, all }
+}
+
+// 歌单
+const getSongList = async (
+    query: SongList_GetSongList_Params
+): Promise<{ songList: SongListBasicInfo[]; total: number }> => {
+    const { playlists, total } = await SongListRequst.getSongList(query)
+    const songList = playlists || []
+    return {
+        songList: songList.map((item: any) => formatSongListBasicInfo(item)),
+        total
+    }
 }
 const SongList: FC = () => {
-    const [boutiquePlaylistCover, setBoutiquePlaylistCover] =
-        useState<Nullable<SongListBasicInfo>>()
+    // 热门歌单分类
+    const [hotCategoryList, setHotCategoryList] = useState<any[]>([])
+    // 全都歌单分类
+    const [categoryList, setCategoryList] = useState<any[]>([])
+    // 分类是否可见
+    const [categoryVisible, setCategoryVisible] = useState(false)
+    // 歌单
+    const [sontList, setSongList] = useState<SongListBasicInfo[]>([])
+    // 歌单请求参数
+    const [query, setQuery] = useState<SongList_GetSongList_Params>({
+        cat: '全部歌单',
+        limit: 48,
+        page: 1
+    })
+    const [total, setTotal] = useState<number>(0)
+    const toScroll = useScroll()
     useEffect(() => {
-        getBoutiquePlaylist(1).then((songListInfo) => {
-            console.log(songListInfo)
-            setBoutiquePlaylistCover(songListInfo[0])
+        // 获取热门歌单分类
+        getPopularPlaylistCategories().then((r) => setHotCategoryList(r))
+        // 获取歌单分类
+        getPlaylistCategory().then((r) => {
+            if (r === undefined) return
+            const { categories, sub } = r
+            const category = Object.keys(categories).map((key) => {
+                return {
+                    name: categories[key],
+                    list: sub.filter(
+                        (item: any) => item.category === Number(key)
+                    )
+                }
+            })
+            setCategoryList(category)
         })
     }, [])
+    const setSongListType = (type: string) => {
+        setQuery({ ...query, cat: type, page: 1 })
+    }
+    const onPageChange = (page: number, limit: number) => {
+        setQuery({ ...query, page })
+        const layout = document.querySelector('.layout') as HTMLElement
+        layout && toScroll(layout, 0, 500)
+    }
+    useEffect(() => {
+        // 获取歌单
+        getSongList(query).then((r) => {
+            setTotal(r.total)
+            setSongList(r.songList)
+        })
+    }, [query])
     return (
         <div className={'songList app-container'}>
-            <div className='songList-boutiqueSongListEntrance'>
-                <div
-                    className='songList-boutiqueSongListEntrance-maskLayer'
-                    style={{
-                        backgroundImage: `url(${
-                            boutiquePlaylistCover?.coverPicture +
-                            '?param=250y250 '
-                        })`
-                    }}
-                ></div>
-                <div className='songList-boutiqueSongListEntrance-main'>
-                    <img
-                        src={
-                            boutiquePlaylistCover?.coverPicture +
-                            '?param=250y250 '
-                        }
-                        className={'songList-CoverImage'}
-                    />
-                    <div className='songList-text'>
-                        <p className={'songList-text-button'}>Go 精品歌单</p>
-                        <p className={'songList-text-name'}>
-                            {boutiquePlaylistCover?.name}
-                        </p>
-                    </div>
-                </div>
-            </div>
             <div className='songList-category'>
-                <button className={'songList-category-button'}>
-                    <i className={'iconfont icon-ico-'}></i>
-                    全部歌单
-                </button>
+                <IconButton
+                    icon={'iconfont icon-ico-'}
+                    onClick={() => setCategoryVisible(!categoryVisible)}
+                >
+                    {query.cat || '全部歌单'}
+                </IconButton>
+                <div className='songList-category-tags'>
+                    <IconButton
+                        onClick={() => setSongListType('全部歌单')}
+                        className={query.cat === '全部歌单' ? 'active' : ''}
+                        size={'small'}
+                    >
+                        全部歌单
+                    </IconButton>
+                    {hotCategoryList.map(({ id, name }) => (
+                        <IconButton
+                            key={id}
+                            onClick={() => setSongListType(name)}
+                            className={query.cat === name ? 'active' : ''}
+                            size={'small'}
+                        >
+                            {name}
+                        </IconButton>
+                    ))}
+                </div>
+                <CSSTransition
+                    unmountOnExit
+                    in={categoryVisible}
+                    classNames='zoomFade'
+                    timeout={300}
+                >
+                    <div className='songList-allCategory'>
+                        {categoryList.map((item, i) => (
+                            <div className='songList-allCategory-item' key={i}>
+                                <div className='songList-allCategory-title'>
+                                    {item.name}：
+                                </div>
+                                <div className={'songList-allCategory-list'}>
+                                    {item.list.map((tag: any) => (
+                                        <IconButton
+                                            className={
+                                                query.cat === tag.name
+                                                    ? 'active'
+                                                    : ''
+                                            }
+                                            key={tag.name}
+                                            onClick={() =>
+                                                setSongListType(tag.name)
+                                            }
+                                            size={'small'}
+                                        >
+                                            {tag.name}
+                                            {tag.hot && (
+                                                <sup className={'hot-sup'}>
+                                                    hot
+                                                </sup>
+                                            )}
+                                        </IconButton>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </CSSTransition>
+            </div>
+            <div className={'songList-list'}>
+                {sontList.map((item) => (
+                    <SongListCard
+                        title={item.name}
+                        key={item.id}
+                        userName={item.createUser.nickname}
+                        src={item.coverPicture + '?param=250y250'}
+                        count={item.playCount}
+                    ></SongListCard>
+                ))}
+            </div>
+            <div className='pagination-container'>
+                <Pagination
+                    hideOnSinglePage={true}
+                    onChange={onPageChange}
+                    current={query.page}
+                    defaultCurrent={query.page}
+                    showSizeChanger={false}
+                    total={total}
+                />
             </div>
         </div>
     )
 }
 
-// @ts-ignore
 export default () => (
+    // @ts-ignore
     <KeepAlive name={'songList'} when={true}>
         <SongList />
     </KeepAlive>

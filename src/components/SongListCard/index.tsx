@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, MouseEvent } from 'react'
 import './index.less'
 import ImageLazy from '@/components/ImageLazy'
 import PlayIcon from '@/components/Icon/Play'
@@ -9,10 +9,27 @@ interface Props {
     src: string
     // 播放量
     count: string | number
+    userName?: string
+
+    onClickUser?(): void
+
+    onClick?(): void
 }
 
 // 歌单卡片
-const SongListCard: FC<Props> = ({ width = '200px', src, title, count }) => {
+const SongListCard: FC<Props> = ({
+    width = '200px',
+    src,
+    title,
+    count,
+    onClick,
+    onClickUser,
+    userName
+}) => {
+    const suerClick = (e: MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation()
+        onClickUser && onClickUser()
+    }
     return (
         <div className={'songListCard'} style={{ width }}>
             <section className={'songListCard-img-container'}>
@@ -22,8 +39,19 @@ const SongListCard: FC<Props> = ({ width = '200px', src, title, count }) => {
                 </p>
                 <PlayIcon className={'songListCard-playIcon'} />
                 <ImageLazy src={src} className={'songListCard-img'} />
+                {userName && (
+                    <div onClick={suerClick} className='songListCard-user'>
+                        <i className={'iconfont icon-user'}></i>
+                        {userName}
+                    </div>
+                )}
             </section>
-            <p className={'songListCard-title text-2LinesHide'}>{title}</p>
+            <p
+                onClick={onClick}
+                className={'songListCard-title text-2LinesHide'}
+            >
+                {title}
+            </p>
         </div>
     )
 }

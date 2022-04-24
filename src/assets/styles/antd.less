@@ -1,0 +1,48 @@
+.ant-pagination-item,
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link,
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background: @subBackgroundColor;
+  border-radius: @radius;
+  color: @textColor;
+
+  &:hover {
+    border-color: @theme;
+    color: @textColor;
+
+    a {
+      color: @textColor;
+    }
+  }
+
+  a {
+    color: @textColor;
+  }
+}
+
+.ant-pagination-item-active {
+  border-color: @theme;
+  background: @theme;
+
+  a {
+    color: white;
+  }
+}
+
+.ant-pagination-jump-prev
+  .ant-pagination-item-container
+  .ant-pagination-item-ellipsis,
+.ant-pagination-jump-next
+  .ant-pagination-item-container
+  .ant-pagination-item-ellipsis {
+  color: rgba(@textColor, 0.5);
+}
+
+.ant-pagination-jump-prev
+  .ant-pagination-item-container
+  .ant-pagination-item-link-icon,
+.ant-pagination-jump-next
+  .ant-pagination-item-container
+  .ant-pagination-item-link-icon {
+  color: @theme;
+}
