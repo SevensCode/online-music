@@ -47,7 +47,7 @@ const SongList: FC = () => {
     // 歌单请求参数
     const [query, setQuery] = useState<SongList_GetSongList_Params>({
         cat: '全部歌单',
-        limit: 48,
+        limit: 42,
         page: 1
     })
     const [total, setTotal] = useState<number>(0)
@@ -158,6 +158,7 @@ const SongList: FC = () => {
                     <SongListCard
                         title={item.name}
                         key={item.id}
+                        width={'190px'}
                         userName={item.createUser.nickname}
                         src={item.coverPicture + '?param=250y250'}
                         count={item.playCount}
@@ -170,6 +171,7 @@ const SongList: FC = () => {
                     onChange={onPageChange}
                     current={query.page}
                     defaultCurrent={query.page}
+                    pageSize={query.limit}
                     showSizeChanger={false}
                     total={total}
                 />

@@ -32,7 +32,7 @@ const ImageLazy: FC<Props> = ({
 
     return (
         <LazyLoad
-            offset={0}
+            offset={100}
             throttle
             overflow
             scrollContainer={scrollContainer}

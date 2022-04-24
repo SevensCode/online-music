@@ -1,0 +1,36 @@
+.singer {
+  .singer-category {
+    padding: 10px;
+
+    .singer-category-item {
+      margin-bottom: 15px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      span {
+        font-size: 14px;
+        color: @subTextColor;
+        padding: 5px 11px;
+        cursor: pointer;
+        border-radius: @radius;
+        background: @subBackgroundColor;
+
+        &.active {
+          background: rgba(@theme, 0.1);
+          color: @theme;
+        }
+      }
+    }
+  }
+
+  .singer-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 190px);
+    justify-content: space-between;
+    justify-items: center;
+    gap: 15px;
+    margin: 30px 0;
+  }
+}
