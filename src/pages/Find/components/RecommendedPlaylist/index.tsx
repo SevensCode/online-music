@@ -1,8 +1,9 @@
 // 获取推荐歌单
 import { SongListRequst } from '@/server/api/songList'
 import React, { useEffect, useState } from 'react'
-import GraphicsCard from '@/components/SongListCard'
+import SongListCard from '@/components/SongListCard'
 import { numberUnit } from '@/utils'
+import { history } from 'umi'
 
 const getRecommendedPlaylist = async () => {
     const { result } = await SongListRequst.getRecommendedPlaylist()
@@ -14,11 +15,18 @@ const RecommendedPlaylist = () => {
     useEffect(() => {
         getRecommendedPlaylist().then((value) => setSongList(value))
     }, [])
+    const onClick = (id: string) => {
+        history.push({
+            pathname: '/songListDetail',
+            query: { id }
+        })
+    }
     return (
         <div className='find-recommendedPlaylist-container'>
             {songList.map(({ id, name, picUrl, playCount }) => (
-                <GraphicsCard
+                <SongListCard
                     key={id}
+                    onClick={() => onClick(id)}
                     title={name}
                     src={picUrl + '?param=250y250'}
                     width={'190px'}

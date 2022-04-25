@@ -32,7 +32,7 @@ const SongListCard: FC<Props> = ({
     }
     return (
         <div className={'songListCard'} style={{ width }}>
-            <section className={'songListCard-img-container'}>
+            <section className={'songListCard-img-container'} onClick={onClick}>
                 <p className={'songListCard-playVolume'}>
                     <i className='iconfont icon-24gl-play' />
                     {count}

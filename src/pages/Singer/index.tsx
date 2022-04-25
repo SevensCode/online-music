@@ -57,10 +57,15 @@ const filter = [
 ]
 const getListOfSingersByCategory = async (
     query: Singer_GetListOfSingersByCategory_Params
-): Promise<SingerDetail[]> => {
-    const { artists } = await SingerRequst.getListOfSingersByCategory(query)
+): Promise<{ more: boolean; singerList: SingerDetail[] }> => {
+    const { artists, more } = await SingerRequst.getListOfSingersByCategory(
+        query
+    )
     const singers = artists || []
-    return singers.map((item: any) => formatSingerDetail(item))
+    return {
+        more,
+        singerList: singers.map((item: any) => formatSingerDetail(item))
+    }
 }
 const Singer: FC = () => {
     const [query, setQuery] =
@@ -73,6 +78,7 @@ const Singer: FC = () => {
         })
     const [singerList, setSingerList] = useState<SingerDetail[]>([])
     const [isLoading, setLoadng] = useState(false)
+    const [more, setMore] = useState(false)
     useEffect(() => {
         let initial: string | number = query.initial
         if (query.initial === '热门') {
@@ -80,10 +86,17 @@ const Singer: FC = () => {
         } else if (query.initial === '#') {
             initial = 0
         }
-        getListOfSingersByCategory({ ...query, initial }).then((r) => {
-            setSingerList(r)
-            setLoadng(false)
-        })
+        getListOfSingersByCategory({ ...query, initial }).then(
+            ({ more, singerList }) => {
+                setSingerList(
+                    query.page !== 1
+                        ? [...singerList, ...singerList]
+                        : singerList
+                )
+                setMore(more)
+                setLoadng(false)
+            }
+        )
     }, [query])
     const onClickTag = (key: string, value: string | number) => {
         setQuery({ ...query, page: 1, [key]: value })
@@ -132,15 +145,20 @@ const Singer: FC = () => {
             <div className='singer-list'>
                 {singerList.map((singer) => (
                     <SingerCard
+                        key={singer.id}
                         width={'190px'}
                         src={singer.avatar + '?param=250y250'}
                         name={singer.name}
                     ></SingerCard>
                 ))}
             </div>
-            {singerList.length && !isLoading && (
+            {singerList.length && more && (
                 <div className='center-container'>
-                    <Button className={'loadMore'} onClick={loadMore}>
+                    <Button
+                        loading={isLoading}
+                        className={'loadMore'}
+                        onClick={loadMore}
+                    >
                         加载更多 <CaretDownOutlined />
                     </Button>
                 </div>

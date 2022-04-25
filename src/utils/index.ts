@@ -74,3 +74,18 @@ export const randomInteger = (
     const random = Math.round(Math.random() * (range[1] - range[0]) + range[0])
     return exclude.includes(random) ? randomInteger(range, exclude) : random
 }
+/**
+ * 计算行数
+ * */
+export const computeLineCount = (el: HTMLElement) => {
+    const computedStyle = getComputedStyle(el, null)
+    const lineHeight = (
+        computedStyle.lineHeight === 'normal'
+            ? computedStyle.fontSize
+            : computedStyle.lineHeight
+    ).replace('px', '')
+    const height = el.offsetHeight
+    console.log(lineHeight)
+    console.log(height)
+    return Math.ceil(Number(height) / Number(lineHeight))
+}
