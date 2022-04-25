@@ -115,9 +115,27 @@ li {
   margin-left: 3px;
 }
 
-.pagination-container {
+// 居中容器
+.center-container {
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 10px;
+}
+
+// 加载更多 button
+.loadMore {
+  background: @subBackgroundColor;
+  color: @textColor;
+  border-radius: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: @theme;
+    background: @subBackgroundColor;
+    border-color: @theme;
+  }
 }

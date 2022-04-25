@@ -6,10 +6,10 @@ import IconButton from '@/components/Icon/Button'
 import { CSSTransition } from 'react-transition-group'
 import { SongList_GetSongList_Params } from '@/server/api/songList/params'
 import { SongListBasicInfo } from '@/types/songList'
-import { formatSongListBasicInfo } from '@/utils'
 import SongListCard from '@/components/SongListCard'
 import { Pagination } from 'antd'
 import { useScroll } from '@/hooks'
+import { formatSongListBasicInfo } from '@/utils/objectFormatting'
 // 获取热门歌单分类
 const getPopularPlaylistCategories = async () => {
     const { tags } = await SongListRequst.getPopularPlaylistCategory()
@@ -165,7 +165,7 @@ const SongList: FC = () => {
                     ></SongListCard>
                 ))}
             </div>
-            <div className='pagination-container'>
+            <div className='center-container'>
                 <Pagination
                     hideOnSinglePage={true}
                     onChange={onPageChange}

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import MusicCell from '@/components/MusicCell'
 import { MusicRequest } from '@/server/api/music'
-import { formatMusicDetail } from '@/utils'
 import { useAudio } from '@/hooks/audio'
 import { MusicDetail } from '@/types/music'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { music_detail, music_songList } from '@/recoil/muisc'
+import { formatMusicDetail } from '@/utils/objectFormatting'
 // 获取新音乐
 const getNewMusic = async () => {
     const { result } = await MusicRequest.newMusicPush(18)

@@ -4,15 +4,16 @@ import './index.less'
 import { Singer_GetListOfSingersByCategory_Params } from '@/server/api/singer/params'
 import { SingerRequst } from '@/server/api/singer'
 import SingerCard from '@/components/SingerCard'
+import { formatSingerDetail } from '@/utils/objectFormatting'
+import { SingerDetail } from '@/types/Singer'
+import { Button } from 'antd'
+import { CaretDownOutlined } from '@ant-design/icons'
 // 语种
 const language = [
     { name: '全部', id: -1 },
     { name: '华语', id: 7 },
     { name: '欧美', id: 96 },
-    {
-        name: '日本',
-        id: 8
-    },
+    { name: '日本', id: 8 },
     { name: '韩国', id: 16 },
     { name: '其他', id: 0 }
 ]
@@ -56,9 +57,10 @@ const filter = [
 ]
 const getListOfSingersByCategory = async (
     query: Singer_GetListOfSingersByCategory_Params
-) => {
+): Promise<SingerDetail[]> => {
     const { artists } = await SingerRequst.getListOfSingersByCategory(query)
-    return artists || []
+    const singers = artists || []
+    return singers.map((item: any) => formatSingerDetail(item))
 }
 const Singer: FC = () => {
     const [query, setQuery] =
@@ -69,18 +71,34 @@ const Singer: FC = () => {
             page: 1,
             type: -1
         })
-    const [singerList, setSingerList] = useState()
+    const [singerList, setSingerList] = useState<SingerDetail[]>([])
+    const [isLoading, setLoadng] = useState(false)
     useEffect(() => {
-        getListOfSingersByCategory(query).then((r) => {
+        let initial: string | number = query.initial
+        if (query.initial === '热门') {
+            initial = -1
+        } else if (query.initial === '#') {
+            initial = 0
+        }
+        getListOfSingersByCategory({ ...query, initial }).then((r) => {
             setSingerList(r)
+            setLoadng(false)
         })
-    }, [])
+    }, [query])
+    const onClickTag = (key: string, value: string | number) => {
+        setQuery({ ...query, page: 1, [key]: value })
+    }
+    const loadMore = () => {
+        setQuery({ ...query, page: query.page + 1 })
+        setLoadng(true)
+    }
     return (
         <div className={'singer app-container'}>
             <div className='singer-category'>
                 <div className='singer-category-item'>
                     {language.map(({ id, name }) => (
                         <span
+                            onClick={() => onClickTag('area', id)}
                             className={id === query.area ? 'active' : ''}
                             key={id}
                         >
@@ -91,6 +109,7 @@ const Singer: FC = () => {
                 <div className='singer-category-item'>
                     {category.map(({ id, name }) => (
                         <span
+                            onClick={() => onClickTag('type', id)}
                             className={id === query.type ? 'active' : ''}
                             key={id}
                         >
@@ -101,6 +120,7 @@ const Singer: FC = () => {
                 <div className='singer-category-item'>
                     {filter.map((name) => (
                         <span
+                            onClick={() => onClickTag('initial', name)}
                             className={name === query.initial ? 'active' : ''}
                             key={name}
                         >
@@ -110,9 +130,21 @@ const Singer: FC = () => {
                 </div>
             </div>
             <div className='singer-list'>
-                {singerList}
-                <SingerCard src={} name={}></SingerCard>
+                {singerList.map((singer) => (
+                    <SingerCard
+                        width={'190px'}
+                        src={singer.avatar + '?param=250y250'}
+                        name={singer.name}
+                    ></SingerCard>
+                ))}
             </div>
+            {singerList.length && !isLoading && (
+                <div className='center-container'>
+                    <Button className={'loadMore'} onClick={loadMore}>
+                        加载更多 <CaretDownOutlined />
+                    </Button>
+                </div>
+            )}
         </div>
     )
 }
