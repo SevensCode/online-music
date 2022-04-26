@@ -12,6 +12,12 @@ body {
   src: url('./assets/font/TsangerYunHei-W04.ttf');
 }
 
+.clearTransition {
+  * {
+    transition: none !important;
+  }
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -124,6 +130,19 @@ li {
 }
 
 // 隐藏
-.visibilityHidden {
+.contentHidden {
   visibility: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+// 强制不换行
+.nowrap {
+  white-space: nowrap;
+}
+
+// 字符串换行
+.stringWrap {
+  white-space: pre-wrap;
 }

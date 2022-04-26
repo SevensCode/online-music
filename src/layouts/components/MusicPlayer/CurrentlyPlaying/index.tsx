@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react'
 import './index.less'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { music_detail, music_songList } from '@/recoil/muisc'
-import AuthorTags from '@/components/AuthorTags'
+import Tags from '@/components/AuthorTags'
 import { millisecondTurnTime } from '@/utils'
 import PlayOrPauseIcon from '@/components/Icon/PlayOrPause'
 import CustomButton from '@/components/CustomButton'
@@ -11,7 +11,7 @@ const CurrentlyPlaying: FC = () => {
     const [songList, setSongList] = useRecoilState(music_songList)
     const musicDetail = useRecoilValue(music_detail)
     const type = useCallback(
-        (id) => {
+        id => {
             if (musicDetail === null) return 'play'
             return musicDetail.id === id ? 'pause' : 'play'
         },
@@ -26,14 +26,8 @@ const CurrentlyPlaying: FC = () => {
         <div className={'currentlyPlaying'}>
             <h3 className={'module-title'}>当前播放</h3>
             <div className='currentlyPlaying-other'>
-                <p className='currentlyPlaying-total'>
-                    总{songList?.list.length || 0}首
-                </p>
-                <CustomButton
-                    size={'small'}
-                    onClick={clearTheList}
-                    icon={'icon-top'}
-                >
+                <p className='currentlyPlaying-total'>总{songList?.list.length || 0}首</p>
+                <CustomButton size={'small'} onClick={clearTheList} icon={'icon-top'}>
                     清空列表
                 </CustomButton>
                 {/*<p className="currentlyPlaying-clearTheList">*/}
@@ -47,20 +41,10 @@ const CurrentlyPlaying: FC = () => {
                         const { minute, second } = millisecondTurnTime(duration)
                         return (
                             <li className='currentlyPlaying-li' key={id}>
-                                <PlayOrPauseIcon
-                                    onPlay={onPlay}
-                                    onPause={onPause}
-                                    type={type(id)}
-                                    className={[
-                                        'currentlyPlaying-type',
-                                        musicDetail?.id === id ? 'playing' : ''
-                                    ].join(' ')}
-                                />
-                                <p className='currentlyPlaying-name text-1LinesHide'>
-                                    {name}
-                                </p>
+                                <PlayOrPauseIcon onPlay={onPlay} onPause={onPause} type={type(id)} className={['currentlyPlaying-type', musicDetail?.id === id ? 'playing' : ''].join(' ')} />
+                                <p className='currentlyPlaying-name text-1LinesHide'>{name}</p>
                                 <p className='currentlyPlaying-author text-1LinesHide'>
-                                    <AuthorTags authors={authors} />
+                                    <Tags tags={authors} />
                                 </p>
                                 <p className='currentlyPlaying-duration'>
                                     {minute}:{second}

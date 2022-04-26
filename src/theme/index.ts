@@ -3,19 +3,19 @@ import { STORE_THEME_DARK, STORE_THEME_KEY, STORE_THEME_LIGHT } from '@/constant
 
 interface Theme {
     // 字体颜色
-    textColor: string,
+    textColor: string
     // 副字体颜色
-    subTextColor: string,
+    subTextColor: string
     // 背景颜色
-    backgroundColor: string,
+    backgroundColor: string
     // 副背景颜色
-    subBackgroundColor: string,
+    subBackgroundColor: string
     // 滚动条颜色
-    scrollColor: string,
+    scrollColor: string
     // 透明
-    transparent: string,
+    transparent: string
     // 透明背景
-    transparentBackground: string,
+    transparentBackground: string
     // 分割线
     divder: string
 }
@@ -40,22 +40,29 @@ const light: Theme = {
     transparentBackground: 'rgba(255,255,255,.7)',
     divder: 'rgba(0, 0, 0, .06)'
 }
-const { style } = (document.querySelector('body') as HTMLBodyElement)
-
+const { style } = document.querySelector('body') as HTMLBodyElement
 
 // 设置黑暗主题
 export const setDarkTheme = () => {
+    document.body.classList.add('clearTransition')
     Object.keys(dark).forEach(key => {
-        style.setProperty(`--${ key }`, dark[key as keyof Theme])
+        style.setProperty(`--${key}`, dark[key as keyof Theme])
     })
     store.set(STORE_THEME_KEY, STORE_THEME_DARK)
+    setTimeout(() => {
+        document.body.classList.remove('clearTransition')
+    })
 }
 // 设置明亮主题
 export const setLightTheme = () => {
+    document.body.classList.add('clearTransition')
     Object.keys(light).forEach(key => {
-        style.setProperty(`--${ key }`, light[key as keyof Theme])
+        style.setProperty(`--${key}`, light[key as keyof Theme])
     })
     store.set(STORE_THEME_KEY, STORE_THEME_LIGHT)
+    setTimeout(() => {
+        document.body.classList.remove('clearTransition')
+    })
 }
 
 // 切换主题

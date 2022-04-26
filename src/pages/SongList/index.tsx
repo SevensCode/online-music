@@ -18,16 +18,13 @@ const getPopularPlaylistCategories = async () => {
 
 // 获取歌单分类
 const getPlaylistCategory = async () => {
-    const { categories, sub, all, code } =
-        await SongListRequst.getPlaylistCategory()
+    const { categories, sub, all, code } = await SongListRequst.getPlaylistCategory()
     if (code !== 200) return undefined
     return { categories, sub, all }
 }
 
 // 歌单
-const getSongList = async (
-    query: SongList_GetSongList_Params
-): Promise<{ songList: SongListBasicInfo[]; total: number }> => {
+const getSongList = async (query: SongList_GetSongList_Params): Promise<{ songList: SongListBasicInfo[]; total: number }> => {
     const { playlists, total } = await SongListRequst.getSongList(query)
     const songList = playlists || []
     return {
@@ -54,17 +51,15 @@ const SongList: FC = () => {
     const toScroll = useScroll()
     useEffect(() => {
         // 获取热门歌单分类
-        getPopularPlaylistCategories().then((r) => setHotCategoryList(r))
+        getPopularPlaylistCategories().then(r => setHotCategoryList(r))
         // 获取歌单分类
-        getPlaylistCategory().then((r) => {
+        getPlaylistCategory().then(r => {
             if (r === undefined) return
             const { categories, sub } = r
-            const category = Object.keys(categories).map((key) => {
+            const category = Object.keys(categories).map(key => {
                 return {
                     name: categories[key],
-                    list: sub.filter(
-                        (item: any) => item.category === Number(key)
-                    )
+                    list: sub.filter((item: any) => item.category === Number(key))
                 }
             })
             setCategoryList(category)
@@ -80,7 +75,7 @@ const SongList: FC = () => {
     }
     useEffect(() => {
         // 获取歌单
-        getSongList(query).then((r) => {
+        getSongList(query).then(r => {
             setTotal(r.total)
             setSongList(r.songList)
         })
@@ -88,68 +83,29 @@ const SongList: FC = () => {
     return (
         <div className={'songList app-container'}>
             <div className='songList-category'>
-                <CustomButton
-                    type={'primary'}
-                    size={'small'}
-                    icon={'iconfont icon-ico-'}
-                    onClick={() => setCategoryVisible(!categoryVisible)}
-                >
+                <CustomButton type={'primary'} size={'small'} icon={'iconfont icon-ico-'} onClick={() => setCategoryVisible(!categoryVisible)}>
                     {query.cat || '全部歌单'}
                 </CustomButton>
                 <div className='songList-category-tags'>
-                    <CustomButton
-                        type={'text'}
-                        onClick={() => setSongListType('全部歌单')}
-                        className={query.cat === '全部歌单' ? 'active' : ''}
-                        size={'small'}
-                    >
+                    <CustomButton type={'text'} onClick={() => setSongListType('全部歌单')} className={query.cat === '全部歌单' ? 'active' : ''} size={'small'}>
                         全部歌单
                     </CustomButton>
                     {hotCategoryList.map(({ id, name }) => (
-                        <CustomButton
-                            key={id}
-                            type={'text'}
-                            onClick={() => setSongListType(name)}
-                            className={query.cat === name ? 'active' : ''}
-                            size={'small'}
-                        >
+                        <CustomButton key={id} type={'text'} onClick={() => setSongListType(name)} className={query.cat === name ? 'active' : ''} size={'small'}>
                             {name}
                         </CustomButton>
                     ))}
                 </div>
-                <CSSTransition
-                    unmountOnExit
-                    in={categoryVisible}
-                    classNames='zoomFade'
-                    timeout={300}
-                >
+                <CSSTransition unmountOnExit in={categoryVisible} classNames='zoomFade' timeout={300}>
                     <div className='songList-allCategory'>
                         {categoryList.map((item, i) => (
                             <div className='songList-allCategory-item' key={i}>
-                                <div className='songList-allCategory-title'>
-                                    {item.name}：
-                                </div>
+                                <div className='songList-allCategory-title'>{item.name}：</div>
                                 <div className={'songList-allCategory-list'}>
                                     {item.list.map((tag: any) => (
-                                        <CustomButton
-                                            type={'text'}
-                                            className={
-                                                query.cat === tag.name
-                                                    ? 'active'
-                                                    : ''
-                                            }
-                                            key={tag.name}
-                                            onClick={() =>
-                                                setSongListType(tag.name)
-                                            }
-                                            size={'small'}
-                                        >
+                                        <CustomButton type={'text'} className={query.cat === tag.name ? 'active' : ''} key={tag.name} onClick={() => setSongListType(tag.name)} size={'small'}>
                                             {tag.name}
-                                            {tag.hot && (
-                                                <sup className={'hot-sup'}>
-                                                    hot
-                                                </sup>
-                                            )}
+                                            {tag.hot && <sup className={'hot-sup'}>hot</sup>}
                                         </CustomButton>
                                     ))}
                                 </div>
@@ -159,27 +115,12 @@ const SongList: FC = () => {
                 </CSSTransition>
             </div>
             <div className={'songList-list'}>
-                {sontList.map((item) => (
-                    <SongListCard
-                        title={item.name}
-                        key={item.id}
-                        width={'190px'}
-                        userName={item.createUser.nickname}
-                        src={item.coverPicture + '?param=250y250'}
-                        count={item.playCount}
-                    ></SongListCard>
+                {sontList.map(item => (
+                    <SongListCard title={item.name} key={item.id} width={'190px'} userName={item.createUser.nickname} src={item.coverPicture + '?param=250y250'} count={item.playCount}></SongListCard>
                 ))}
             </div>
             <div className='center-container'>
-                <Pagination
-                    hideOnSinglePage={true}
-                    onChange={onPageChange}
-                    current={query.page}
-                    defaultCurrent={query.page}
-                    pageSize={query.limit}
-                    showSizeChanger={false}
-                    total={total}
-                />
+                <Pagination hideOnSinglePage={true} onChange={onPageChange} current={query.page} defaultCurrent={query.page} pageSize={query.limit} showSizeChanger={false} total={total} />
             </div>
         </div>
     )

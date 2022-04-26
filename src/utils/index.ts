@@ -19,8 +19,7 @@ export const whetherAndLastTimeStringSame = (): ((str?: string) => boolean) => {
 export const numberUnit = (number: number): string | number => {
     const numberStr = number.toString()
     const length = numberStr.length
-    if (length > 4 && length <= 8)
-        return numberStr.substring(0, length - 4) + '万'
+    if (length > 4 && length <= 8) return numberStr.substring(0, length - 4) + '万'
     else if (length > 8) return numberStr.substring(0, length - 8) + '亿'
     return number
 }
@@ -67,10 +66,7 @@ export const millisecondTurnTime = (millisecond: number) => {
  * @param {array} range 最小值
  * @param {number|array} exclude
  * */
-export const randomInteger = (
-    range: [number, number] = [0, 100],
-    exclude: number[] = []
-): number => {
+export const randomInteger = (range: [number, number] = [0, 100], exclude: number[] = []): number => {
     const random = Math.round(Math.random() * (range[1] - range[0]) + range[0])
     return exclude.includes(random) ? randomInteger(range, exclude) : random
 }
@@ -79,13 +75,7 @@ export const randomInteger = (
  * */
 export const computeLineCount = (el: HTMLElement) => {
     const computedStyle = getComputedStyle(el, null)
-    const lineHeight = (
-        computedStyle.lineHeight === 'normal'
-            ? computedStyle.fontSize
-            : computedStyle.lineHeight
-    ).replace('px', '')
+    const lineHeight = (computedStyle.lineHeight === 'normal' ? computedStyle.fontSize : computedStyle.lineHeight).replace('px', '')
     const height = el.offsetHeight
-    console.log(lineHeight)
-    console.log(height)
     return Math.ceil(Number(height) / Number(lineHeight))
 }

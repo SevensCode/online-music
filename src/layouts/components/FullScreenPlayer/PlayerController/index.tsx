@@ -1,6 +1,6 @@
 import React from 'react'
 import ImageLazy from '@/components/ImageLazy'
-import AuthorTags from '@/components/AuthorTags'
+import Tags from '@/components/AuthorTags'
 import Like from '@/components/Like'
 import AudioProgressBar from '@/components/Audio/ProgressBar'
 import AudioController from '@/components/Audio/Controller'
@@ -19,36 +19,23 @@ const PlayerController = () => {
         <div className={'playerController'}>
             <div className='playerController-coverPicture-container'>
                 <div className='playerController-coverPicture-box'>
-                    <ImageLazy
-                        src={musicDetail.coverPicture + '?param=1024y1024'}
-                        className='playerController-coverPicture'
-                    ></ImageLazy>
+                    <ImageLazy src={musicDetail.coverPicture + '?param=1024y1024'} className='playerController-coverPicture'></ImageLazy>
                 </div>
             </div>
             <div className='playerController-content'>
                 <div className='playerController-content-text'>
                     <h1>{musicDetail.name}</h1>
                     <p>
-                        <AuthorTags
-                            className={'playerController-content-author'}
-                            authors={musicDetail.authors || []}
-                        />
+                        <Tags className={'playerController-content-author'} tags={musicDetail.authors || []} />
                     </p>
                 </div>
-                <Like
-                    className={'playerController-content-like'}
-                    id={musicDetail.id}
-                    size={'large'}
-                ></Like>
+                <Like className={'playerController-content-like'} id={musicDetail.id} size={'large'}></Like>
             </div>
             <div className='playerController-progressBar-box'>
                 <span className={'playerController-time'}>
                     {playProgressTime.minute}:{playProgressTime.second}
                 </span>
-                <AudioProgressBar
-                    tooltipVisible={false}
-                    className={'playerController-progressBar'}
-                />
+                <AudioProgressBar tooltipVisible={false} className={'playerController-progressBar'} />
                 <span className={'playerController-time'}>
                     {totalPlayTime.minute}:{totalPlayTime.second}
                 </span>

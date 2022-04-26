@@ -7,20 +7,9 @@ import MusicVolume from '@/components/Audio/Volume'
 import { message, Tooltip } from 'antd'
 import AudioProgressBar from '@/components/Audio/ProgressBar'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import {
-    audio_instance,
-    audio_isDragProgressBar,
-    audio_playProgressTime,
-    audio_playType,
-    audio_progressBarValue,
-    auido_status
-} from '@/recoil/audio'
-import AuthorTags from '@/components/AuthorTags'
-import {
-    music_detail,
-    music_getMusicIndex,
-    music_songList
-} from '@/recoil/muisc'
+import { audio_instance, audio_isDragProgressBar, audio_playProgressTime, audio_playType, audio_progressBarValue, auido_status } from '@/recoil/audio'
+import Tags from '@/components/AuthorTags'
+import { music_detail, music_getMusicIndex, music_songList } from '@/recoil/muisc'
 import { setting_fullScreenPlayerVisible } from '@/recoil/setting'
 import CurrentlyPlaying from '@/layouts/components/MusicPlayer/CurrentlyPlaying'
 import { CSSTransition } from 'react-transition-group'
@@ -69,8 +58,7 @@ const MusicPlayer = () => {
     // 播放完成
     const ended = useCallback(() => {
         setAudioStatus(0)
-        if (songListRef.current === null || musicDetailRef.current === null)
-            return
+        if (songListRef.current === null || musicDetailRef.current === null) return
         if (musicIndexRef.current === null) return
         const {
             list,
@@ -112,28 +100,16 @@ const MusicPlayer = () => {
     }, [])
     return (
         <div className={'musicPlayer gaussianBlur'}>
-            {musicDetail !== null && (
-                <AudioProgressBar
-                    className={[
-                        'musicPlayer-progressBar',
-                        isDragProgressBar ? 'active' : ''
-                    ].join(' ')}
-                />
-            )}
+            {musicDetail !== null && <AudioProgressBar className={['musicPlayer-progressBar', isDragProgressBar ? 'active' : ''].join(' ')} />}
             <div className='musicPlayer-container'>
                 <div className='musicPlayer-Info'>
                     {musicDetail !== null && (
                         <>
-                            <ImageLazy
-                                className={'musicPlayer-coverPicture'}
-                                src={musicDetail.coverPicture}
-                            />
+                            <ImageLazy className={'musicPlayer-coverPicture'} src={musicDetail.coverPicture} />
                             <div className='musicPlayer-content'>
-                                <p className='musicPlayer-name text-1LinesHide'>
-                                    {musicDetail.name}
-                                </p>
+                                <p className='musicPlayer-name text-1LinesHide'>{musicDetail.name}</p>
                                 <p className='musicPlayer-author text-1LinesHide'>
-                                    <AuthorTags authors={musicDetail.authors} />
+                                    <Tags tags={musicDetail.authors} />
                                 </p>
                             </div>
                         </>
@@ -149,31 +125,16 @@ const MusicPlayer = () => {
                             <MusicVolume />
 
                             <Tooltip placement='top' title='播放列表'>
-                                <CustomButton
-                                    type={'text'}
-                                    onClick={() =>
-                                        setPlayListVisible(!playListVisible)
-                                    }
-                                    icon={'icon-bofangliebiao'}
-                                ></CustomButton>
+                                <CustomButton type={'text'} onClick={() => setPlayListVisible(!playListVisible)} icon={'icon-bofangliebiao'}></CustomButton>
                             </Tooltip>
                             <Tooltip placement='top' title='歌词'>
-                                <CustomButton
-                                    type={'text'}
-                                    onClick={() => setIsLyricsView(true)}
-                                    icon={'icon-lrc'}
-                                ></CustomButton>
+                                <CustomButton type={'text'} onClick={() => setIsLyricsView(true)} icon={'icon-lrc'}></CustomButton>
                             </Tooltip>
                         </>
                     )}
                 </div>
             </div>
-            <CSSTransition
-                unmountOnExit
-                in={playListVisible}
-                classNames='rightZoomFade'
-                timeout={300}
-            >
+            <CSSTransition unmountOnExit in={playListVisible} classNames='rightZoomFade' timeout={300}>
                 <CurrentlyPlaying />
             </CSSTransition>
         </div>
