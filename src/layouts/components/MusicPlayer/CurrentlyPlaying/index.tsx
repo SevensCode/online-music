@@ -5,7 +5,7 @@ import { music_detail, music_songList } from '@/recoil/muisc'
 import AuthorTags from '@/components/AuthorTags'
 import { millisecondTurnTime } from '@/utils'
 import PlayOrPauseIcon from '@/components/Icon/PlayOrPause'
-import IconButton from '@/components/Icon/Button'
+import CustomButton from '@/components/CustomButton'
 
 const CurrentlyPlaying: FC = () => {
     const [songList, setSongList] = useRecoilState(music_songList)
@@ -29,13 +29,13 @@ const CurrentlyPlaying: FC = () => {
                 <p className='currentlyPlaying-total'>
                     总{songList?.list.length || 0}首
                 </p>
-                <IconButton
+                <CustomButton
                     size={'small'}
                     onClick={clearTheList}
                     icon={'icon-top'}
                 >
                     清空列表
-                </IconButton>
+                </CustomButton>
                 {/*<p className="currentlyPlaying-clearTheList">*/}
                 {/*    <i className={ 'iconfont icon-top' }></i>*/}
 

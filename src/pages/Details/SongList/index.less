@@ -1,2 +1,101 @@
 .songListDetail {
+  .songListDetail-infoContainer {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 15px;
+
+    .songListDetail-coverPicture {
+      width: 250px;
+      height: 250px;
+      border-radius: @radius;
+      box-shadow: @shadow;
+    }
+
+    .songListDetail-info {
+      display: flex;
+      gap: 6px;
+      flex-direction: column;
+
+      .songListDetail-info-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        h1 {
+          font-weight: bold;
+          font-size: 24px;
+          color: @textColor;
+        }
+      }
+
+      .songListDetail-info-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .songListDetail-info-user-avatar {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          object-fit: cover;
+          cursor: pointer;
+        }
+
+        .songListDetail-info-user-nickname {
+          font-size: 14px;
+          color: @link;
+          cursor: pointer;
+
+          &:hover {
+            color: @theme;
+          }
+        }
+
+        .songListDetail-info-user-createTime {
+          font-size: 12px;
+          color: @subTextColor;
+        }
+      }
+
+      .songListDetail-info-tags {
+        display: flex;
+        align-items: center;
+
+        .songListDetail-info-tag {
+          margin: 0 2px;
+          color: @link;
+
+          &:hover {
+            color: @theme;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .songListDetail-info-count {
+        display: flex;
+        gap: 10px;
+
+        p {
+          color: @subTextColor;
+        }
+      }
+
+      .songListDetail-info-introduction-box {
+        display: flex;
+        color: @textColor;
+      }
+
+      .songListDetail-info-action {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .songListDetail-info-label {
+        color: @textColor;
+      }
+    }
+  }
 }

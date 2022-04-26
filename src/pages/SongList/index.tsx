@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { KeepAlive } from '@@/core/umiExports'
 import './index.less'
 import { SongListRequst } from '@/server/api/songList'
-import IconButton from '@/components/Icon/Button'
+import CustomButton from '@/components/CustomButton'
 import { CSSTransition } from 'react-transition-group'
 import { SongList_GetSongList_Params } from '@/server/api/songList/params'
 import { SongListBasicInfo } from '@/types/songList'
@@ -88,29 +88,33 @@ const SongList: FC = () => {
     return (
         <div className={'songList app-container'}>
             <div className='songList-category'>
-                <IconButton
+                <CustomButton
+                    type={'primary'}
+                    size={'small'}
                     icon={'iconfont icon-ico-'}
                     onClick={() => setCategoryVisible(!categoryVisible)}
                 >
                     {query.cat || '全部歌单'}
-                </IconButton>
+                </CustomButton>
                 <div className='songList-category-tags'>
-                    <IconButton
+                    <CustomButton
+                        type={'text'}
                         onClick={() => setSongListType('全部歌单')}
                         className={query.cat === '全部歌单' ? 'active' : ''}
                         size={'small'}
                     >
                         全部歌单
-                    </IconButton>
+                    </CustomButton>
                     {hotCategoryList.map(({ id, name }) => (
-                        <IconButton
+                        <CustomButton
                             key={id}
+                            type={'text'}
                             onClick={() => setSongListType(name)}
                             className={query.cat === name ? 'active' : ''}
                             size={'small'}
                         >
                             {name}
-                        </IconButton>
+                        </CustomButton>
                     ))}
                 </div>
                 <CSSTransition
@@ -127,7 +131,8 @@ const SongList: FC = () => {
                                 </div>
                                 <div className={'songList-allCategory-list'}>
                                     {item.list.map((tag: any) => (
-                                        <IconButton
+                                        <CustomButton
+                                            type={'text'}
                                             className={
                                                 query.cat === tag.name
                                                     ? 'active'
@@ -145,7 +150,7 @@ const SongList: FC = () => {
                                                     hot
                                                 </sup>
                                             )}
-                                        </IconButton>
+                                        </CustomButton>
                                     ))}
                                 </div>
                             </div>

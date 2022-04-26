@@ -36,9 +36,11 @@ export const formatSongListBasicInfo = (
         playCount,
         updateTime,
         tags,
-        creator
+        creator,
+        trackCount
     } = songListBasicInfo
     return {
+        musicCount: trackCount,
         commentCount,
         coverPicture: coverImgUrl,
         introduce: description,

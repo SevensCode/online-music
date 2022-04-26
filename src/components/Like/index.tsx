@@ -5,7 +5,7 @@ import { message } from 'antd'
 import { history } from 'umi'
 import { UserRequst } from '@/server/api/user'
 import './index.less'
-import IconButton from '@/components/Icon/Button'
+import CustomButton from '@/components/CustomButton'
 import { Size } from '@/types/common'
 
 interface Props {
@@ -51,16 +51,18 @@ const Like: FC<Props> = ({ id, className, size }) => {
         [useinfo, isLoading]
     )
     return isLike ? (
-        <IconButton
+        <CustomButton
             className={['like', className].join(' ')}
             onClick={() => asyncSetLike(false)}
             icon={'icon-aixin1'}
+            type={'text'}
             size={size}
         />
     ) : (
-        <IconButton
+        <CustomButton
             onClick={() => asyncSetLike(true)}
             size={size}
+            type={'text'}
             className={className}
             icon={'icon-xin'}
         />

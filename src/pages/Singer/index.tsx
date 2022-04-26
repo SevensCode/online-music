@@ -57,14 +57,14 @@ const filter = [
 ]
 const getListOfSingersByCategory = async (
     query: Singer_GetListOfSingersByCategory_Params
-): Promise<{ more: boolean; singerList: SingerDetail[] }> => {
+): Promise<{ more: boolean; singer: SingerDetail[] }> => {
     const { artists, more } = await SingerRequst.getListOfSingersByCategory(
         query
     )
     const singers = artists || []
     return {
         more,
-        singerList: singers.map((item: any) => formatSingerDetail(item))
+        singer: singers.map((item: any) => formatSingerDetail(item))
     }
 }
 const Singer: FC = () => {
@@ -87,11 +87,9 @@ const Singer: FC = () => {
             initial = 0
         }
         getListOfSingersByCategory({ ...query, initial }).then(
-            ({ more, singerList }) => {
+            ({ more, singer }) => {
                 setSingerList(
-                    query.page !== 1
-                        ? [...singerList, ...singerList]
-                        : singerList
+                    query.page !== 1 ? [...singerList, ...singer] : singer
                 )
                 setMore(more)
                 setLoadng(false)
@@ -143,9 +141,9 @@ const Singer: FC = () => {
                 </div>
             </div>
             <div className='singer-list'>
-                {singerList.map((singer) => (
+                {singerList.map((singer, i) => (
                     <SingerCard
-                        key={singer.id}
+                        key={i}
                         width={'190px'}
                         src={singer.avatar + '?param=250y250'}
                         name={singer.name}
@@ -156,7 +154,7 @@ const Singer: FC = () => {
                 <div className='center-container'>
                     <Button
                         loading={isLoading}
-                        className={'loadMore'}
+                        className={'default'}
                         onClick={loadMore}
                     >
                         加载更多 <CaretDownOutlined />

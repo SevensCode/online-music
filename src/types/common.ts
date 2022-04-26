@@ -13,3 +13,5 @@ export enum Gender {
 
 // 尺寸
 export type Size = 'middle' | 'large' | 'small'
+// 按钮类型
+export type ButtonType = 'primary' | 'default' | 'text'

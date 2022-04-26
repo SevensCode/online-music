@@ -1,0 +1,78 @@
+.customButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: @textColor;
+  transition: 0.3s ease-in-out;
+  gap: 5px;
+  background: @subBackgroundColor;
+  border-color: @subBackgroundColor;
+  //
+  //&:hover {
+  //  transform: scale(1.1);
+  //}
+
+  &:hover {
+    background: @subBackgroundColor;
+    border-color: @subBackgroundColor;
+    color: @textColor;
+  }
+
+  &.ant-btn-text {
+    border-radius: 5px;
+    color: @textColor;
+    gap: 5px;
+    background: transparent;
+    border-color: transparent;
+
+    &:hover:not(.disable) {
+      background: @transparent;
+      border-color: transparent;
+    }
+  }
+
+  &.ant-btn-primary {
+    border-radius: 5px;
+    color: white;
+    gap: 5px;
+    background: @theme;
+    border-color: @theme;
+
+    &:hover:not(.disable) {
+      background: @theme * 1.3;
+      border-color: @theme * 1.3;
+    }
+  }
+
+  &.small {
+    &.ant-btn-sm {
+      padding: 8px;
+      height: 30px;
+    }
+  }
+
+  &.large {
+    &.ant-btn-lg {
+    }
+  }
+
+  &.middle {
+    padding: 8px;
+  }
+
+  .customButton-text,
+  .customButton-icon {
+    &.small {
+      font-size: 16px;
+    }
+
+    &.large {
+      font-size: 22px;
+    }
+
+    &.middle {
+      font-size: 18px;
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { Tooltip } from 'antd'
 import { useRecoilState } from 'recoil'
 import { audio_playType } from '@/recoil/audio'
 import store from 'store'
-import IconButton from '@/components/Icon/Button'
+import CustomButton from '@/components/CustomButton'
 
 interface Interface {
     className?: string
@@ -25,10 +25,11 @@ const AudioPlayType: FC<Interface> = ({ className, onChange }) => {
     }, [playType])
     return (
         <Tooltip placement='top' title={AUDIO_PLAY_TYPE[playType].name}>
-            <IconButton
+            <CustomButton
+                type={'text'}
                 icon={AUDIO_PLAY_TYPE[playType].icon}
                 onClick={handlePlayTyoe}
-            ></IconButton>
+            ></CustomButton>
         </Tooltip>
     )
 }

@@ -24,4 +24,10 @@ export class SongListRequst {
                 cat
             }
         })
+    // 获取歌单详情
+    static getSongListDetail = (id: number) =>
+        request.get('/playlist/detail', { params: { id } })
+    // 获取歌单所有歌曲 （歌单音乐数量大于100时使用）
+    static getSongListAllMusic = (id: number) =>
+        request.get('/playlist/track/all', { params: { id } })
 }

@@ -19,6 +19,8 @@ export interface SongListBasicInfo {
     commentCount: number
     // 播放数量
     playCount: number
+    // 音乐数量
+    musicCount: number
     // 更新时间
     updateTime: number
     // 标签

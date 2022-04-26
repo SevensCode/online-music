@@ -27,7 +27,7 @@ import { CSSTransition } from 'react-transition-group'
 import { randomInteger, secondTurnTime } from '@/utils'
 import { useAudio } from '@/hooks/audio'
 import { useRefState } from '@/hooks'
-import IconButton from '@/components/Icon/Button'
+import CustomButton from '@/components/CustomButton'
 
 const MusicPlayer = () => {
     const { audioNext, audioPlay } = useAudio()
@@ -149,18 +149,20 @@ const MusicPlayer = () => {
                             <MusicVolume />
 
                             <Tooltip placement='top' title='播放列表'>
-                                <IconButton
+                                <CustomButton
+                                    type={'text'}
                                     onClick={() =>
                                         setPlayListVisible(!playListVisible)
                                     }
                                     icon={'icon-bofangliebiao'}
-                                ></IconButton>
+                                ></CustomButton>
                             </Tooltip>
                             <Tooltip placement='top' title='歌词'>
-                                <IconButton
+                                <CustomButton
+                                    type={'text'}
                                     onClick={() => setIsLyricsView(true)}
                                     icon={'icon-lrc'}
-                                ></IconButton>
+                                ></CustomButton>
                             </Tooltip>
                         </>
                     )}

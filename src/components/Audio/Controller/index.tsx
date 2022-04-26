@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil'
 import { auido_status } from '@/recoil/audio'
 import { useAudio } from '@/hooks/audio'
 import { music_detail } from '@/recoil/muisc'
-import IconButton from '@/components/Icon/Button'
+import CustomButton from '@/components/CustomButton'
 
 interface Props {
     className?: string
@@ -35,25 +35,28 @@ const AudioController: FC<Props> = ({ className }) => {
             )}
         >
             <Tooltip placement='top' title='上一首'>
-                <IconButton
+                <CustomButton
+                    type={'text'}
                     size={'middle'}
                     icon={'icon-shangyishou'}
                     onClick={audioPrev}
-                ></IconButton>
+                ></CustomButton>
             </Tooltip>
             <Tooltip placement='top' title={status.name}>
-                <IconButton
+                <CustomButton
+                    type={'text'}
                     size={'large'}
                     icon={status.icon}
                     onClick={playOrPause}
-                ></IconButton>
+                ></CustomButton>
             </Tooltip>
             <Tooltip placement='top' title='下一首'>
-                <IconButton
+                <CustomButton
+                    type={'text'}
                     size={'middle'}
                     icon={'icon-xiayishou'}
                     onClick={audioNext}
-                ></IconButton>
+                ></CustomButton>
             </Tooltip>
         </div>
     )

@@ -78,12 +78,12 @@ export const useStatus = (): [Loading, () => void, () => void, () => void] => {
 export const useScroll = <E extends HTMLElement>(): ((
     el: E,
     to: number,
-    duration: number
+    duration?: number
 ) => void) => {
     const cubic = (value: number) => Math.pow(value, 3)
     const easeInOutCubic = (value: number) =>
         value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2
-    return useCallback((el: E, to: number, duration: number = 500) => {
+    return (el, to, duration = 500) => {
         const scrollTop = el.scrollTop
         let start: number
         let offset: number
@@ -104,7 +104,7 @@ export const useScroll = <E extends HTMLElement>(): ((
             el.scrollTo(0, offset)
         }
         requestAnimationFrame(frame)
-    }, [])
+    }
 }
 
 export const useRefState = <T extends unknown>(state: T) => {
