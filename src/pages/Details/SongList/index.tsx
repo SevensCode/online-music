@@ -17,6 +17,7 @@ const { TabPane } = Tabs
 const getSongListDetail = async (id: number): Promise<SongListBasicInfo> => {
     const { playlist } = await SongListRequst.getSongListDetail(id)
     const detail = playlist || []
+    console.log(1651)
     return formatSongListBasicInfo(detail)
 }
 
