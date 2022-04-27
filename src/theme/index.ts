@@ -13,9 +13,9 @@ interface Theme {
     // 滚动条颜色
     scrollColor: string
     // 透明
-    transparent: string
+    hover: string
     // 透明背景
-    transparentBackground: string
+    transparent: string
     // 分割线
     divder: string
 }
@@ -26,18 +26,19 @@ const dark: Theme = {
     backgroundColor: '#242526',
     subBackgroundColor: '#2e3236',
     scrollColor: 'rgba(255, 255, 255, 0.5)',
-    transparent: 'rgba(255, 255, 255, 0.1)',
-    transparentBackground: 'rgba(36,37,38,.7)',
+    hover: '#343639',
+    transparent: 'rgba(36,37,38,.7)',
     divder: 'rgba(255, 255, 255, .06)'
 }
+// #e8e9ed
 const light: Theme = {
     textColor: '#333333',
     subTextColor: '#606770',
     backgroundColor: '#ffffff',
     subBackgroundColor: '#f2f2f2',
     scrollColor: 'rgba(0, 0, 0, 0.5)',
-    transparent: 'rgba(0, 0, 0, 0.1)',
-    transparentBackground: 'rgba(255,255,255,.7)',
+    hover: '#e8e9ed',
+    transparent: 'rgba(255,255,255,.7)',
     divder: 'rgba(0, 0, 0, .06)'
 }
 const { style } = document.querySelector('body') as HTMLBodyElement

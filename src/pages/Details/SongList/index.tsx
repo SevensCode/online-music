@@ -1,23 +1,26 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
 import './index.less'
-import CustomButton from '@/components/CustomButton'
 import { history } from 'umi'
 import { SongListRequst } from '@/server/api/songList'
 import { formatSongListBasicInfo } from '@/utils/objectFormatting'
 import { SongListBasicInfo } from '@/types/songList'
 import Tags from '@/components/AuthorTags'
-import item from '@/components/Banner/item'
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
 import { computeLineCount } from '@/utils'
-import timeTool from '@/utils/timeTool'
+import timeTool from '@/utils/dateTool'
+import { Tabs } from 'antd'
+import SearchInput from '@/components/Search'
+import MusicTable from '@/components/MusicTable/index'
+import CustomButton from '@/components/CustomButton'
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
 
+const { TabPane } = Tabs
 const getSongListDetail = async (id: number): Promise<SongListBasicInfo> => {
     const { playlist } = await SongListRequst.getSongListDetail(id)
     const detail = playlist || []
     return formatSongListBasicInfo(detail)
 }
-// 歌单 id
 
+// 歌单 id
 const SongListDetail: FC = () => {
     const id = history.location.query?.id
     const [basicInfo, setBasicInfo] = useState<Nullable<SongListBasicInfo>>(null)
@@ -34,7 +37,6 @@ const SongListDetail: FC = () => {
     const expandCollapse = () => {
         setExpand(!isExpand)
     }
-    console.log(basicInfo)
     return (
         <div className={'app-container songListDetail'}>
             {basicInfo !== null && (
@@ -43,20 +45,22 @@ const SongListDetail: FC = () => {
                     <div className='songListDetail-info'>
                         <h1 className='songListDetail-info-title'>{basicInfo.name}</h1>
                         <div className='songListDetail-info-user'>
-                            <img className={'songListDetail-info-user-avatar'} src={basicInfo.createUser.avatarUrl + '?param=250y250'} alt='' />
+                            <img
+                                className={'songListDetail-info-user-avatar'}
+                                src={basicInfo.createUser.avatarUrl + '?param=250y250'}
+                                alt=''
+                            />
                             <span className={'songListDetail-info-user-nickname'}>{basicInfo.createUser.nickname}</span>
                             <span className={'songListDetail-info-user-createTime'}>{timeTool(basicInfo.updateTime).fromNow()}更新</span>
                         </div>
                         <div className='songListDetail-info-tags'>
-                            <span className={'songListDetail-info-label'}>标签：</span>
+                            <span className={'songListDetail-info-label'}> 标签：</span>
                             <Tags
                                 className='songListDetail-info-tag'
                                 tags={basicInfo.tags.map((item, i) => ({
                                     name: item,
                                     id: i
-                                }))}>
-                                {item}
-                            </Tags>
+                                }))}></Tags>
                         </div>
                         <div className='songListDetail-info-count'>
                             <p>
@@ -71,9 +75,9 @@ const SongListDetail: FC = () => {
                         <div className='songListDetail-info-introduction-box'>
                             <span className={'songListDetail-info-label'}>简介：</span>
                             <div className={'songListDetail-info-introduction'}>
-                                <span className={['stringWrap', isExpand ? '' : 'text-1LinesHide'].join(' ')}>{basicInfo.introduce + basicInfo.introduce + basicInfo.introduce}</span>
+                                <span className={['stringWrap', isExpand ? '' : 'text-1LinesHide'].join(' ')}>{basicInfo.introduce}</span>
                                 <span className={'contentHidden stringWrap'} ref={introductionRef}>
-                                    {basicInfo.introduce + basicInfo.introduce + basicInfo.introduce}
+                                    {basicInfo.introduce}
                                 </span>
                             </div>
                             {lineCount > 1 && (
@@ -93,6 +97,14 @@ const SongListDetail: FC = () => {
                     </div>
                 </div>
             )}
+            <Tabs defaultActiveKey='1' tabBarExtraContent={<SearchInput placeholder={'搜索歌单音乐'} />}>
+                <TabPane tab='歌曲列表' key='1'>
+                    <MusicTable songList={[]} />
+                </TabPane>
+                <TabPane tab='评论' key='2'></TabPane>
+                <TabPane tab='收藏者' key='3'></TabPane>
+                <TabPane tab='相似推荐' key='4'></TabPane>
+            </Tabs>
         </div>
     )
 }

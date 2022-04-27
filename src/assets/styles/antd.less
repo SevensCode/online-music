@@ -1,3 +1,4 @@
+// 分页
 .ant-pagination-item,
 .ant-pagination-prev .ant-pagination-item-link,
 .ant-pagination-next .ant-pagination-item-link,
@@ -29,20 +30,109 @@
   }
 }
 
-.ant-pagination-jump-prev
-  .ant-pagination-item-container
-  .ant-pagination-item-ellipsis,
-.ant-pagination-jump-next
-  .ant-pagination-item-container
-  .ant-pagination-item-ellipsis {
+.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
+.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
   color: rgba(@textColor, 0.5);
 }
 
-.ant-pagination-jump-prev
-  .ant-pagination-item-container
-  .ant-pagination-item-link-icon,
-.ant-pagination-jump-next
-  .ant-pagination-item-container
-  .ant-pagination-item-link-icon {
+.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon,
+.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-link-icon {
   color: @theme;
+}
+
+// 标签页
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap,
+.ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap {
+  height: 40px;
+}
+
+.ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar,
+.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar {
+  display: none;
+}
+
+.ant-tabs-tab {
+  color: @subTextColor;
+  font-size: 16px;
+
+  &:hover {
+    color: @textColor;
+  }
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  font-size: 22px;
+  color: @textColor;
+  font-weight: bold;
+  transition: 0.3s ease;
+
+  &:before {
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: @theme;
+    bottom: 0;
+    border-radius: @radius;
+  }
+}
+
+.ant-tabs-top > .ant-tabs-nav::before,
+.ant-tabs-bottom > .ant-tabs-nav::before,
+.ant-tabs-top > div > .ant-tabs-nav::before,
+.ant-tabs-bottom > div > .ant-tabs-nav::before {
+  border-color: @divder;
+}
+
+.ant-tabs > .ant-tabs-nav,
+.ant-tabs > div > .ant-tabs-nav {
+  padding: 0 10px;
+}
+
+.ant-table {
+  background: @backgroundColor;
+}
+
+// 表格
+.ant-table table {
+  //border-radius: @radius;
+}
+
+.ant-table-thead > tr > th {
+  background: @subBackgroundColor;
+  color: @textColor;
+  border-color: @divder;
+}
+
+.ant-table-tbody > tr > td {
+  background: @backgroundColor;
+  color: @textColor;
+  border-color: @divder;
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td,
+.ant-table-tbody > tr > td.ant-table-cell-row-hover {
+  background: @hover;
+}
+
+.ant-table-tbody > tr.ant-table-placeholder:hover > td {
+  background: @hover;
+}
+
+.ant-table-tbody {
+  background: @backgroundColor;
+}
+
+.ant-empty-normal {
+  color: @textColor;
+}
+
+.ant-table-thead th.ant-table-column-sort {
+  background: @subBackgroundColor;
+}
+
+.ant-spin-container::after {
+  background: @transparent;
 }
