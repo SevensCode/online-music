@@ -1,4 +1,4 @@
-import { SongListBasicInfo } from '@/types/songList'
+import { SongListDetail } from '@/types/songList'
 import { MusicDetail } from '@/types/music'
 import { SingerDetail } from '@/types/Singer'
 
@@ -6,6 +6,17 @@ import { SingerDetail } from '@/types/Singer'
  * 音乐详情格式化
  * */
 export const formatMusicDetail = (musicDeatils: any): MusicDetail => {
+    if (musicDeatils.al) {
+        const { id, name, al, ar, dt } = musicDeatils
+        return {
+            id,
+            name,
+            coverPicture: al.picUrl,
+            duration: dt,
+            album: al,
+            authors: ar
+        }
+    }
     const {
         id,
         name,
@@ -24,9 +35,7 @@ export const formatMusicDetail = (musicDeatils: any): MusicDetail => {
 /**
  * 歌单基本信息格式化
  * */
-export const formatSongListBasicInfo = (
-    songListBasicInfo: any
-): SongListBasicInfo => {
+export const formatSongListDetail = (songListBasicInfo: any): SongListDetail => {
     const {
         id,
         name,
@@ -37,10 +46,15 @@ export const formatSongListBasicInfo = (
         updateTime,
         tags,
         creator,
-        trackCount
+        trackCount,
+        trackIds,
+        subscribed,
+        subscribedCount
     } = songListBasicInfo
     return {
         musicCount: trackCount,
+        subscribed,
+        subscribedCount,
         commentCount,
         coverPicture: coverImgUrl,
         introduce: description,
@@ -49,7 +63,8 @@ export const formatSongListBasicInfo = (
         tags,
         updateTime,
         id,
-        createUser: creator
+        createUser: creator,
+        musicId: trackIds && trackIds.map((item: any) => item.id)
     }
 }
 
@@ -63,8 +78,7 @@ export const formatSingerDetail = (singerDetail: any): SingerDetail => {
     } else {
         singer = singerDetail
     }
-    const { albumSize, id, mvSize, musicSize, name, briefDesc, cover, picUrl } =
-        singer
+    const { albumSize, id, mvSize, musicSize, name, briefDesc, cover, picUrl } = singer
     return {
         albumSize,
         id,

@@ -2,8 +2,8 @@ import React, { FC, useCallback } from 'react'
 import './index.less'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { music_detail, music_songList } from '@/recoil/muisc'
-import Tags from '@/components/AuthorTags'
-import { millisecondTurnTime } from '@/utils'
+import Tags from '@/components/Tags'
+import { millisecondTurnTime } from '@/utils/tool'
 import PlayOrPauseIcon from '@/components/Icon/PlayOrPause'
 import CustomButton from '@/components/CustomButton'
 
@@ -41,7 +41,12 @@ const CurrentlyPlaying: FC = () => {
                         const { minute, second } = millisecondTurnTime(duration)
                         return (
                             <li className='currentlyPlaying-li' key={id}>
-                                <PlayOrPauseIcon onPlay={onPlay} onPause={onPause} type={type(id)} className={['currentlyPlaying-type', musicDetail?.id === id ? 'playing' : ''].join(' ')} />
+                                <PlayOrPauseIcon
+                                    onPlay={onPlay}
+                                    onPause={onPause}
+                                    type={type(id)}
+                                    className={['currentlyPlaying-type', musicDetail?.id === id ? 'playing' : ''].join(' ')}
+                                />
                                 <p className='currentlyPlaying-name text-1LinesHide'>{name}</p>
                                 <p className='currentlyPlaying-author text-1LinesHide'>
                                     <Tags tags={authors} />

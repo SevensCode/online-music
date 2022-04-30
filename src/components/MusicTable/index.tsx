@@ -3,22 +3,25 @@ import Like from '@/components/Like'
 import { Table } from 'antd'
 import { MusicDetail } from '@/types/music'
 import './index.less'
-import { useRecoilValue } from 'recoil'
-import { music_detail } from '@/recoil/muisc'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { music_detail, music_songList } from '@/recoil/muisc'
 import { useAudio } from '@/hooks/audio'
 import ImageLazy from '@/components/ImageLazy'
-import { zeroPadding } from '@/utils'
-import Tags from '@/components/AuthorTags'
+import Tags from '@/components/Tags'
 import dateTool from '@/utils/dateTool'
+import { SongList } from '@/types/songList'
 
 interface Props {
-    songList: MusicDetail[]
+    songList: SongList
     loading?: boolean
+
+    onChangePage?(page: number, size: number): void
 }
 
-const MusicTable: FC<Props> = ({ songList, loading }) => {
+const MusicTable: FC<Props> = ({ songList, loading, onChangePage }) => {
     const musicDetail = useRecoilValue(music_detail)
     const { audioPlay } = useAudio()
+    const setSongList = useSetRecoilState(music_songList)
     const rowClassName = (record: MusicDetail) => {
         if (musicDetail === null) return ''
         return record.id === musicDetail.id ? 'tableRowActive' : ''
@@ -27,6 +30,7 @@ const MusicTable: FC<Props> = ({ songList, loading }) => {
         // 双击播放
         onDoubleClick: (event: MouseEvent<HTMLElement>) => {
             if (record.id === musicDetail?.id) return
+            setSongList(songList)
             audioPlay(record)
         }
     })
@@ -35,42 +39,53 @@ const MusicTable: FC<Props> = ({ songList, loading }) => {
             rowClassName={rowClassName}
             onRow={onRow}
             loading={loading}
-            pagination={{ position: ['bottomCenter'] }}
-            dataSource={songList}
+            pagination={{
+                position: ['bottomCenter'],
+                defaultPageSize: 50,
+                onChange: onChangePage,
+                showSizeChanger: false,
+                hideOnSinglePage: true
+            }}
+            dataSource={songList.list}
+            rowKey={'id'}
             columns={[
-                {
-                    title: '序号',
-                    dataIndex: 'index',
-                    render(value, data, index) {
-                        return zeroPadding(index + 1)
-                    },
-                    width: 80
-                },
+                // {
+                //     title: '序号',
+                //     dataIndex: 'index',
+                //     key: 'index',
+                //     render(value, data, index) {
+                //         return zeroPadding(index + 1)
+                //     },
+                //     width: 80
+                // },
                 {
                     title: '音乐',
-                    dataIndex: 'muisc',
-                    sorter: true,
+                    dataIndex: 'name',
+                    key: 'name',
                     render(value, data: MusicDetail) {
                         return (
                             <div className={'muiscTable-coverImageAndTitle'}>
                                 <ImageLazy src={data.coverPicture + '?param=50y50'} />
-                                {data.name}
+                                <span className={'text-1LinesHide'}>{data.name}</span>
                             </div>
                         )
                     }
                 },
                 {
                     title: '歌手',
-                    sorter: true,
+                    ellipsis: true,
                     dataIndex: 'authors',
+                    key: 'authors',
                     render(value) {
                         return <Tags tags={value} />
                     }
                 },
                 {
                     title: '专辑',
+                    ellipsis: true,
                     dataIndex: 'album',
-                    sorter: true,
+                    key: 'album',
+                    width: 250,
                     render(value) {
                         return <span>{value.name}</span>
                     }
@@ -78,7 +93,7 @@ const MusicTable: FC<Props> = ({ songList, loading }) => {
                 {
                     title: '时长',
                     dataIndex: 'duration',
-                    sorter: true,
+                    key: 'duration',
                     render(value) {
                         return dateTool(value).format('mm:ss')
                     },
@@ -87,6 +102,7 @@ const MusicTable: FC<Props> = ({ songList, loading }) => {
                 {
                     title: 'Like',
                     dataIndex: 'id',
+                    key: 'id',
                     width: 80,
                     render: value => <Like id={value}></Like>
                 }

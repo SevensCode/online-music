@@ -1,20 +1,10 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import {
-    audio_instance,
-    audio_playType,
-    audio_totalPlayTime,
-    auido_status
-} from '@/recoil/audio'
-import { useCallback, useEffect } from 'react'
+import { audio_instance, audio_playType, audio_totalPlayTime, auido_status } from '@/recoil/audio'
+import { useCallback } from 'react'
 import { MusicDetail, MusicLyricsArr } from '@/types/music'
-import { millisecondTurnTime, randomInteger } from '@/utils'
+import { millisecondTurnTime, randomInteger } from '@/utils/tool'
 import { MusicRequest } from '@/server/api/music'
-import {
-    music_detail,
-    music_getMusicIndex,
-    music_lyrics,
-    music_songList
-} from '@/recoil/muisc'
+import { music_detail, music_getMusicIndex, music_lyrics, music_songList } from '@/recoil/muisc'
 import { useRefState } from '@/hooks/index'
 import { SongList } from '@/types/songList'
 
@@ -31,13 +21,11 @@ export const useAudio = () => {
     const setLyrics = useSetRecoilState(music_lyrics)
     const switchingMusic = useSwitchingMusic()
     // 设置音乐信息
-    const setMusicInfo = useCallback(async (musicDetail) => {
+    const setMusicInfo = useCallback(async musicDetail => {
         setMusicDetail(musicDetail)
         setTotalPlayTime(millisecondTurnTime(musicDetail.duration))
         audio.src = `https://music.163.com/song/media/outer/url?id=${musicDetail.id}.mp3`
-        const { code, lrc, tlyric } = await MusicRequest.getLyrics(
-            musicDetail.id
-        )
+        const { code, lrc, tlyric } = await MusicRequest.getLyrics(musicDetail.id)
         if (code !== 200) return false
         setLyrics(parseLyric(lrc.lyric, tlyric?.lyric))
     }, [])
@@ -47,8 +35,8 @@ export const useAudio = () => {
         setAudioStatus(1)
         audio
             .play()
-            .then((r) => setAudioStatus(2))
-            .catch((e) => {
+            .then(r => setAudioStatus(2))
+            .catch(e => {
                 console.log(e)
             })
     }
@@ -60,11 +48,11 @@ export const useAudio = () => {
 
     // 下一首
     const audioNext = () => {
-        switchingMusic('next', (musicDetail) => audioPlay(musicDetail))
+        switchingMusic('next', musicDetail => audioPlay(musicDetail))
     }
     // 上一首
     const audioPrev = () => {
-        switchingMusic('prev', (musicDetail) => audioPlay(musicDetail))
+        switchingMusic('prev', musicDetail => audioPlay(musicDetail))
     }
 
     return { audioPlay, audioPause, audioNext, audioPrev }
@@ -80,10 +68,7 @@ export const useSwitchingMusic = () => {
     // 播放类型
     const playType = useRecoilValue(audio_playType)
     const playTypeRef = useRefState<number>(playType)
-    return (
-        type: 'next' | 'prev',
-        callback: (musicDetail: MusicDetail) => void
-    ) => {
+    return (type: 'next' | 'prev', callback: (musicDetail: MusicDetail) => void) => {
         if (songListRef.current === null) return
         if (musicIndexRef.current === null) return
         const { list } = songListRef.current
@@ -99,15 +84,6 @@ export const useSwitchingMusic = () => {
         }
         callback(list[index])
     }
-}
-
-const useAudioEnded = () => {
-    const audio = useRecoilValue(audio_instance)
-    const ended = useCallback(() => {}, [])
-    useEffect(() => {
-        audio.addEventListener('ended', ended)
-        return () => audio.removeEventListener('ended', ended)
-    }, [])
 }
 
 export const parseLyric = (lyr: string, zhLyr?: string): MusicLyricsArr => {
@@ -130,25 +106,19 @@ export const parseLyric = (lyr: string, zhLyr?: string): MusicLyricsArr => {
         // 合并时间, 将分钟和秒钟都合并为秒钟
         return Number(minute) * 60 + Number(second)
     }
-    sourceLyrics.forEach((lyric) => {
+    sourceLyrics.forEach(lyric => {
         const time = hanldeLyricTime(lyric)
         processedLyrics.push({
             time,
             zhLyric: '',
-            lyric: lyric
-                .replace(matchMinutesAndSeconds, '')
-                .replace(/\[]/g, '')
-                .trim()
+            lyric: lyric.replace(matchMinutesAndSeconds, '').replace(/\[]/g, '').trim()
         })
     })
-    zhLyrics.forEach((lyric) => {
+    zhLyrics.forEach(lyric => {
         const time = hanldeLyricTime(lyric)
-        const index = processedLyrics.findIndex((item) => time === item.time)
+        const index = processedLyrics.findIndex(item => time === item.time)
         if (index === -1) return
-        processedLyrics[index].zhLyric = lyric
-            .replace(matchMinutesAndSeconds, '')
-            .replace(/\[]/g, '')
-            .trim()
+        processedLyrics[index].zhLyric = lyric.replace(matchMinutesAndSeconds, '').replace(/\[]/g, '').trim()
     })
     return processedLyrics
 }

@@ -8,7 +8,7 @@ import { music_detail, music_songList } from '@/recoil/muisc'
 import { formatMusicDetail } from '@/utils/objectFormatting'
 // 获取新音乐
 const getNewMusic = async () => {
-    const { result } = await MusicRequest.newMusicPush(18)
+    const { result } = await MusicRequest.getNewMusic(18)
     return result || []
 }
 
@@ -20,9 +20,7 @@ const NewMusics = () => {
     // 新音乐列表
     const [newMusicList, setNewMusicList] = useState<MusicDetail[]>([])
     useEffect(() => {
-        getNewMusic().then((value) =>
-            setNewMusicList(value.map((item: any) => formatMusicDetail(item)))
-        )
+        getNewMusic().then(value => setNewMusicList(value.map((item: any) => formatMusicDetail(item))))
     }, [])
     const onPlay = useCallback(
         (musicDetail: MusicDetail) => {
@@ -35,7 +33,7 @@ const NewMusics = () => {
         [isSetPlayList, newMusicList, songList]
     )
     const isActive = useCallback(
-        (id) => {
+        id => {
             if (musicDetail === null) return false
             return musicDetail.id === id
         },
@@ -43,7 +41,7 @@ const NewMusics = () => {
     )
     return (
         <div className='find-newMusicPush-container'>
-            {newMusicList.map((detail) => {
+            {newMusicList.map(detail => {
                 const { id, coverPicture, name, album, authors } = detail
                 return (
                     <MusicCell

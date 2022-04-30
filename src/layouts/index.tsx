@@ -15,9 +15,7 @@ import { setting_fullScreenPlayerVisible } from '@/recoil/setting'
 export default withRouter(({ children, location }) => {
     const setUserinfo = useSetRecoilState(user_info)
     const setLikeMusicIds = useSetRecoilState(user_likeMusicIds)
-    const isShowFullScreenPlayer = useRecoilValue(
-        setting_fullScreenPlayerVisible
-    )
+    const isShowFullScreenPlayer = useRecoilValue(setting_fullScreenPlayerVisible)
     useEffect(() => {
         const userinfo = store.get(STORE_USER_INFO)
         if (userinfo) {
@@ -33,22 +31,13 @@ export default withRouter(({ children, location }) => {
             <Header />
             <main>
                 <TransitionGroup component={null}>
-                    <CSSTransition
-                        key={location.pathname}
-                        timeout={300}
-                        classNames='page'
-                    >
+                    <CSSTransition key={location.pathname} timeout={300} classNames='page'>
                         {children}
                     </CSSTransition>
                 </TransitionGroup>
             </main>
             <MusicPlayer />
-            <CSSTransition
-                unmountOnExit
-                in={isShowFullScreenPlayer}
-                classNames='rightZoomFade'
-                timeout={300}
-            >
+            <CSSTransition unmountOnExit in={isShowFullScreenPlayer} classNames='rightZoomFade' timeout={300}>
                 <FullScreenPlayer />
             </CSSTransition>
         </div>

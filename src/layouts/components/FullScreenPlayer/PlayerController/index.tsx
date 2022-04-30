@@ -1,6 +1,6 @@
 import React from 'react'
 import ImageLazy from '@/components/ImageLazy'
-import Tags from '@/components/AuthorTags'
+import Tags from '@/components/Tags'
 import Like from '@/components/Like'
 import AudioProgressBar from '@/components/Audio/ProgressBar'
 import AudioController from '@/components/Audio/Controller'
