@@ -4,14 +4,16 @@ import { history } from 'umi'
 import { SongListRequst } from '@/server/api/songList'
 import { formatMusicDetail, formatSongListDetail } from '@/utils/objectFormatting'
 import { SongList, SongListDetail } from '@/types/songList'
-import { Tabs } from 'antd'
+import { Skeleton, Tabs } from 'antd'
 import SearchInput from '@/components/Search'
 import MusicTable from '@/components/MusicTable/index'
 import { MusicRequest } from '@/server/api/music'
 import { MusicDetail } from '@/types/music'
 import { useScroll } from '@/hooks'
 import SongListBasicInfo from '@/pages/Details/SongList/BasicInfo'
-import SongListComment from '@/pages/Details/SongList/Comment'
+import { Comment_Resource_Type } from '@/server/api/other/params'
+import { Request_Comment_Params } from '@/server/api/common'
+import CommentPage, { CommentResponseData } from '@/pages/Common/Comment'
 
 const { TabPane } = Tabs
 // 获取音乐详情
@@ -25,6 +27,12 @@ const getSongListDetail = async (id: number): Promise<SongListDetail> => {
     const { playlist } = await SongListRequst.getDetail(id)
     return formatSongListDetail(playlist || {})
 }
+// 获取评论
+const getSongListComment = async (query: Request_Comment_Params): Promise<CommentResponseData> => {
+    const { hotComments, comments, total } = await SongListRequst.getComments(query)
+    return { hotComments: hotComments || [], comments: comments || [], total }
+}
+
 // 歌单 id
 const SongListDetailPage: FC = () => {
     const id = history.location.query?.id
@@ -59,36 +67,35 @@ const SongListDetailPage: FC = () => {
             list: songListRef.current.list.filter(item => item.name.includes(value.trim()))
         })
     }
-    const onChangeTabs = (key: string) => {
-        switch (key) {
-            case '1':
-                break
-            case '2':
-                break
-        }
-    }
+    const layoutElement = document.querySelector('.layout') as HTMLElement
     return (
         <div className={'app-container songListDetail'}>
-            {basicInfo !== null && (
+            {basicInfo !== null ? (
                 <SongListBasicInfo
                     updateBasicInfo={updateBasicInfo}
                     basicInfoRef={infoContainer}
                     songList={songList}
                     basicInfo={basicInfo}
                 />
+            ) : (
+                <div className={'songListDetail-skeleton'}>
+                    <Skeleton.Image style={{ width: 250, height: 250 }} />
+                    <Skeleton active></Skeleton>
+                </div>
             )}
-            <Tabs
-                defaultActiveKey='1'
-                onChange={onChangeTabs}
-                tabBarExtraContent={<SearchInput onSearch={onSearch} placeholder={'搜索歌单音乐'} />}>
+
+            <Tabs defaultActiveKey='1' tabBarExtraContent={<SearchInput onSearch={onSearch} placeholder={'搜索歌单音乐'} />}>
                 <TabPane tab='歌曲列表' key='1'>
                     <MusicTable onChangePage={onChangePage} loading={loading} songList={songList} />
                 </TabPane>
                 <TabPane tab={`评论(${basicInfo?.commentCount})`} key='2'>
-                    <SongListComment id={Number(id)} />
+                    <CommentPage
+                        id={Number(id)}
+                        scrollContainer={layoutElement}
+                        resourceType={Comment_Resource_Type.songList}
+                        getComment={getSongListComment}
+                    />
                 </TabPane>
-                <TabPane tab='收藏者' key='3'></TabPane>
-                <TabPane tab='相似推荐' key='4'></TabPane>
             </Tabs>
         </div>
     )

@@ -2,11 +2,7 @@ import React, { ChangeEvent, FC, useCallback, useState } from 'react'
 import './index.less'
 import { Button, message } from 'antd'
 import store from 'store'
-import {
-    STORE_THEME_KEY,
-    STORE_THEME_LIGHT,
-    STORE_USER_INFO
-} from '@/constants'
+import { STORE_THEME_KEY, STORE_THEME_LIGHT } from '@/constants'
 import { switchTheme } from '@/theme'
 import { history, Link } from 'umi'
 import { REG_PHONE } from '@/constants/regular'
@@ -22,9 +18,7 @@ const Login: FC = () => {
     const setUserinfo = useSetRecoilState(user_info)
     const redirect = useSearchParam('redirect')
     const [submitLoading, setSubmitLoading] = useState(false)
-    const [themeType, setThemeType] = useState(
-        store.get(STORE_THEME_KEY) === STORE_THEME_LIGHT
-    )
+    const [themeType, setThemeType] = useState(store.get(STORE_THEME_KEY) === STORE_THEME_LIGHT)
     // form
     const [form, updateForm] = useState<User_PhoneLogin_Params>({
         phone: '',
@@ -36,10 +30,7 @@ const Login: FC = () => {
         setThemeType(store.get(STORE_THEME_KEY) === STORE_THEME_LIGHT)
     }, [])
     const bindForm = useCallback(
-        (
-            { target: { value } }: ChangeEvent<HTMLInputElement>,
-            key: 'phone' | 'md5_password'
-        ) => {
+        ({ target: { value } }: ChangeEvent<HTMLInputElement>, key: 'phone' | 'md5_password') => {
             updateForm({ ...form, [key]: value.trim() })
         },
         [form]
@@ -59,7 +50,6 @@ const Login: FC = () => {
         if (code !== 200) return message.error('服务端的错误！')
         message.success('登录成功 😊')
         setUserinfo(profile)
-        store.set(STORE_USER_INFO, profile)
         history.replace(redirect || '/')
     }, [form])
     return (
@@ -75,7 +65,7 @@ const Login: FC = () => {
                         <div className='login-form-label'>
                             <i className={'iconfont icon-shoujihao'} />
                             <input
-                                onChange={(value) => bindForm(value, 'phone')}
+                                onChange={value => bindForm(value, 'phone')}
                                 maxLength={11}
                                 placeholder={'手机号'}
                                 className='login-form-input'
@@ -84,45 +74,24 @@ const Login: FC = () => {
                         <div className='login-form-label'>
                             <i className={'iconfont icon-ziyuanxhdpi'} />
                             <input
-                                onChange={(value) =>
-                                    bindForm(value, 'md5_password')
-                                }
+                                onChange={value => bindForm(value, 'md5_password')}
                                 placeholder={'密码'}
                                 type={'password'}
                                 className='login-form-input'
                             />
                         </div>
-                        <Button
-                            loading={submitLoading}
-                            className={'login-form-submit'}
-                            onClick={login}
-                            block
-                            type='primary'
-                        >
+                        <Button loading={submitLoading} className={'login-form-submit'} onClick={login} block type='primary'>
                             登录
                         </Button>
                     </div>
                     <QrCode />
                     <div className='login-form-other'>
                         {themeType ? (
-                            <i
-                                onClick={setTheme}
-                                className={
-                                    'iconfont icon-yueliang login-theme-icon'
-                                }
-                            />
+                            <i onClick={setTheme} className={'iconfont icon-yueliang login-theme-icon'} />
                         ) : (
-                            <i
-                                onClick={setTheme}
-                                className={
-                                    'iconfont icon-icon-test login-theme-icon'
-                                }
-                            />
+                            <i onClick={setTheme} className={'iconfont icon-icon-test login-theme-icon'} />
                         )}
-                        <i
-                            onClick={() => history.push(redirect || '/')}
-                            className={'iconfont icon-rollback'}
-                        />
+                        <i onClick={() => history.push(redirect || '/')} className={'iconfont icon-rollback'} />
                         <Link to={'/'}>
                             <i className={'iconfont icon-zhuye'} />
                         </Link>

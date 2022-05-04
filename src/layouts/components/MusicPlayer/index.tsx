@@ -4,7 +4,7 @@ import ImageLazy from '@/components/ImageLazy'
 import AudioController from '@/components/Audio/Controller'
 import AudioPlayType from '@/components/Audio/PlayType'
 import MusicVolume from '@/components/Audio/Volume'
-import { message, Tooltip } from 'antd'
+import { Tooltip } from 'antd'
 import AudioProgressBar from '@/components/Audio/ProgressBar'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import {
@@ -24,7 +24,16 @@ import { randomInteger, secondTurnTime } from '@/utils/tool'
 import { useAudio } from '@/hooks/audio'
 import { useRefState } from '@/hooks'
 import CustomButton from '@/components/CustomButton'
+import CommentPage, { CommentResponseData } from '@/pages/Common/Comment'
+import { MusicRequest } from '@/server/api/music'
+import { Request_Comment_Params } from '@/server/api/common'
+import { Comment_Resource_Type } from '@/server/api/other/params'
 
+// 获取评论
+const getMusicComment = async (query: Request_Comment_Params): Promise<CommentResponseData> => {
+    const { hotComments, comments, total } = await MusicRequest.getComments(query)
+    return { hotComments: hotComments || [], comments: comments || [], total }
+}
 const MusicPlayer = () => {
     const { audioNext, audioPlay } = useAudio()
     // 音乐详情
@@ -34,6 +43,8 @@ const MusicPlayer = () => {
     const setIsLyricsView = useSetRecoilState(setting_fullScreenPlayerVisible)
     // 播放列表
     const [playListVisible, setPlayListVisible] = useState(false)
+    // 评论是否可见
+    const [commentVisible, setCommentVisible] = useState(false)
     const audio = useRecoilValue(audio_instance)
     // 播放器状态
     const setAudioStatus = useSetRecoilState(auido_status)
@@ -91,20 +102,22 @@ const MusicPlayer = () => {
                 break
         }
     }, [])
-    // 加载错误
-    const error = useCallback(() => {
-        message.error('音乐播放失败！')
-    }, [])
     useEffect(() => {
-        audio.addEventListener('error', error)
         audio.addEventListener('timeupdate', timeupdate)
         audio.addEventListener('ended', ended)
         return () => {
-            audio.removeEventListener('error', error)
             audio.removeEventListener('timeupdate', timeupdate)
             audio.removeEventListener('ended', ended)
         }
     }, [])
+    const onClickComment = () => {
+        setCommentVisible(!commentVisible)
+        setPlayListVisible(false)
+    }
+    const onClickPlaylist = () => {
+        setCommentVisible(false)
+        setPlayListVisible(!playListVisible)
+    }
     return (
         <div className={'musicPlayer gaussianBlur'}>
             {musicDetail !== null && (
@@ -134,13 +147,13 @@ const MusicPlayer = () => {
                             <MusicVolume />
 
                             <Tooltip placement='top' title='播放列表'>
-                                <CustomButton
-                                    type={'text'}
-                                    onClick={() => setPlayListVisible(!playListVisible)}
-                                    icon={'icon-bofangliebiao'}></CustomButton>
+                                <CustomButton type={'text'} onClick={onClickPlaylist} icon={'icon-bofangliebiao'} />
+                            </Tooltip>
+                            <Tooltip placement='top' title='评论'>
+                                <CustomButton type={'text'} onClick={onClickComment} icon={'icon-pinglun2'} />
                             </Tooltip>
                             <Tooltip placement='top' title='歌词'>
-                                <CustomButton type={'text'} onClick={() => setIsLyricsView(true)} icon={'icon-lrc'}></CustomButton>
+                                <CustomButton type={'text'} onClick={() => setIsLyricsView(true)} icon={'icon-lrc'} />
                             </Tooltip>
                         </>
                     )}
@@ -148,6 +161,19 @@ const MusicPlayer = () => {
             </div>
             <CSSTransition unmountOnExit in={playListVisible} classNames='rightZoomFade' timeout={300}>
                 <CurrentlyPlaying />
+            </CSSTransition>
+
+            <CSSTransition unmountOnExit in={commentVisible} classNames='rightZoomFade' timeout={300}>
+                <div className={'musicPlayer-comment'}>
+                    {musicDetail && (
+                        <CommentPage
+                            size={'small'}
+                            id={musicDetail?.id}
+                            getComment={getMusicComment}
+                            resourceType={Comment_Resource_Type.music}
+                        />
+                    )}
+                </div>
             </CSSTransition>
         </div>
     )

@@ -1,17 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import {
-    LoadingOutlined,
-    RollbackOutlined,
-    WarningOutlined
-} from '@ant-design/icons'
+import { LoadingOutlined, RollbackOutlined, WarningOutlined } from '@ant-design/icons'
 import { message, Tooltip } from 'antd'
 import { useSearchParam, useStatus } from '@/hooks'
 import { UserRequst } from '@/server/api/user'
 import { history } from '@@/core/history'
 import { useSetRecoilState } from 'recoil'
 import { user_info } from '@/recoil/user'
-import store from 'store'
-import { STORE_USER_INFO } from '@/constants'
 // 生成二维码key
 const generateQRCodeKey = async () => {
     const { code, data } = await UserRequst.generateQRCodeKey()
@@ -51,9 +45,7 @@ const QrCode = () => {
         setQrCodeUrl(data.qrimg)
         setStatusMessage('等待扫码！')
         timer.current = setInterval(async () => {
-            const { code: qrCodeStatus } = await UserRequst.detectQRCodeStatus(
-                key
-            )
+            const { code: qrCodeStatus } = await UserRequst.detectQRCodeStatus(key)
             switch (qrCodeStatus) {
                 // 二维码已过期
                 case 800:
@@ -78,7 +70,6 @@ const QrCode = () => {
                     offTimer()
                     message.success('登录成功 😊')
                     setUserinfo(profile)
-                    store.set(STORE_USER_INFO, profile)
                     history.replace(redirect || '/')
                     break
                 default:
@@ -108,59 +99,34 @@ const QrCode = () => {
         <div ref={qrCodeRef} className={'login-qrCode gaussianBlur'}>
             {qrCodeVisible && (
                 <>
-                    <RollbackOutlined
-                        onClick={() => handleQrCode(false)}
-                        className={'login-qrCode-close'}
-                    />
+                    <RollbackOutlined onClick={() => handleQrCode(false)} className={'login-qrCode-close'} />
                     {qrCodeStatus.loading && (
                         <>
                             <LoadingOutlined className='login-qrCode-loading' />
-                            <span className='login-qrCode-loadingText'>
-                                加载中...
-                            </span>
+                            <span className='login-qrCode-loadingText'>加载中...</span>
                         </>
                     )}
                     {qrCodeStatus.error && (
                         <>
-                            <WarningOutlined
-                                onClick={generateQRCode}
-                                className='login-qrCode-loading error'
-                            />
-                            <span
-                                onClick={generateQRCode}
-                                className='login-qrCode-loadingText'
-                            >
+                            <WarningOutlined onClick={generateQRCode} className='login-qrCode-loading error' />
+                            <span onClick={generateQRCode} className='login-qrCode-loadingText'>
                                 加载失败,点击重新加载
                             </span>
                         </>
                     )}
                     {qrCodeStatus.success && (
                         <>
-                            <p className='login-qrCode-status'>
-                                {statusMessage}
-                            </p>
+                            <p className='login-qrCode-status'>{statusMessage}</p>
                             <Tooltip title={'点击重新生成二维码'}>
-                                <img
-                                    className='login-qrCode-img'
-                                    onClick={generateQRCode}
-                                    src={qrCodeUrl}
-                                    alt=''
-                                />
+                                <img className='login-qrCode-img' onClick={generateQRCode} src={qrCodeUrl} alt='' />
                             </Tooltip>
                         </>
                     )}
 
-                    <h3 className='login-qrCode-prompt'>
-                        使用网易云App进行扫码登录
-                    </h3>
+                    <h3 className='login-qrCode-prompt'>使用网易云App进行扫码登录</h3>
                 </>
             )}
-            {!qrCodeVisible && (
-                <i
-                    onClick={() => handleQrCode(true)}
-                    className={'iconfont icon-erweima login-qrCode-icon'}
-                />
-            )}
+            {!qrCodeVisible && <i onClick={() => handleQrCode(true)} className={'iconfont icon-erweima login-qrCode-icon'} />}
         </div>
     )
 }

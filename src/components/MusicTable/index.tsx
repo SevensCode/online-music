@@ -23,8 +23,8 @@ const MusicTable: FC<Props> = ({ songList, loading, onChangePage }) => {
     const { audioPlay } = useAudio()
     const setSongList = useSetRecoilState(music_songList)
     const rowClassName = (record: MusicDetail) => {
-        if (musicDetail === null) return ''
-        return record.id === musicDetail.id ? 'tableRowActive' : ''
+        if (record.isVip || !record.isCopyright) return 'notPlayable'
+        return record.id === musicDetail?.id ? 'tableRowActive' : ''
     }
     const onRow = (record: MusicDetail) => ({
         // 双击播放

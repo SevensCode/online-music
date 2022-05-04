@@ -4,6 +4,8 @@ import ImageLazy from '@/components/ImageLazy'
 import CustomButton from '@/components/CustomButton'
 import CommentInputBox from '@/components/CommentInputBox'
 
+export type CommentSize = 'default' | 'small'
+
 interface CommentProps {
     avatar: string
     content: string
@@ -22,6 +24,7 @@ interface CommentProps {
     removeVisible?: boolean
     placeholder?: string
     value?: string
+    size?: CommentSize
 
     // 点击昵称
     onClickNickName?(): void
@@ -58,7 +61,8 @@ const Comment: FC<CommentProps> = ({
     onLike,
     onReplySubmit,
     onReplyChange,
-    value
+    value,
+    size = 'default'
 }) => {
     const [likeLoading, setLikeLoading] = useState(false)
     const onClickLike = () => {
@@ -71,7 +75,7 @@ const Comment: FC<CommentProps> = ({
         [onReplySubmit]
     )
     return (
-        <div className={'comment'}>
+        <div className={['comment', size].join(' ')}>
             <ImageLazy src={avatar} className={'comment-avatar'} />
             <div className='comment-contentContainer'>
                 <p className={'comment-content'}>

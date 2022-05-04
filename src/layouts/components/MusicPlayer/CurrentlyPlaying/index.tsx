@@ -4,24 +4,21 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { music_detail, music_songList } from '@/recoil/muisc'
 import Tags from '@/components/Tags'
 import { millisecondTurnTime } from '@/utils/tool'
-import PlayOrPauseIcon from '@/components/Icon/PlayOrPause'
 import CustomButton from '@/components/CustomButton'
+import { useAudio } from '@/hooks/audio'
+import { MusicDetail } from '@/types/music'
 
 const CurrentlyPlaying: FC = () => {
     const [songList, setSongList] = useRecoilState(music_songList)
     const musicDetail = useRecoilValue(music_detail)
-    const type = useCallback(
-        id => {
-            if (musicDetail === null) return 'play'
-            return musicDetail.id === id ? 'pause' : 'play'
-        },
-        [musicDetail]
-    )
-    const onPlay = useCallback(() => {}, [])
-    const onPause = useCallback(() => {}, [])
+    const { audioPlay } = useAudio()
+
     const clearTheList = useCallback(() => {
         setSongList(null)
     }, [])
+    const onDoubleClick = (detail: MusicDetail) => {
+        detail.id !== musicDetail?.id && audioPlay(detail)
+    }
     return (
         <div className={'currentlyPlaying'}>
             <h3 className={'module-title'}>当前播放</h3>
@@ -37,19 +34,16 @@ const CurrentlyPlaying: FC = () => {
             </div>
             <ul className='currentlyPlaying-ul'>
                 {songList !== null &&
-                    songList.list.map(({ name, authors, duration, id }) => {
-                        const { minute, second } = millisecondTurnTime(duration)
+                    songList.list.map(detail => {
+                        const { minute, second } = millisecondTurnTime(detail.duration)
                         return (
-                            <li className='currentlyPlaying-li' key={id}>
-                                <PlayOrPauseIcon
-                                    onPlay={onPlay}
-                                    onPause={onPause}
-                                    type={type(id)}
-                                    className={['currentlyPlaying-type', musicDetail?.id === id ? 'playing' : ''].join(' ')}
-                                />
-                                <p className='currentlyPlaying-name text-1LinesHide'>{name}</p>
+                            <li
+                                onDoubleClick={() => onDoubleClick(detail)}
+                                className={['currentlyPlaying-li', detail.id === musicDetail?.id ? 'active' : ''].join(' ')}
+                                key={detail.id}>
+                                <p className='currentlyPlaying-name text-1LinesHide'>{detail.name}</p>
                                 <p className='currentlyPlaying-author text-1LinesHide'>
-                                    <Tags tags={authors} />
+                                    <Tags tags={detail.authors} />
                                 </p>
                                 <p className='currentlyPlaying-duration'>
                                     {minute}:{second}

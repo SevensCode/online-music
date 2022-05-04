@@ -13,6 +13,7 @@ import { SongListRequst } from '@/server/api/songList'
 import { message } from 'antd'
 import './index.less'
 import { computeLineCount, numberUnit, randomInteger } from '@/utils/tool'
+import { history } from 'umi'
 
 interface Interface {
     basicInfo: SongListDetail
@@ -61,6 +62,14 @@ const SongListBasicInfo: FC<Interface> = ({ basicInfo, songList, basicInfoRef, u
             setLoading(false)
         }
     }
+    const onClickTag = (name: string) => {
+        history.push({
+            pathname: '/songList',
+            query: {
+                tag: name
+            }
+        })
+    }
     return (
         <div ref={basicInfoRef} className='songListDetail-infoContainer'>
             <img className={'songListDetail-coverPicture'} src={basicInfo.coverPicture + '?param=250y250'} alt='' />
@@ -71,15 +80,19 @@ const SongListBasicInfo: FC<Interface> = ({ basicInfo, songList, basicInfoRef, u
                     <span className={'songListDetail-info-user-nickname'}>{basicInfo.createUser.nickname}</span>
                     <span className={'songListDetail-info-user-createTime'}>{timeTool(basicInfo.updateTime).fromNow()}更新</span>
                 </div>
-                <div className='songListDetail-info-tags'>
-                    <span className={'songListDetail-info-label'}> 标签：</span>
-                    <Tags
-                        className='songListDetail-info-tag'
-                        tags={basicInfo.tags.map((item, i) => ({
-                            name: item,
-                            id: i
-                        }))}></Tags>
-                </div>
+                {basicInfo.tags.length > 0 && (
+                    <div className='songListDetail-info-tags'>
+                        <span className={'songListDetail-info-label'}> 标签：</span>
+                        <Tags
+                            onClick={onClickTag}
+                            className='songListDetail-info-tag'
+                            tags={basicInfo.tags.map((item, i) => ({
+                                name: item,
+                                id: i
+                            }))}></Tags>
+                    </div>
+                )}
+
                 <div className='songListDetail-info-count'>
                     <p>
                         <span className='songListDetail-info-label'>歌曲：</span>

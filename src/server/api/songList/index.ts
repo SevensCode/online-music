@@ -1,6 +1,6 @@
 import request from '@/server/request'
-import { Request_Before_Params } from '@/server/api/common'
-import { SongList_Comments_Params, SongList_GetSongList_Params } from '@/server/api/songList/params'
+import { Request_Before_Params, Request_Comment_Params } from '@/server/api/common'
+import { SongList_GetSongList_Params } from '@/server/api/songList/params'
 
 export class SongListRequst {
     // 推荐歌单
@@ -34,7 +34,8 @@ export class SongListRequst {
                 t: type
             }
         })
-    static getComments = ({ id, limit, page, before }: SongList_Comments_Params) =>
+    // 获取评论
+    static getComments = ({ id, limit, page, before }: Request_Comment_Params) =>
         request.get('/comment/playlist', {
             params: {
                 id,
@@ -42,4 +43,6 @@ export class SongListRequst {
                 before
             }
         })
+    // 获取相似歌单
+    static getSimilarSongList = (id: number) => request.get('/simi/playlist', { params: { id } })
 }

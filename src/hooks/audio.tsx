@@ -7,6 +7,7 @@ import { MusicRequest } from '@/server/api/music'
 import { music_detail, music_getMusicIndex, music_lyrics, music_songList } from '@/recoil/muisc'
 import { useRefState } from '@/hooks/index'
 import { SongList } from '@/types/songList'
+import { message } from 'antd'
 
 // 音频播放器
 export const useAudio = () => {
@@ -21,23 +22,25 @@ export const useAudio = () => {
     const setLyrics = useSetRecoilState(music_lyrics)
     const switchingMusic = useSwitchingMusic()
     // 设置音乐信息
-    const setMusicInfo = useCallback(async musicDetail => {
+    const setMusicInfo = useCallback(async (musicDetail: MusicDetail) => {
+        if (!musicDetail.isCopyright) message.warning('无版权，无法播放！')
+        if (musicDetail.isVip) message.warning('VIP音乐请使用网易云客户端进行播放！')
         setMusicDetail(musicDetail)
         setTotalPlayTime(millisecondTurnTime(musicDetail.duration))
         audio.src = `https://music.163.com/song/media/outer/url?id=${musicDetail.id}.mp3`
         const { code, lrc, tlyric } = await MusicRequest.getLyrics(musicDetail.id)
-        if (code !== 200) return false
+        if (code !== 200) return
         setLyrics(parseLyric(lrc.lyric, tlyric?.lyric))
     }, [])
     // 播放
     const audioPlay = (musicDetail?: MusicDetail) => {
-        if (musicDetail ?? musicDetail) setMusicInfo(musicDetail)
+        if (musicDetail) setMusicInfo(musicDetail)
         setAudioStatus(1)
         audio
             .play()
             .then(r => setAudioStatus(2))
             .catch(e => {
-                console.log(e)
+                audioNext()
             })
     }
     // 暂停

@@ -16,7 +16,6 @@ const NewMusics = () => {
     const { audioPlay } = useAudio()
     const [songList, setSongList] = useRecoilState(music_songList)
     const musicDetail = useRecoilValue(music_detail)
-    const [isSetPlayList, hanldeIsSetPlayList] = useState(false)
     // 新音乐列表
     const [newMusicList, setNewMusicList] = useState<MusicDetail[]>([])
     useEffect(() => {
@@ -24,13 +23,10 @@ const NewMusics = () => {
     }, [])
     const onPlay = useCallback(
         (musicDetail: MusicDetail) => {
-            if (!isSetPlayList || songList === null) {
-                hanldeIsSetPlayList(true)
-                setSongList({ id: 0, list: newMusicList })
-            }
+            setSongList({ id: 0, list: newMusicList })
             audioPlay(musicDetail)
         },
-        [isSetPlayList, newMusicList, songList]
+        [newMusicList, songList]
     )
     const isActive = useCallback(
         id => {

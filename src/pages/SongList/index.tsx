@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
-import { history, KeepAlive } from '@@/core/umiExports'
+import { KeepAlive, useActivate } from '@@/core/umiExports'
+import { history } from 'umi'
 import './index.less'
 import { SongListRequst } from '@/server/api/songList'
 import CustomButton from '@/components/CustomButton'
@@ -46,12 +47,16 @@ const SongList: FC = () => {
     const [sontList, setSongList] = useState<SongListDetail[]>([])
     // 歌单请求参数
     const [query, setQuery] = useState<SongList_GetSongList_Params>({
-        cat: '全部歌单',
+        cat: (history.location.query?.tag || '全部歌单') as string,
         limit: 42,
         page: 1
     })
+    // const lastTag
     const [total, setTotal] = useState<number>(0)
     const toScroll = useScroll()
+    useActivate(() => {
+        setQuery({ ...query, cat: (history.location.query?.tag || '全部歌单') as string })
+    })
     useEffect(() => {
         // 获取热门歌单分类
         getPopularPlaylistCategories().then(r => setHotCategoryList(r))

@@ -6,7 +6,7 @@
   bottom: 80px;
   border-radius: @radius;
   padding: 0 18px 18px 18px;
-  background: @subBackgroundColor;
+  background: @backgroundColor;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -43,29 +43,26 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 10px 10px 30px;
+      padding: 10px;
       border-radius: @radius;
       transition: 0.1s linear;
       color: @subTextColor;
       position: relative;
-
-      .currentlyPlaying-type {
-        position: absolute;
-        left: 5px;
-        font-size: 10px;
-        cursor: pointer;
-
-        &.playing {
-          color: @theme;
-        }
-      }
+      cursor: pointer;
 
       &.active {
         color: @theme;
+        background: @activeBakground;
+
+        .currentlyPlaying-author {
+          span {
+            color: @theme;
+          }
+        }
       }
 
-      &:hover {
-        background: @transparent;
+      &:hover:not(.active) {
+        background: @hover;
       }
 
       .currentlyPlaying-name,

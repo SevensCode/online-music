@@ -7,21 +7,23 @@ import { SingerDetail } from '@/types/Singer'
  * */
 export const formatMusicDetail = (musicDeatils: any): MusicDetail => {
     if (musicDeatils.al) {
-        const { id, name, al, ar, dt } = musicDeatils
+        const { id, name, al, ar, dt, fee, noCopyrightRcmd } = musicDeatils
         return {
             id,
             name,
             coverPicture: al.picUrl,
             duration: dt,
             album: al,
-            authors: ar
+            authors: ar,
+            isVip: fee === 1,
+            isCopyright: noCopyrightRcmd === null
         }
     }
     const {
         id,
         name,
         picUrl,
-        song: { album, artists, duration }
+        song: { album, artists, duration, fee, noCopyrightRcmd }
     } = musicDeatils
     return {
         id,
@@ -29,7 +31,9 @@ export const formatMusicDetail = (musicDeatils: any): MusicDetail => {
         coverPicture: picUrl,
         duration,
         album,
-        authors: artists
+        authors: artists,
+        isVip: fee === 1,
+        isCopyright: noCopyrightRcmd === null
     }
 }
 /**

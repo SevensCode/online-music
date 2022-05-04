@@ -102,9 +102,9 @@ export const scrollToElement = (scrollContainer, element, duration = 500, offset
     }
 
     if (element) {
-        const { scrollTop, scrollerOffsetTop } = getScrollTop(scrollContainer)
+        const { scrollTop } = getScrollTop(scrollContainer)
         // 需要减去滚动容器到顶部的距离，默认滚动容器是 body ，scrollerOffsetTop 的值为 0
-        const offsetTop = element.offsetTop - scrollerOffsetTop + offset
+        const offsetTop = element.offsetTop + offset
         let start
         const scrollFrame = timestramp => {
             if (start === undefined) {
