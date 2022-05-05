@@ -10,14 +10,7 @@ export class SingerRequst {
                 offset: (page - 1) * limit
             }
         })
-    static getListOfSingersByCategory = ({
-        limit,
-        page,
-        offset,
-        type,
-        initial,
-        area
-    }: Singer_GetListOfSingersByCategory_Params) =>
+    static getListOfSingersByCategory = ({ limit, page, type, initial, area }: Singer_GetListOfSingersByCategory_Params) =>
         request.get('/artist/list', {
             params: {
                 limit,

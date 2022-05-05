@@ -14,6 +14,10 @@ export interface MusicDetail {
     // 时长
     duration: number
     id: number
+    // 是否vip
+    isVip: boolean
+    // 是否有版权
+    isCopyright: boolean
 }
 
 // 音乐播放时间

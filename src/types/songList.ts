@@ -7,7 +7,7 @@ export interface SongList {
 }
 
 // 歌单基本信息
-export interface SongListBasicInfo {
+export interface SongListDetail {
     id: number
     // 标题
     name: string
@@ -27,11 +27,10 @@ export interface SongListBasicInfo {
     tags: string[]
     // 用户信息
     createUser: Userinfo
-}
-
-// 歌单详细信息
-export interface SongListDetail extends SongListBasicInfo {
-    songList: MusicDetail[]
-    // 收藏者
-    collectorList: Userinfo[]
+    // 音乐id
+    musicId: number[]
+    // 是否收藏
+    subscribed: boolean
+    // 收藏数量
+    subscribedCount: number
 }

@@ -1,10 +1,4 @@
-import React, {
-    RefObject,
-    useCallback,
-    useEffect,
-    useRef,
-    useState
-} from 'react'
+import React, { RefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { Loading } from '@/types/common'
 
 /**
@@ -21,19 +15,14 @@ export const useClickOnBlankHiddenElement = <E extends HTMLElement>(): [
         handle(!!elementRef.current?.contains(e.target as Node))
     }, [])
     useEffect(() => {
-        isShow
-            ? document.body.addEventListener('click', elementCallback)
-            : document.body.removeEventListener('click', elementCallback)
+        isShow ? document.body.addEventListener('click', elementCallback) : document.body.removeEventListener('click', elementCallback)
     }, [isShow])
 
     return [elementRef, isShow, handle]
 }
 // 追踪浏览器的位置搜索参数
 export const useSearchParam = (key: string) => {
-    const getValue = useCallback(
-        () => new URLSearchParams(window.location.search).get(key),
-        [key]
-    )
+    const getValue = useCallback(() => new URLSearchParams(window.location.search).get(key), [key])
 
     const [value, setValue] = useState(getValue)
 
@@ -75,14 +64,9 @@ export const useStatus = (): [Loading, () => void, () => void, () => void] => {
 }
 
 // 滚动到指定位置
-export const useScroll = <E extends HTMLElement>(): ((
-    el: E,
-    to: number,
-    duration?: number
-) => void) => {
+export const useScroll = <E extends HTMLElement>(): ((el: E, to: number, duration?: number) => void) => {
     const cubic = (value: number) => Math.pow(value, 3)
-    const easeInOutCubic = (value: number) =>
-        value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2
+    const easeInOutCubic = (value: number) => (value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2)
     return (el, to, duration = 500) => {
         const scrollTop = el.scrollTop
         let start: number
@@ -92,14 +76,8 @@ export const useScroll = <E extends HTMLElement>(): ((
             const elapsed = timestamp - start
             if (elapsed >= duration) return
             scrollTop > to
-                ? (offset = Math.floor(
-                      scrollTop -
-                          easeInOutCubic(elapsed / duration) * (scrollTop - to)
-                  ))
-                : (offset = Math.ceil(
-                      scrollTop +
-                          easeInOutCubic(elapsed / duration) * (to - scrollTop)
-                  ))
+                ? (offset = Math.floor(scrollTop - easeInOutCubic(elapsed / duration) * (scrollTop - to)))
+                : (offset = Math.ceil(scrollTop + easeInOutCubic(elapsed / duration) * (to - scrollTop)))
             requestAnimationFrame(frame)
             el.scrollTo(0, offset)
         }

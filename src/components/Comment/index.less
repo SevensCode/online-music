@@ -1,0 +1,123 @@
+.comment {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 5px;
+
+  &.default {
+    min-height: 80px;
+
+    .comment-avatar {
+      width: 80px;
+      height: 80px;
+    }
+
+    .comment-contentContainer {
+      min-height: 80px;
+
+      .comment-content {
+        font-size: 16px;
+
+        span {
+          font-size: 16px;
+        }
+      }
+
+      .comment-wasReplied {
+        font-size: 14px;
+
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  &.small {
+    min-height: 60px;
+
+    .comment-avatar {
+      width: 60px;
+      height: 60px;
+    }
+
+    .comment-contentContainer {
+      min-height: 60px;
+
+      .comment-content {
+        font-size: 14px;
+
+        span {
+          font-size: 14px;
+        }
+      }
+
+      .comment-wasReplied {
+        font-size: 13px;
+
+        span {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  .comment-avatar {
+    border-radius: 50%;
+    box-shadow: @shadow;
+  }
+
+  .comment-contentContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    height: 100%;
+
+    .comment-content {
+      color: @textColor;
+
+      span {
+        color: @link;
+        cursor: pointer;
+        font-size: 16px;
+
+        &:hover {
+          color: @theme;
+        }
+      }
+    }
+
+    .comment-wasReplied {
+      padding: 5px 10px;
+      background: @subBackgroundColor;
+      font-size: 14px;
+      color: @textColor;
+      border-radius: @radius;
+      margin: 10px 0;
+
+      span {
+        color: @link;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+          color: @theme;
+        }
+      }
+    }
+
+    .comment-action {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .comment-time {
+        color: @subTextColor;
+      }
+    }
+  }
+}

@@ -1,47 +1,58 @@
 import React, { FC, useEffect, useState } from 'react'
-import { KeepAlive } from '@@/core/umiExports'
+import { history, KeepAlive } from '@@/core/umiExports'
 import { SongListRequst } from '@/server/api/songList'
 import SongListCard from '@/components/SongListCard'
-import { numberUnit } from '@/utils'
+import { numberUnit } from '@/utils/tool'
 import './index.less'
+import { SongListDetail } from '@/types/songList'
+import { formatSongListDetail } from '@/utils/objectFormatting'
 
-const getLeaderboard = async () => {
+const getLeaderboard = async (): Promise<SongListDetail[]> => {
     const { list } = await SongListRequst.getLeaderboard()
-    return list || []
+    const arr = list || []
+    return arr.map((item: any) => formatSongListDetail(item))
 }
 const Leaderboard: FC = () => {
     // 官方榜
-    const [officialList, setOfficialList] = useState<any[]>([])
+    const [officialList, setOfficialList] = useState<SongListDetail[]>([])
     // 全球榜
-    const [globalList, setGlobalList] = useState<any[]>([])
+    const [globalList, setGlobalList] = useState<SongListDetail[]>([])
     useEffect(() => {
-        getLeaderboard().then((list) => {
-            setOfficialList(list.filter((item: any, i: number) => i <= 3))
-            setGlobalList(list.filter((item: any, i: number) => i > 3))
+        getLeaderboard().then(list => {
+            setOfficialList(list.filter((item, i) => i <= 3))
+            setGlobalList(list.filter((item, i) => i > 3))
         })
     }, [])
+    const onClick = (id: string) => {
+        history.push({
+            pathname: '/songListDetail',
+            query: { id }
+        })
+    }
     return (
         <div className={'app-container leaderboard'}>
             <h3 className={'module-title'}>官方榜</h3>
             <div className='leaderboard-grid'>
-                {officialList.map(({ name, coverImgUrl, playCount, id }) => (
+                {officialList.map(({ name, coverPicture, playCount, id }) => (
                     <SongListCard
                         title={name}
                         key={id}
+                        onClick={() => onClick(String(id))}
                         width={'190px'}
-                        src={coverImgUrl + '?param=250y250'}
+                        src={coverPicture + '?param=250y250'}
                         count={numberUnit(playCount)}
                     />
                 ))}
             </div>
             <h3 className={'module-title'}>全球榜</h3>
             <div className='leaderboard-grid'>
-                {globalList.map(({ name, coverImgUrl, playCount, id }) => (
+                {globalList.map(({ name, coverPicture, playCount, id }) => (
                     <SongListCard
                         title={name}
                         key={id}
+                        onClick={() => onClick(String(id))}
                         width={'190px'}
-                        src={coverImgUrl + '?param=250y250'}
+                        src={coverPicture + '?param=250y250'}
                         count={numberUnit(playCount)}
                     />
                 ))}

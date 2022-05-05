@@ -1,8 +1,15 @@
 // 表格行激活
 .tableRowActive {
   td {
-    background: rgba(@theme, 0.1) !important;
+    background: @activeBakground !important;
     color: @theme !important;
+  }
+}
+
+.notPlayable {
+  td {
+    filter: grayscale(100%);
+    background: @backgroundColor !important;
   }
 }
 

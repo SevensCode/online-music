@@ -1,0 +1,42 @@
+.userCard {
+  .userCard-avatar-box {
+    padding-bottom: 100%;
+    position: relative;
+    border-radius: @radius;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .userCard-avatar {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.3s;
+    border-radius: 50%;
+
+    &:hover {
+      transform: rotate(-5deg) scale(1.1);
+    }
+  }
+
+  .userCard-name {
+    text-align: center;
+    font-size: 14px;
+    color: @textColor;
+    margin: 0.3em;
+
+    i {
+      margin-left: 5px;
+    }
+
+    .icon-nansheng {
+      color: #5b93ff;
+    }
+
+    .icon-nvsheng {
+      color: #ec4141;
+    }
+  }
+}

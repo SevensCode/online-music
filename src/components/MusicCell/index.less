@@ -10,10 +10,15 @@
   overflow: hidden;
   padding: 10px;
   gap: 10px;
-  transition: 0.3s ease-in-out;
+  transition: 0.3s ease-out;
+
+  &:hover {
+    box-shadow: 0 0 10px 1px @theme;
+  }
 
   &.active {
     box-shadow: 0 0 10px 1px @theme;
+    background: @activeBakground;
   }
 
   .musicCell-coverPicture-container {

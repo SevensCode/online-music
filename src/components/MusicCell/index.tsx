@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import ImageLazy from '@/components/ImageLazy'
 import './index.less'
-import Tags from '@/components/AuthorTags'
+import Tags from '@/components/Tags'
 import Like from '@/components/Like'
 import PlayIcon from '@/components/Icon/Play'
 

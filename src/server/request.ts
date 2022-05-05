@@ -1,6 +1,6 @@
 import { extend } from 'umi-request'
 import { message } from 'antd'
-import { whetherAndLastTimeStringSame } from '@/utils'
+import { whetherAndLastTimeStringSame } from '@/utils/tool'
 import { history } from 'umi'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -12,10 +12,10 @@ const request = extend({
     timeout: 10000,
     credentials: 'same-origin',
     errorHandler(error) {
+        console.log(error.response)
+        if (error.response?.status === 301) return
         !isSystemErrorMessageSame(error.message) &&
-            message
-                .error(error.type === 'Timeout' ? '接口请求超时' : '系统错误')
-                .then(() => isSystemErrorMessageSame())
+            message.error(error.type === 'Timeout' ? '接口请求超时' : '系统错误').then(() => isSystemErrorMessageSame())
         return { code: 500 }
     }
 })
@@ -25,9 +25,7 @@ request.interceptors.request.use((url, options) => {
     NProgress.start()
     // 加时间戳 防止 api 缓存
     const timestamp = new Date().getTime()
-    options.method === 'post'
-        ? (url += '/' + timestamp)
-        : (options.params = { ...options.params, timestamp })
+    options.method === 'post' ? (url += '/' + timestamp) : (options.params = { ...options.params, timestamp })
     return { url, options }
 })
 /**
@@ -40,17 +38,16 @@ request.interceptors.response.use(async (response, options) => {
     const { code } = await response.clone().json()
     switch (code) {
         case 301:
-            !isBusinessErrorMessageSame('登录后可访问!') &&
-                message
-                    .error('登录后可访问!')
-                    .then(() => isBusinessErrorMessageSame())
-            history.push('/login')
+            !isBusinessErrorMessageSame('登录后可操作!') && message.error('登录后可操作!').then(() => isBusinessErrorMessageSame())
+            const { pathname, search } = location
+            history.push({
+                pathname: '/login',
+                query: { redirect: pathname + search }
+            })
             break
         case 503:
             !isBusinessErrorMessageSame('系统繁忙，请稍后重试!') &&
-                message
-                    .error('系统繁忙，请稍后重试!')
-                    .then(() => isBusinessErrorMessageSame())
+                message.error('系统繁忙，请稍后重试!').then(() => isBusinessErrorMessageSame())
             break
     }
     return response
