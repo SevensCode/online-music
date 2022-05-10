@@ -6,6 +6,7 @@ import { SearchRequst } from '@/server/api/search'
 import { STORE_SEARCH_HISTORY } from '@/constants'
 import store from 'store'
 import SearchInput from '@/components/Search'
+import { history } from 'umi'
 
 // 获取热搜
 const getHotSearch = async () => {
@@ -19,6 +20,7 @@ const Search: FC = () => {
     // 搜索历史
     const [searchHistory, setSearchHistory] = useState<string[]>(store.get(STORE_SEARCH_HISTORY) || [])
     const onSearch = useCallback(() => {
+        if (!searchText.trim().length) return
         if (!searchHistory.some(value => value === searchText)) {
             setSearchHistory(oldHotSearchList => {
                 const searchList = [...oldHotSearchList, searchText]
@@ -26,6 +28,10 @@ const Search: FC = () => {
                 return searchList
             })
         }
+        history.push({
+            pathname: '/search',
+            query: { name: searchText }
+        })
     }, [searchText, searchHistory])
     const clearSearchHistory = useCallback(() => {
         store.set(STORE_SEARCH_HISTORY, [])
@@ -34,11 +40,18 @@ const Search: FC = () => {
     useEffect(() => {
         getHotSearch().then(value => setHotSearchList(value))
     }, [])
+    const popularSearches = (name: string) => {
+        setShow(false)
+        history.push({
+            pathname: '/search',
+            query: { name }
+        })
+    }
     return (
         <div ref={searchRef} className={'header-search'}>
             <SearchInput
                 onFocus={() => setShow(true)}
-                placeholder={'搜索歌曲、歌手、Mv'}
+                placeholder={'搜索歌曲、歌手、歌单、Mv'}
                 onSearch={onSearch}
                 onChange={value => setSearchText(value)}
             />
@@ -50,7 +63,7 @@ const Search: FC = () => {
                             热门推荐
                         </h3>
                         {hotSearchList.map((item, index) => (
-                            <li key={index}>
+                            <li key={index} onClick={() => popularSearches(item.first)}>
                                 <span className={'hotRecommended_index'}>{index + 1}</span>
                                 <p className={'hotRecommented_name'}>{item.first}</p>
                             </li>

@@ -28,7 +28,7 @@ const RecommendedPlaylist = () => {
                     key={id}
                     onClick={() => onClick(id)}
                     title={name}
-                    src={picUrl + '?param=250y250'}
+                    src={picUrl}
                     width={'190px'}
                     count={numberUnit(playCount)}
                 />

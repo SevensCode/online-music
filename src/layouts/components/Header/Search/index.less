@@ -22,6 +22,7 @@
         margin: 0;
         font-size: 14px;
         color: @theme;
+        font-weight: bold;
 
         .hotRecommended_icon {
           margin-right: 10px;
@@ -35,6 +36,7 @@
         align-items: center;
         height: 34px;
         transition: 0.3s;
+        cursor: pointer;
 
         &:nth-of-type(1) .hotRecommended_index {
           color: @theme;
@@ -82,10 +84,12 @@
         justify-content: space-between;
         align-items: center;
         color: @textColor;
+        font-weight: bold;
 
         span:last-child {
           cursor: pointer;
           transition: 0.3s;
+          font-weight: normal;
 
           &:hover {
             color: @theme;

@@ -1,8 +1,11 @@
-import React, { ChangeEvent, FC, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, FC, KeyboardEvent, useEffect, useRef } from 'react'
 import './index.less'
 
 interface Props {
     placeholder?: string
+    className?: string
+    value?: string
+    defaultValue?: string
 
     onSearch?(value: string): void
 
@@ -13,22 +16,33 @@ interface Props {
     onBlur?(): void
 }
 
-const SearchInput: FC<Props> = ({ onSearch, onBlur, onChange, onFocus, placeholder }) => {
-    const [value, setValue] = useState('')
+const SearchInput: FC<Props> = ({ onSearch, onBlur, onChange, onFocus, placeholder, className, value, defaultValue = '' }) => {
+    const inputRef = useRef<HTMLInputElement>(null)
+    const valueRef = useRef(value || '')
+    useEffect(() => {
+        if (inputRef.current !== null) {
+            inputRef.current.value = defaultValue
+        }
+    }, [])
+    useEffect(() => {
+        valueRef.current = value || ''
+    }, [value])
     const change = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value)
+        valueRef.current = e.target.value
         onChange && onChange(e.target.value)
     }
     const search = () => {
-        onSearch && onSearch(value)
+        onSearch && onSearch(valueRef.current)
     }
     const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        e.code === 'Enter' && onSearch && onSearch(value)
+        e.code === 'Enter' && onSearch && onSearch(valueRef.current)
     }
     return (
-        <div className={'searchInput'}>
+        <div className={['searchInput', className].join(' ')}>
             <input
+                ref={inputRef}
                 type='text'
+                value={value}
                 onKeyDown={onKeyDown}
                 onChange={change}
                 onFocus={() => onFocus && onFocus()}

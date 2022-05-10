@@ -38,6 +38,16 @@ export default [
                         component: '@/pages/Details/SongList/index'
                     },
                     {
+                        path: '/singerDetail',
+                        exact: true,
+                        component: '@/pages/Details/Singer/index'
+                    },
+                    {
+                        path: '/search',
+                        exact: true,
+                        component: '@/pages/Search/index'
+                    },
+                    {
                         component: '@/pages/NotFound/index'
                     }
                 ]

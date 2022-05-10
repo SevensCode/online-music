@@ -10,7 +10,7 @@ import { SongListDetail } from '@/types/songList'
 import SongListCard from '@/components/SongListCard'
 import { Pagination } from 'antd'
 import { useScroll } from '@/hooks'
-import { formatSongListDetail } from '@/utils/objectFormatting'
+import { formatSongListDetail } from '@/utils/detailFormatting'
 
 // const { numberUnit } = require('@/utils/tool')
 import { numberUnit } from '@/utils/tool'
@@ -154,7 +154,7 @@ const SongList: FC = () => {
                         width={'190px'}
                         onClick={() => onClick(String(item.id))}
                         userName={item.createUser.nickname}
-                        src={item.coverPicture + '?param=250y250'}
+                        src={item.coverPicture}
                         count={numberUnit(item.playCount)}></SongListCard>
                 ))}
             </div>

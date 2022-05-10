@@ -1,0 +1,56 @@
+.albumCard {
+  .albumCard-img-container {
+    padding-bottom: 100%;
+    position: relative;
+    border-radius: @radius;
+    cursor: pointer;
+    box-shadow: @shadow;
+    z-index: 2;
+
+    .albumCard-img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transition: 0.3s;
+      border-radius: @radius;
+    }
+
+    .albumCard-type {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      z-index: 10;
+      padding: 0 6px;
+      border-radius: 3px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      font-size: 14px;
+    }
+
+    .albumCard-user {
+      width: 100%;
+      height: 30px;
+      background: rgba(0, 0, 0, 0.4);
+      position: absolute;
+      bottom: 0;
+      padding: 0 5px;
+      color: white;
+      font-size: 12px;
+      line-height: 30px;
+      display: none;
+
+      i {
+        font-size: 16px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .albumCard-title {
+    margin: 0.3em;
+    color: @textColor;
+    font-size: 14px;
+  }
+}

@@ -5,7 +5,7 @@ import SongListCard from '@/components/SongListCard'
 import { numberUnit } from '@/utils/tool'
 import './index.less'
 import { SongListDetail } from '@/types/songList'
-import { formatSongListDetail } from '@/utils/objectFormatting'
+import { formatSongListDetail } from '@/utils/detailFormatting'
 
 const getLeaderboard = async (): Promise<SongListDetail[]> => {
     const { list } = await SongListRequst.getLeaderboard()
@@ -39,7 +39,7 @@ const Leaderboard: FC = () => {
                         key={id}
                         onClick={() => onClick(String(id))}
                         width={'190px'}
-                        src={coverPicture + '?param=250y250'}
+                        src={coverPicture}
                         count={numberUnit(playCount)}
                     />
                 ))}
@@ -52,7 +52,7 @@ const Leaderboard: FC = () => {
                         key={id}
                         onClick={() => onClick(String(id))}
                         width={'190px'}
-                        src={coverPicture + '?param=250y250'}
+                        src={coverPicture}
                         count={numberUnit(playCount)}
                     />
                 ))}

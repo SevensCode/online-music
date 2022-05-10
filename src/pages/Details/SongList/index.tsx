@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from 'react'
 import './index.less'
 import { history } from 'umi'
 import { SongListRequst } from '@/server/api/songList'
-import { formatMusicDetail, formatSongListDetail } from '@/utils/objectFormatting'
+import { formatMusicDetail, formatSongListDetail } from '@/utils/detailFormatting'
 import { SongList, SongListDetail } from '@/types/songList'
 import { Skeleton, Tabs } from 'antd'
 import SearchInput from '@/components/Search'
@@ -43,6 +43,7 @@ const SongListDetailPage: FC = () => {
     // 记录一份歌曲列表，搜索时用
     const songListRef = useRef<SongList>(songList)
     const toScroll = useScroll()
+    const [activeKey, setActiveKey] = useState('1')
     useEffect(() => {
         getSongListDetail(Number(id)).then(async r => {
             setBasicInfo(r)
@@ -67,6 +68,9 @@ const SongListDetailPage: FC = () => {
             list: songListRef.current.list.filter(item => item.name.includes(value.trim()))
         })
     }
+    const onChangeTabs = (key: string) => {
+        setActiveKey(key)
+    }
     const layoutElement = document.querySelector('.layout') as HTMLElement
     return (
         <div className={'app-container songListDetail'}>
@@ -84,7 +88,11 @@ const SongListDetailPage: FC = () => {
                 </div>
             )}
 
-            <Tabs defaultActiveKey='1' tabBarExtraContent={<SearchInput onSearch={onSearch} placeholder={'搜索歌单音乐'} />}>
+            <Tabs
+                activeKey={activeKey}
+                onChange={onChangeTabs}
+                defaultActiveKey='1'
+                tabBarExtraContent={activeKey === '1' ? <SearchInput onSearch={onSearch} placeholder={'搜索歌单音乐'} /> : undefined}>
                 <TabPane tab='歌曲列表' key='1'>
                     <MusicTable onChangePage={onChangePage} loading={loading} songList={songList} />
                 </TabPane>

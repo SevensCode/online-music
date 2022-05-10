@@ -13,13 +13,13 @@ const Tags: FC<Props> = ({ tags, className, onClick }) => {
         <>
             {tags.map(({ name, id }, i) => {
                 return tags.length - 1 === i ? (
-                    <span className={['tags', className].join(' ')} key={id}>
+                    <span className={['tags', className].join(' ')} key={id + i}>
                         <span onClick={() => onClick && onClick(name, id)} className={'tags-name'}>
                             {name}
                         </span>
                     </span>
                 ) : (
-                    <span className={['tags', className].join(' ')} key={id}>
+                    <span className={['tags', className].join(' ')} key={id + i}>
                         <span onClick={() => onClick && onClick(name, id)} className={'tags-name'}>
                             {name}
                         </span>

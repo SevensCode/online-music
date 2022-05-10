@@ -10,16 +10,15 @@ import { UserRequst } from '@/server/api/user'
 import FullScreenPlayer from '@/layouts/components/FullScreenPlayer'
 import { setting_fullScreenPlayerVisible } from '@/recoil/setting'
 import { Userinfo } from '@/types/user'
+import BackTop from '@/components/BackTop'
 
 const getLoginStatus = async (): Promise<null | Userinfo> => {
-    const {
-        data: { code, profile }
-    } = await UserRequst.getLoginStatus()
-    if (code !== 200) return null
-    return profile
+    const data = await UserRequst.getLoginStatus()
+    if (data?.data?.code !== 200) return null
+    return data?.data?.profile
 }
 
-export default withRouter(({ children, location }) => {
+export default withRouter(({ children, location }: any) => {
     const setUserinfo = useSetRecoilState(user_info)
     const setLikeMusicIds = useSetRecoilState(user_likeMusicIds)
     const isShowFullScreenPlayer = useRecoilValue(setting_fullScreenPlayerVisible)
@@ -47,6 +46,7 @@ export default withRouter(({ children, location }) => {
             <CSSTransition unmountOnExit in={isShowFullScreenPlayer} classNames='rightZoomFade' timeout={300}>
                 <FullScreenPlayer />
             </CSSTransition>
+            <BackTop target={() => document.querySelector('.layout') as HTMLDivElement} />
         </div>
     )
 })

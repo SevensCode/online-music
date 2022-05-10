@@ -6,6 +6,7 @@
   background: @subBackgroundColor;
   border-radius: @radius;
   color: @textColor;
+  border-color: @divder;
 
   &:hover {
     border-color: @theme;
@@ -26,7 +27,7 @@
   background: @theme;
 
   a {
-    color: white;
+    color: white !important;
   }
 }
 
@@ -138,5 +139,31 @@
 }
 
 .ant-empty-description {
+  color: @textColor;
+}
+
+// 模态框
+.ant-modal-content {
+  background: @backgroundColor;
+  border-radius: @radius;
+
+  .ant-btn {
+    background: @subBackgroundColor;
+    color: @textColor;
+    border-color: @subBackgroundColor;
+  }
+
+  .ant-btn-primary {
+    background: @theme;
+    border-color: @theme;
+    color: white;
+  }
+}
+
+.ant-modal-confirm-body .ant-modal-confirm-title {
+  color: @textColor;
+}
+
+.ant-modal-confirm-body .ant-modal-confirm-content {
   color: @textColor;
 }

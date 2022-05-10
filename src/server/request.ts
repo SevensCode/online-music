@@ -12,10 +12,9 @@ const request = extend({
     timeout: 10000,
     credentials: 'same-origin',
     errorHandler(error) {
-        console.log(error.response)
-        if (error.response?.status === 301) return
+        if (error.response?.status === 301) return { code: 500 }
         !isSystemErrorMessageSame(error.message) &&
-            message.error(error.type === 'Timeout' ? '接口请求超时' : '系统错误').then(() => isSystemErrorMessageSame())
+            message.error(error.type === 'Timeout' ? '接口请求超时' : '服务端异常，请稍后重试').then(() => isSystemErrorMessageSame())
         return { code: 500 }
     }
 })

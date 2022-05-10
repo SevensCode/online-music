@@ -169,7 +169,7 @@ const CommentPage: FC<Interface> = ({ id, resourceType, getComment, scrollContai
                                 : undefined
                         }
                         removeVisible={userId === userinfo?.userId}
-                        avatar={avatarUrl + '?param=150y150'}
+                        avatar={avatarUrl}
                         content={content}
                         nickname={nickname}
                         time={timeStr}
@@ -204,7 +204,7 @@ const CommentPage: FC<Interface> = ({ id, resourceType, getComment, scrollContai
                                 : undefined
                         }
                         removeVisible={userId === userinfo?.userId}
-                        avatar={avatarUrl + '?param=150y150'}
+                        avatar={avatarUrl}
                         content={content}
                         nickname={nickname}
                         time={timeStr}

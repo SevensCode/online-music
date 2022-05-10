@@ -1,0 +1,57 @@
+.singerDetailPage {
+  .singerDetailPage-basicInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+
+    .singerDetailPage-basicInfo-avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: @radius;
+      box-shadow: @shadow;
+    }
+
+    .singerDetailPage-basicInfo-name {
+      font-size: 26px;
+      font-weight: bold;
+      color: @textColor;
+    }
+
+    .singerDetailPage-basicInfo-description {
+      color: @subTextColor;
+      font-size: 16px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .singerDetailPage-basicInfo-count {
+      display: flex;
+      gap: 50px;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+
+        p:first-child {
+          color: @theme;
+          font-size: 30px;
+        }
+
+        p:last-child {
+          font-size: 16px;
+          color: @subTextColor;
+        }
+      }
+    }
+  }
+
+  .singerDetailPage-tabs {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

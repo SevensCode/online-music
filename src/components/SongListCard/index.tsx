@@ -17,15 +17,7 @@ interface Props {
 }
 
 // 歌单卡片
-const SongListCard: FC<Props> = ({
-    width = '200px',
-    src,
-    title,
-    count,
-    onClick,
-    onClickUser,
-    userName
-}) => {
+const SongListCard: FC<Props> = ({ width = '200px', src, title, count, onClick, onClickUser, userName }) => {
     const suerClick = (e: MouseEvent<HTMLDivElement>) => {
         e.stopPropagation()
         onClickUser && onClickUser()
@@ -38,7 +30,7 @@ const SongListCard: FC<Props> = ({
                     {count}
                 </p>
                 <PlayIcon className={'songListCard-playIcon'} />
-                <ImageLazy src={src} className={'songListCard-img'} />
+                <ImageLazy src={src + '?param=250y250'} className={'songListCard-img'} />
                 {userName && (
                     <div onClick={suerClick} className='songListCard-user'>
                         <i className={'iconfont icon-user'}></i>
@@ -46,10 +38,7 @@ const SongListCard: FC<Props> = ({
                     </div>
                 )}
             </section>
-            <p
-                onClick={onClick}
-                className={'songListCard-title text-2LinesHide'}
-            >
+            <p onClick={onClick} className={'songListCard-title text-2LinesHide'}>
                 {title}
             </p>
         </div>

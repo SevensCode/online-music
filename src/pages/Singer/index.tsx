@@ -1,13 +1,14 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { KeepAlive } from '@@/core/umiExports'
 import './index.less'
 import { Singer_GetListOfSingersByCategory_Params } from '@/server/api/singer/params'
 import { SingerRequst } from '@/server/api/singer'
 import SingerCard from '@/components/SingerCard'
-import { formatSingerDetail } from '@/utils/objectFormatting'
-import { SingerDetail } from '@/types/Singer'
+import { formatSingerDetail } from '@/utils/detailFormatting'
+import { SingerDetail } from '@/types/singer'
 import { CaretDownOutlined } from '@ant-design/icons'
 import CustomButton from '@/components/CustomButton'
+import { history } from 'umi'
 // 语种
 const language = [
     { name: '全部', id: -1 },
@@ -25,8 +26,39 @@ const category = [
     { name: '乐队', id: 3 }
 ]
 // 筛选
-const filter = ['热门', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#']
-const getListOfSingersByCategory = async (query: Singer_GetListOfSingersByCategory_Params): Promise<{ more: boolean; singer: SingerDetail[] }> => {
+const filter = [
+    '热门',
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+    '#'
+]
+const getListOfSingersByCategory = async (
+    query: Singer_GetListOfSingersByCategory_Params
+): Promise<{ more: boolean; singer: SingerDetail[] }> => {
     const { artists, more } = await SingerRequst.getListOfSingersByCategory(query)
     const singers = artists || []
     return {
@@ -65,6 +97,14 @@ const Singer: FC = () => {
         setQuery({ ...query, page: query.page + 1 })
         setLoadng(true)
     }
+    const seeSingerDetail = useCallback(id => {
+        history.push({
+            pathname: '/singerDetail',
+            query: {
+                id
+            }
+        })
+    }, [])
     return (
         <div className={'singer app-container'}>
             <div className='singer-category'>
@@ -92,7 +132,12 @@ const Singer: FC = () => {
             </div>
             <div className='singer-list'>
                 {singerList.map((singer, i) => (
-                    <SingerCard key={i} width={'190px'} src={singer.avatar + '?param=250y250'} name={singer.name}></SingerCard>
+                    <SingerCard
+                        onClick={() => seeSingerDetail(singer.id)}
+                        key={i}
+                        width={'190px'}
+                        src={singer.avatar}
+                        name={singer.name}></SingerCard>
                 ))}
             </div>
             {singerList.length && more && (

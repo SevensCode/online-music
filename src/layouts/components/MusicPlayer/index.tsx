@@ -28,6 +28,7 @@ import CommentPage, { CommentResponseData } from '@/pages/Common/Comment'
 import { MusicRequest } from '@/server/api/music'
 import { Request_Comment_Params } from '@/server/api/common'
 import { Comment_Resource_Type } from '@/server/api/other/params'
+import { history } from '@@/core/history'
 
 // 获取评论
 const getMusicComment = async (query: Request_Comment_Params): Promise<CommentResponseData> => {
@@ -118,6 +119,14 @@ const MusicPlayer = () => {
         setCommentVisible(false)
         setPlayListVisible(!playListVisible)
     }
+    const seeSingerDetail = useCallback((name, id) => {
+        history.push({
+            pathname: '/singerDetail',
+            query: {
+                id
+            }
+        })
+    }, [])
     return (
         <div className={'musicPlayer gaussianBlur'}>
             {musicDetail !== null && (
@@ -131,7 +140,7 @@ const MusicPlayer = () => {
                             <div className='musicPlayer-content'>
                                 <p className='musicPlayer-name text-1LinesHide'>{musicDetail.name}</p>
                                 <p className='musicPlayer-author text-1LinesHide'>
-                                    <Tags tags={musicDetail.authors} />
+                                    <Tags onClick={seeSingerDetail} tags={musicDetail.authors} />
                                 </p>
                             </div>
                         </>

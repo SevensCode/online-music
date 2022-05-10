@@ -72,11 +72,11 @@ const SongListBasicInfo: FC<Interface> = ({ basicInfo, songList, basicInfoRef, u
     }
     return (
         <div ref={basicInfoRef} className='songListDetail-infoContainer'>
-            <img className={'songListDetail-coverPicture'} src={basicInfo.coverPicture + '?param=250y250'} alt='' />
+            <img className={'songListDetail-coverPicture'} src={basicInfo.coverPicture} alt='' />
             <div className='songListDetail-info'>
                 <h1 className='songListDetail-info-title'>{basicInfo.name}</h1>
                 <div className='songListDetail-info-user'>
-                    <img className={'songListDetail-info-user-avatar'} src={basicInfo.createUser.avatarUrl + '?param=250y250'} alt='' />
+                    <img className={'songListDetail-info-user-avatar'} src={basicInfo.createUser.avatarUrl} alt='' />
                     <span className={'songListDetail-info-user-nickname'}>{basicInfo.createUser.nickname}</span>
                     <span className={'songListDetail-info-user-createTime'}>{timeTool(basicInfo.updateTime).fromNow()}更新</span>
                 </div>

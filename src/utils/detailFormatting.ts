@@ -1,6 +1,7 @@
 import { SongListDetail } from '@/types/songList'
 import { MusicDetail } from '@/types/music'
-import { SingerDetail } from '@/types/Singer'
+import { SingerDetail } from '@/types/singer'
+import { AlbumDetail } from '@/types/album'
 
 /**
  * 音乐详情格式化
@@ -91,5 +92,21 @@ export const formatSingerDetail = (singerDetail: any): SingerDetail => {
         mvSize,
         name,
         avatar: picUrl || cover
+    }
+}
+
+// 格式化专辑
+export const formatAlbumDetail = (albumDetail: any): AlbumDetail => {
+    const { alias, artist, blurPicUrl, description, id, name, publishTime, subType, type } = albumDetail
+    return {
+        alias,
+        auther: artist,
+        coverPicture: blurPicUrl,
+        description,
+        id,
+        name,
+        publishTime,
+        subType,
+        type
     }
 }

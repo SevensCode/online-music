@@ -5,7 +5,7 @@ import { useAudio } from '@/hooks/audio'
 import { MusicDetail } from '@/types/music'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { music_detail, music_songList } from '@/recoil/muisc'
-import { formatMusicDetail } from '@/utils/objectFormatting'
+import { formatMusicDetail } from '@/utils/detailFormatting'
 // 获取新音乐
 const getNewMusic = async () => {
     const { result } = await MusicRequest.getNewMusic(18)
@@ -45,7 +45,7 @@ const NewMusics = () => {
                         name={name}
                         id={id}
                         authors={authors}
-                        coverPicture={coverPicture + '?param=250y250'}
+                        coverPicture={coverPicture}
                         key={id}
                         album={{
                             name: album.name,

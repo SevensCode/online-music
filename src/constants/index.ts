@@ -37,3 +37,7 @@ export const AUDIO_PLAY_TYPE = [
         icon: 'icon-suijibofang'
     }
 ]
+
+// 图片宽高
+export const IMG_W_H_150 = '?param=150y150'
+export const IMG_W_H_250 = '?param=250y250'
