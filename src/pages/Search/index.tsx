@@ -4,12 +4,16 @@ import { Tabs } from 'antd'
 import SearchInput from '@/components/Search'
 import { SearchRequst } from '@/server/api/search'
 import { Search_Params, SearchType } from '@/server/api/search/params'
-import SearchPageMuisc from '@/pages/Search/Music'
 import { useLocation } from 'umi'
-import SearchPageSinger from '@/pages/Search/Singer'
-import SearchPageSongList from '@/pages/Search/SongList'
-import SearchPageAlbum from '@/pages/Search/Album'
-import SearchPageMv from '@/pages/Search/Mv'
+import SearchPageTabTemplate from '@/pages/Search/Components/SearchPageTabTemplate'
+import SingerCard from '@/components/SingerCard'
+import { history } from '@@/core/history'
+import Tags from '@/components/Tags'
+import dateTool from '@/utils/dateTool'
+import Like from '@/components/Like'
+import SongListCard from '@/components/SongListCard'
+import AlbumCard from '@/components/AlbumCard'
+import MvCard from '@/components/MvCard'
 
 const { TabPane } = Tabs
 
@@ -59,6 +63,7 @@ const SearchPage: FC = () => {
         setKeywords(name)
         setSubKeywords(name)
     }, [location])
+    const doubleTapToPlay = (id: number) => {}
     return (
         <div className={'app-container searchPage'}>
             <div className='searchPage-searchBarBox'>
@@ -72,19 +77,115 @@ const SearchPage: FC = () => {
             </div>
             <Tabs defaultActiveKey='1'>
                 <TabPane tab={'单曲'} key={SearchType.music}>
-                    <SearchPageMuisc keywords={subKeywords} />
+                    <SearchPageTabTemplate
+                        keywords={subKeywords}
+                        type={SearchType.music}
+                        limit={50}
+                        render={result => (
+                            <ul className={'searchPageMuisc'}>
+                                {result.list.map(item => (
+                                    <li
+                                        onDoubleClick={() => doubleTapToPlay(item.id)}
+                                        key={item.id}
+                                        className={['searchPageMuisc-item'].join(' ')}>
+                                        <span className={'searchPageMuisc-name'}>{item.name}</span>
+                                        <span className={'searchPageMuisc-auther'}>
+                                            <Tags
+                                                tags={item.artists}
+                                                onClick={(name, id) =>
+                                                    history.push({
+                                                        pathname: '/singerDetail',
+                                                        query: { id: String(id) }
+                                                    })
+                                                }
+                                            />
+                                        </span>
+                                        <span className={'searchPageMuisc-album'}>《{item.album.name}》</span>
+                                        <span className={'searchPageMuisc-duration'}>{dateTool(item.duration).format('mm:ss')}</span>
+                                        <Like id={item.id} />
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    />
                 </TabPane>
                 <TabPane tab={'歌手'} key={SearchType.singer}>
-                    <SearchPageSinger keywords={subKeywords} />
+                    <SearchPageTabTemplate
+                        keywords={subKeywords}
+                        type={SearchType.singer}
+                        limit={48}
+                        render={result => (
+                            <div className={'searchPageSinger'}>
+                                {result.list.map(item => (
+                                    <SingerCard
+                                        onClick={() =>
+                                            history.push({
+                                                pathname: '/singerDetail',
+                                                query: { id: item.id }
+                                            })
+                                        }
+                                        src={item.img1v1Url}
+                                        name={item.name}
+                                        width={'190px'}
+                                        key={item.id}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    />
                 </TabPane>
                 <TabPane tab={'歌单'} key={SearchType.songList}>
-                    <SearchPageSongList keywords={subKeywords} />
+                    <SearchPageTabTemplate
+                        keywords={subKeywords}
+                        type={SearchType.songList}
+                        limit={48}
+                        render={result => (
+                            <div className={'searchPageSongList'}>
+                                {result.list.map(item => (
+                                    <SongListCard
+                                        onClick={() =>
+                                            history.push({
+                                                pathname: '/songListDetail',
+                                                query: { id: item.id }
+                                            })
+                                        }
+                                        key={item.id}
+                                        title={item.name}
+                                        src={item.coverImgUrl}
+                                        count={item.playCount}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    />
                 </TabPane>
                 <TabPane tab={'专辑'} key={SearchType.album}>
-                    <SearchPageAlbum keywords={subKeywords} />
+                    <SearchPageTabTemplate
+                        keywords={subKeywords}
+                        type={SearchType.album}
+                        limit={48}
+                        render={result => (
+                            <div className={'searchPageAlbum'}>
+                                {result.list.map(item => (
+                                    <AlbumCard src={item.picUrl} key={item.id} title={item.name} type={item.type} />
+                                ))}
+                            </div>
+                        )}
+                    />
                 </TabPane>
                 <TabPane tab={'Mv'} key={SearchType.mv}>
-                    <SearchPageMv keywords={subKeywords} />
+                    <SearchPageTabTemplate
+                        keywords={subKeywords}
+                        type={SearchType.mv}
+                        limit={45}
+                        render={result => (
+                            <div className={'searchPageMv'}>
+                                {result.list.map(item => (
+                                    <MvCard width={'240px'} src={item.cover} key={item.id} title={item.name} />
+                                ))}
+                            </div>
+                        )}
+                    />
                 </TabPane>
             </Tabs>
         </div>
