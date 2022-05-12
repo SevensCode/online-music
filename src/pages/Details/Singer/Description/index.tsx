@@ -1,16 +1,16 @@
 import React, { FC, useEffect, useState } from 'react'
 import { SingerRequst } from '@/server/api/singer'
-import { history } from 'umi'
+import { useLocation } from 'umi'
 import './index.less'
 
 const SingerDetailDescription: FC = () => {
+    const location: any = useLocation()
     const [desc, setDesc] = useState<{ introduction: any[]; briefDesc: string }>({ briefDesc: '', introduction: [] })
     useEffect(() => {
-        SingerRequst.getDescription(Number(history.location.query?.id)).then(description => {
-            console.log(description)
+        SingerRequst.getDescription(location.query.id).then(description => {
             setDesc(description)
         })
-    }, [history.location.query])
+    }, [location])
     return (
         <div className={'singerDetailDescription'}>
             <h3 className={'module-title'}>简介</h3>

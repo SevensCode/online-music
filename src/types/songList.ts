@@ -1,5 +1,5 @@
 import { MusicDetail } from '@/types/music'
-import { Userinfo } from '@/types/user'
+import { UserBasicInfo } from '@/types/user'
 
 export interface SongList {
     id: number
@@ -26,7 +26,7 @@ export interface SongListDetail {
     // 标签
     tags: string[]
     // 用户信息
-    createUser: Userinfo
+    createUser: UserBasicInfo
     // 音乐id
     musicId: number[]
     // 是否收藏

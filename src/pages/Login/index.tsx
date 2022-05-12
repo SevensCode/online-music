@@ -2,20 +2,20 @@ import React, { ChangeEvent, FC, useCallback, useState } from 'react'
 import './index.less'
 import { Button, message } from 'antd'
 import store from 'store'
-import { STORE_THEME_KEY, STORE_THEME_LIGHT } from '@/constants'
+import { STORE_THEME_KEY, STORE_THEME_LIGHT, STORE_USER_INFO } from '@/constants'
 import { switchTheme } from '@/theme'
 import { history, Link } from 'umi'
 import { REG_PHONE } from '@/constants/regular'
 import { UserRequst } from '@/server/api/user'
 import { useSetRecoilState } from 'recoil'
-import { user_info } from '@/recoil/user'
+import { user_basicInfo } from '@/recoil/user'
 import { useSearchParam } from '@/hooks'
 import { User_PhoneLogin_Params } from '@/server/api/user/params'
 import QrCode from '@/pages/Login/QrCode'
 import md5 from 'js-md5'
 
 const Login: FC = () => {
-    const setUserinfo = useSetRecoilState(user_info)
+    const setUserinfo = useSetRecoilState(user_basicInfo)
     const redirect = useSearchParam('redirect')
     const [submitLoading, setSubmitLoading] = useState(false)
     const [themeType, setThemeType] = useState(store.get(STORE_THEME_KEY) === STORE_THEME_LIGHT)
@@ -50,6 +50,7 @@ const Login: FC = () => {
         if (code !== 200) return message.error('服务端的错误！')
         message.success('登录成功 😊')
         setUserinfo(profile)
+        store.set(STORE_USER_INFO, profile)
         history.replace(redirect || '/')
     }, [form])
     return (

@@ -5,7 +5,9 @@ import { useSearchParam, useStatus } from '@/hooks'
 import { UserRequst } from '@/server/api/user'
 import { history } from '@@/core/history'
 import { useSetRecoilState } from 'recoil'
-import { user_info } from '@/recoil/user'
+import { user_basicInfo } from '@/recoil/user'
+import store from 'store'
+import { STORE_USER_INFO } from '@/constants'
 // 生成二维码key
 const generateQRCodeKey = async () => {
     const { code, data } = await UserRequst.generateQRCodeKey()
@@ -13,7 +15,7 @@ const generateQRCodeKey = async () => {
     return data.unikey
 }
 const QrCode = () => {
-    const setUserinfo = useSetRecoilState(user_info)
+    const setUserinfo = useSetRecoilState(user_basicInfo)
     const redirect = useSearchParam('redirect')
     const qrCodeRef = useRef<HTMLDivElement>(null)
     const [qrCodeVisible, setQrCodeVisible] = useState(false)
@@ -70,6 +72,7 @@ const QrCode = () => {
                     offTimer()
                     message.success('登录成功 😊')
                     setUserinfo(profile)
+                    store.set(STORE_USER_INFO, profile)
                     history.replace(redirect || '/')
                     break
                 default:

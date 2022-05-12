@@ -2,6 +2,7 @@ import { SongListDetail } from '@/types/songList'
 import { MusicDetail } from '@/types/music'
 import { SingerDetail } from '@/types/singer'
 import { AlbumDetail } from '@/types/album'
+import { UserDetail } from '@/types/user'
 
 /**
  * 音乐详情格式化
@@ -108,5 +109,47 @@ export const formatAlbumDetail = (albumDetail: any): AlbumDetail => {
         publishTime,
         subType,
         type
+    }
+}
+
+// 用户详情格式化
+export const formatUserDetail = (userDetail: any): UserDetail => {
+    const {
+        level,
+        profile: {
+            eventCount,
+            followeds,
+            follows,
+            gender,
+            avatarUrl,
+            backgroundUrl,
+            birthday,
+            city,
+            createTime,
+            nickname,
+            province,
+            signature,
+            playlistCount,
+            playlistBeSubscribedCount,
+            userId
+        }
+    } = userDetail
+    return {
+        avatarUrl,
+        backgroundUrl,
+        birthday,
+        city,
+        createTime,
+        dynamicCount: eventCount,
+        fanCount: followeds,
+        gender,
+        grade: level,
+        likeCount: follows,
+        nickname,
+        province,
+        signature,
+        songListCount: playlistCount,
+        songListtBeSubscribedCount: playlistBeSubscribedCount,
+        userId
     }
 }

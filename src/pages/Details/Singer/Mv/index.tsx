@@ -1,22 +1,23 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Mv_GetSingerMv_Params } from '@/server/api/mv/params'
 import { MvRequst } from '@/server/api/mv'
-import { history } from '@@/core/history'
 import { MvDetail } from '@/types/mv'
 import CustomButton from '@/components/CustomButton'
 import { CaretDownOutlined } from '@ant-design/icons'
 import MvCard from '@/components/MvCard'
 import './index.less'
+import { useLocation } from 'umi'
 
 const getSingerMv = async (query: Mv_GetSingerMv_Params): Promise<{ list: MvDetail[]; more: boolean }> => {
     const { mvs, hasMore } = await MvRequst.getSingerMv(query)
     return { list: mvs, more: hasMore }
 }
 const SingerDetailMvList: FC = () => {
+    const location: any = useLocation()
     const [query, setQuery] = useState<Mv_GetSingerMv_Params>({
         page: 1,
         limit: 30,
-        id: Number(history.location.query?.id)
+        id: location.query.id
     })
     const [mvList, setMvList] = useState<MvDetail[]>([])
     const [more, setMore] = useState(false)
@@ -33,11 +34,11 @@ const SingerDetailMvList: FC = () => {
         setQuery({
             page: 1,
             limit: 30,
-            id: Number(history.location.query?.id)
+            id: location.query.id
         })
         setMore(false)
         setLoading(false)
-    }, [history.location.query])
+    }, [location])
     const loadMore = () => {
         setQuery({ ...query, page: query.page + 1 })
     }

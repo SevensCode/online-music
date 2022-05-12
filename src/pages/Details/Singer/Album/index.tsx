@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Album_GetSingerAlbum_Params } from '@/server/api/album/params'
 import { AlbumRequest } from '@/server/api/album'
-import { history } from 'umi'
+import { history, useLocation } from 'umi'
 import { formatAlbumDetail } from '@/utils/detailFormatting'
 import { AlbumDetail } from '@/types/album'
 import AlbumCard from '@/components/AlbumCard'
@@ -15,6 +15,7 @@ const getAlbum = async (query: Album_GetSingerAlbum_Params) => {
     return { list: arr.map((item: any) => formatAlbumDetail(item)), more }
 }
 const SingerDetailAlbumList = () => {
+    const location: any = useLocation()
     const [query, setQuery] = useState<Album_GetSingerAlbum_Params>({
         page: 1,
         limit: 30,
@@ -35,11 +36,11 @@ const SingerDetailAlbumList = () => {
         setQuery({
             page: 1,
             limit: 30,
-            id: Number(history.location.query?.id)
+            id: Number(location.query.id)
         })
         setMore(false)
         setLoading(false)
-    }, [history.location.query])
+    }, [location])
     const loadMore = () => {
         setQuery({ ...query, page: query.page + 1 })
     }

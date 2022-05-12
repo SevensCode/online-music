@@ -48,6 +48,12 @@ export default [
                         component: '@/pages/Search/index'
                     },
                     {
+                        path: '/user',
+                        exact: true,
+                        wrappers: ['@/wrappers/auth'],
+                        component: '@/pages/User/index'
+                    },
+                    {
                         component: '@/pages/NotFound/index'
                     }
                 ]

@@ -1,10 +1,11 @@
 import { atom } from 'recoil'
-import { Userinfo } from '@/types/user'
-
+import { UserBasicInfo } from '@/types/user'
+import { STORE_USER_INFO } from '@/constants'
+import store from 'store'
 // 用户info
-export const user_info = atom<Nullable<Userinfo>>({
+export const user_basicInfo = atom<Nullable<UserBasicInfo>>({
     key: 'user_info',
-    default: null
+    default: store.get(STORE_USER_INFO) || null
 })
 
 // 用户喜欢的音乐id

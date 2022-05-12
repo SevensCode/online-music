@@ -16,6 +16,9 @@ export const STORE_AUDIO_VOLUME = 'M_VOLUME'
 // 播放类型
 export const STORE_PLAY_TYPE = 'M_PLAY_TYPE'
 
+// 用户信息
+export const STORE_USER_INFO = 'M_USER_INFO'
+
 /**
  * 播放类型： 0 顺序播放 1 列表循环 2 单曲循环 3 随机播放 4 心动模式
  * */
@@ -37,7 +40,3 @@ export const AUDIO_PLAY_TYPE = [
         icon: 'icon-suijibofang'
     }
 ]
-
-// 图片宽高
-export const IMG_W_H_150 = '?param=150y150'
-export const IMG_W_H_250 = '?param=250y250'

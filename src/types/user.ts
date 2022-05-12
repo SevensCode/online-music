@@ -1,7 +1,7 @@
 import { Gender } from '@/types/common'
 
 // 用户信息
-export interface Userinfo {
+export interface UserBasicInfo {
     // 用户 id
     userId: number
     // 昵称
@@ -20,6 +20,22 @@ export interface Userinfo {
     gender: Gender
     // 生日
     birthday: number
+    // 创建日期
+    createTime: number
+}
+
+// 用户详细信息
+export interface UserDetail extends UserBasicInfo {
+    // 粉丝数量
+    fanCount: number
+    // 动态数量
+    dynamicCount: number
+    // 关注数量
+    likeCount: number
     // 等级
-    eventCount?: number
+    grade: number
+    // 歌单数量
+    songListCount: number
+    // 歌单被收藏次数
+    songListtBeSubscribedCount: number
 }

@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useMemo, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { user_info, user_likeMusicIds } from '@/recoil/user'
+import { user_basicInfo, user_likeMusicIds } from '@/recoil/user'
 import { message } from 'antd'
 import { history } from 'umi'
 import { UserRequst } from '@/server/api/user'
@@ -16,10 +16,10 @@ interface Props {
 
 const Like: FC<Props> = ({ id, className, size }) => {
     const [likeMusicIds, setLikeMusicIds] = useRecoilState(user_likeMusicIds)
-    const useinfo = useRecoilValue(user_info)
+    const useinfo = useRecoilValue(user_basicInfo)
     const [isLoading, setLoading] = useState(false)
     const isLike = useMemo((): boolean => {
-        return likeMusicIds.some((value) => value === id)
+        return likeMusicIds.some(value => value === id)
     }, [likeMusicIds])
     const asyncSetLike = useCallback(
         async (like: boolean) => {
@@ -35,18 +35,13 @@ const Like: FC<Props> = ({ id, className, size }) => {
             }).catch(() => {
                 setLoading(false)
             })
-            if (code !== 200)
-                return message.error(msg || '好像有亿点问题，操作失败！！！')
-            const { ids } = await UserRequst.getUserLikeMusicIds(
-                useinfo.userId
-            ).finally(() => {
+            if (code !== 200) return message.error(msg || '好像有亿点问题，操作失败！！！')
+            const { ids } = await UserRequst.getUserLikeMusicIds(useinfo.userId).finally(() => {
                 setLoading(false)
             })
             ids && setLikeMusicIds(ids)
             setLoading(false)
-            like
-                ? message.success('已添加到我喜欢的音乐！')
-                : message.success('取消喜欢成功！')
+            like ? message.success('已添加到我喜欢的音乐！') : message.success('取消喜欢成功！')
         },
         [useinfo, isLoading]
     )
@@ -59,13 +54,7 @@ const Like: FC<Props> = ({ id, className, size }) => {
             size={size}
         />
     ) : (
-        <CustomButton
-            onClick={() => asyncSetLike(true)}
-            size={size}
-            type={'text'}
-            className={className}
-            icon={'icon-xin'}
-        />
+        <CustomButton onClick={() => asyncSetLike(true)} size={size} type={'text'} className={className} icon={'icon-xin'} />
     )
 }
 

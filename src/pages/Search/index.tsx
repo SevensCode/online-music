@@ -14,6 +14,11 @@ import Like from '@/components/Like'
 import SongListCard from '@/components/SongListCard'
 import AlbumCard from '@/components/AlbumCard'
 import MvCard from '@/components/MvCard'
+import { useRecoilValue } from 'recoil'
+import { music_detail } from '@/recoil/muisc'
+import { MusicRequest } from '@/server/api/music'
+import { formatMusicDetail } from '@/utils/detailFormatting'
+import { useAudio } from '@/hooks/audio'
 
 const { TabPane } = Tabs
 
@@ -63,7 +68,14 @@ const SearchPage: FC = () => {
         setKeywords(name)
         setSubKeywords(name)
     }, [location])
-    const doubleTapToPlay = (id: number) => {}
+    const musicDetail = useRecoilValue(music_detail)
+    const audio = useAudio()
+    const doubleTapToPlay = async (id: number) => {
+        if (musicDetail?.id === id) return
+        const { code, songs } = await MusicRequest.getDetails(String(id))
+        if (code !== 200) return
+        audio.audioPlay(formatMusicDetail(songs[0]))
+    }
     return (
         <div className={'app-container searchPage'}>
             <div className='searchPage-searchBarBox'>

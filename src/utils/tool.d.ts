@@ -39,5 +39,8 @@ export function randomInteger(range: [number, number], exclude: number[]): numbe
  * */
 export function computeLineCount(el: HTMLElement): number
 
-/**/
+/*滚到到指定位置*/
 export function scrollToElement(scrollContainer: HTMLElement, element: HTMLElement, duration?: number, offset?: number): void
+
+// 获取星座
+export function getAstro(month: number, day: number): string

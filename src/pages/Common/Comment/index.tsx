@@ -3,7 +3,7 @@ import CommentInputBox from '@/components/CommentInputBox'
 import Comment, { CommentSize } from '@/components/Comment'
 import { Comment_Like_Operation_Type, Comment_Operation_Type, Comment_Params, Comment_Resource_Type } from '@/server/api/other/params'
 import { useRecoilValue } from 'recoil'
-import { user_info } from '@/recoil/user'
+import { user_basicInfo } from '@/recoil/user'
 import { message, Modal, Pagination } from 'antd'
 import { scrollToElement } from '@/utils/tool'
 import { OtherRequst } from '@/server/api/other'
@@ -34,7 +34,7 @@ const CommentPage: FC<Interface> = ({ id, resourceType, getComment, scrollContai
     const inputBoxRef = useRef<HTMLDivElement>(null)
     const commentRef = useRef<HTMLDivElement>(null)
     const latestCommentRef = useRef<HTMLHeadingElement>(null)
-    const userinfo = useRecoilValue(user_info)
+    const userinfo = useRecoilValue(user_basicInfo)
     const [placeholder, setPlaceholder] = useState('')
     const [query, setQuery] = useState<Request_Comment_Params>({
         before: undefined,

@@ -13,11 +13,12 @@
   transition: 0.3s ease-out;
 
   &:hover {
-    box-shadow: 0 0 10px 1px @theme;
+    box-shadow: @activeShadow;
+    transform: scale(1.05);
   }
 
   &.active {
-    box-shadow: 0 0 10px 1px @theme;
+    box-shadow: @activeShadow;
     background: @activeBakground;
   }
 
