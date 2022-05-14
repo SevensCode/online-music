@@ -7,8 +7,9 @@ import 'nprogress/nprogress.css'
 
 const isSystemErrorMessageSame = whetherAndLastTimeStringSame()
 const isBusinessErrorMessageSame = whetherAndLastTimeStringSame()
+console.log(process.env.REQUEST_BASE_API)
 const request = extend({
-    prefix: '/api',
+    prefix: process.env.REQUEST_BASE_API,
     timeout: 10000,
     credentials: 'same-origin',
     errorHandler(error) {
